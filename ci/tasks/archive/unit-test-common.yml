@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: java
+    tag: "8"
+
+inputs:
+- name: source-code
+
+run:
+  path: source-code/ci/tasks/unit-test-common.sh

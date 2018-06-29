@@ -1,0 +1,180 @@
+---
+jobs:
+
+- name: just-build-it
+  plan:
+  - get: manualtrigger
+    trigger: false
+
+#- name: increase-major
+#  serial: true
+#  plan:
+#  - put: version
+#    params: { bump: major }
+#
+#- name: increase-minor
+#  serial: true
+#  plan:
+#  - put: version
+#    params: { bump: minor }
+#
+#- name: increase-patch
+#  serial: true
+#  plan:
+#  - put: version
+#    params: { bump: patch }
+
+- name: build-command-side
+  public: false
+  serial: true
+  plan:
+  - get: manualtrigger
+    trigger: true
+    passed: [just-build-it]
+  - get: source-code
+    trigger: true
+#  - get: version
+#    trigger: true
+  - task: package-command-side
+    file: source-code/ci/tasks/build-command-side.yml
+  - put: push-to-pcf
+    params:
+      manifest: source-code/command-side/manifest.yml
+      path: package-output/pcf-axon-cqrs-demo-command-side.jar
+
+- name: build-query-side
+  serial: true
+  public: false
+  plan:
+  - get: manualtrigger
+    trigger: true
+    passed: [just-build-it]
+  - get: source-code
+    trigger: true
+#  - get: version
+#    trigger: true
+  - task: package-query-side
+    file: source-code/ci/tasks/build-query-side.yml
+  - put: push-to-pcf
+    params:
+      manifest: source-code/query-side/manifest.yml
+      path: package-output/pcf-axon-cqrs-demo-query-side.jar
+
+- name: smoke-test-command-side
+  serial: true
+  public: false
+  plan:
+  - get: manualtrigger
+    trigger: true
+    passed: [build-command-side]
+  - get: source-code
+    trigger: true
+    passed: [build-command-side]
+#  - get: version
+#    trigger: true
+#    passed: [build-command-side]
+  - task: smoke-test-command-side
+    file: source-code/ci/tasks/smoke-test-command-side.yml
+    params:
+      URL: {{cf-cmd-app-url}}
+
+- name: smoke-test-query-side
+  serial: true
+  public: false
+  plan:
+  - get: manualtrigger
+    trigger: true
+    passed: [build-query-side]
+  - get: source-code
+    trigger: true
+    passed: [build-query-side]
+#  - get: version
+#    trigger: true
+#    passed: [build-query-side]
+  - task: smoke-test-query-side
+    file: source-code/ci/tasks/smoke-test-query-side.yml
+    params:
+      URL: {{cf-qry-app-url}}
+
+- name: integration-test-both-sides
+  serial: true
+  public: false
+  plan:
+  - get: manualtrigger
+    trigger: true
+    passed: [smoke-test-command-side, smoke-test-query-side]
+  - get: source-code
+    trigger: true
+    passed: [smoke-test-command-side, smoke-test-query-side]
+#  - get: version
+#    trigger: true
+#    passed: [smoke-test-command-side, smoke-test-query-side]
+  - task: integration-test-both-sides
+    file: source-code/ci/tasks/integration-test-both-sides.yml
+    params:
+      cmdURL: {{cf-cmd-app-url}}
+      qryURL: {{cf-qry-app-url}}
+    on_success:
+      put: slack-alert
+      params:
+        text: |
+          CQRS INTEGRATION TEST PASSED in Job "$BUILD_JOB_NAME" for Pipeline "$BUILD_PIPELINE_NAME"!
+    on_failure:
+      put: slack-alert
+      params:
+        text: |
+          CQRS INTEGRATION TEST FAILED in Job "$BUILD_JOB_NAME" for Pipeline "$BUILD_PIPELINE_NAME"!
+
+resource_types:
+
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
+resources:
+
+- name: manualtrigger
+  type: time           # technique to trigger and propagate manual execution through pipeline
+  source: {interval: 1m}
+
+- name: source-code
+  type: git
+  source:
+    uri: https://github.com/benwilcock/pcf-axon-cqrs-demo.git
+    branch: master
+
+#- name: midday-weekdays
+#  type: time
+#  source:
+#    start: 12:00 PM
+#    stop: 1:00 PM
+#    location: 	Europe/London
+#    days: [Monday, Tuesday, Wednesday, Thursday, Friday]
+
+- name: push-to-pcf
+  type: cf
+  source:
+    api: {{cf-endpoint}}
+    username: {{cf-user}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: {{cf-space}}
+    skip_cert_check: false
+
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: {{webhook}}
+    insecure: true
+
+#- name: version
+#  type: semver
+#  source:
+#    initial_version: 0.0.0
+#    driver: git
+#    uri: {{git-uri}}
+#    branch: version
+#    file: version
+#    private_key: {{git-private-key}}

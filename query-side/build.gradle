@@ -1,0 +1,38 @@
+plugins {
+    id 'org.springframework.boot' version "1.5.14.RELEASE"
+}
+
+jar {
+    baseName = 'pcf-axon-cqrs-demo-query-side'
+    archiveName = 'pcf-axon-cqrs-demo-query-side.jar'
+}
+
+dependencies {
+
+    // Spring Web
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+
+    //
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
+
+    // Messaging
+    compile("org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}")
+
+    // Spring Cloud
+    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-config-client")
+    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry")
+
+    // Axon CQRS / ES Framework
+    compile("org.axonframework:axon-spring-boot-starter:${axonVersion}")
+    compile("org.axonframework:axon-amqp:${axonVersion}")
+
+    // Test
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile("com.h2database:h2")
+}
+
+springBoot  {
+    buildInfo()
+}

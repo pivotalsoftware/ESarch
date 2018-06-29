@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: ubuntu
+    tag: "latest"
+
+params:
+  URL:
+
+inputs:
+- name: source-code
+
+run:
+  path: source-code/ci/tasks/integration-test-both-sides.sh

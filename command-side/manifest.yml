@@ -1,0 +1,12 @@
+applications:
+- name: pcf-axon-cqrs-demo-command-side
+  path: build/libs/pcf-axon-cqrs-demo-command-side.jar
+  memory: 1G
+  timeout: 120
+  services:
+    - mysql
+    - rabbit
+    - config
+    - registry
+  env:
+     JBP_CONFIG_DEBUG: '{enabled: true}'

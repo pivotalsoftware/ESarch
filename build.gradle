@@ -1,0 +1,41 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.5.RELEASE"
+    id "com.gorylenko.gradle-git-properties" version "1.4.21"
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+subprojects {
+
+    buildscript {
+        ext {
+            axonVersion = '3.2.2'
+            springBootVersion = '1.5.14.RELEASE'
+        }
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "com.gorylenko.gradle-git-properties"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
+            mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:1.6.3.RELEASE"
+        }
+    }
+
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}

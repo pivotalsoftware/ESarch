@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.pivotal.catalog.aggregates.ProductAggregateTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-06-29T14:00:25" hostname="Bens-MacBook-Pro.local" time="0.294">
+  <properties/>
+  <testcase name="testCommandAddProductToCatalogPasses" classname="io.pivotal.catalog.aggregates.ProductAggregateTest" time="0.238"/>
+  <testcase name="testCommandAddProductToCatalogFailsWhenIdNull" classname="io.pivotal.catalog.aggregates.ProductAggregateTest" time="0.033"/>
+  <testcase name="testCommandAddProductToCatalogFailsWhenNameNull" classname="io.pivotal.catalog.aggregates.ProductAggregateTest" time="0.023"/>
+  <system-out><![CDATA[15:00:25.800 [Test worker] DEBUG org.axonframework.common.IdentifierFactory - Looking for IdentifierFactory implementation using the context class loader
+15:00:25.807 [Test worker] DEBUG org.axonframework.common.IdentifierFactory - Looking for IdentifierFactory implementation using the IdentifierFactory class loader.
+15:00:25.808 [Test worker] DEBUG org.axonframework.common.IdentifierFactory - Using default UUID-based IdentifierFactory
+15:00:25.812 [Test worker] DEBUG org.axonframework.commandhandling.SimpleCommandBus - Handling command [io.pivotal.catalog.commands.AddProductToCatalogCommand]
+15:00:25.815 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.816 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.817 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.818 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$62/817833264 for phase COMMIT
+15:00:25.818 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$63/741562964 for phase ROLLBACK
+15:00:25.820 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.823 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling AddProductToCatalogCommand command: f665e081-f199-486b-869a-6f41ace3ef2e, test-f665e081-f199-486b-869a-6f41ace3ef2e
+15:00:25.831 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling ProductAddedEvent event: f665e081-f199-486b-869a-6f41ace3ef2e, test-f665e081-f199-486b-869a-6f41ace3ef2e
+15:00:25.832 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$RecordingEventStore$$Lambda$78/1173229692 for phase PREPARE_COMMIT
+15:00:25.834 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.LockingRepository$$Lambda$79/809450931 for phase CLEANUP
+15:00:25.836 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.AbstractRepository$$Lambda$84/686898163 for phase ROLLBACK
+15:00:25.837 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.AbstractRepository$$Lambda$86/833850833 for phase PREPARE_COMMIT
+15:00:25.838 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Committing Unit Of Work
+15:00:25.839 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase PREPARE_COMMIT
+15:00:25.850 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase COMMIT
+15:00:25.850 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase AFTER_COMMIT
+15:00:25.850 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.851 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.851 [Test worker] DEBUG org.axonframework.test.aggregate.AggregateTestFixture - Starting separate Unit of Work for the purpose of checking illegal state changes in Aggregate
+15:00:25.851 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.851 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.851 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.856 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling ProductAddedEvent event: f665e081-f199-486b-869a-6f41ace3ef2e, test-f665e081-f199-486b-869a-6f41ace3ef2e
+15:00:25.856 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.LockingRepository$$Lambda$98/2002633998 for phase CLEANUP
+15:00:25.856 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.AbstractRepository$$Lambda$99/771376936 for phase ROLLBACK
+15:00:25.856 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.model.AbstractRepository$$Lambda$86/833850833 for phase PREPARE_COMMIT
+15:00:25.858 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Rolling back Unit Of Work.
+15:00:25.859 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase ROLLBACK
+15:00:25.859 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.859 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.868 [Test worker] DEBUG org.axonframework.commandhandling.SimpleCommandBus - Handling command [io.pivotal.catalog.commands.AddProductToCatalogCommand]
+15:00:25.868 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.869 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.869 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.869 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$62/817833264 for phase COMMIT
+15:00:25.869 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$63/741562964 for phase ROLLBACK
+15:00:25.869 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.869 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling AddProductToCatalogCommand command: null, test-dab0a54a-bd4e-4a9f-b6db-0d49b202f9dc
+15:00:25.871 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Rolling back Unit Of Work.
+java.lang.IllegalArgumentException: ID should NOT be empty or null.
+	at org.springframework.util.Assert.hasLength(Assert.java:157)
+	at io.pivotal.catalog.aggregates.ProductAggregate.<init>(ProductAggregate.java:30)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.axonframework.messaging.annotation.AnnotatedMessageHandlingMember.handle(AnnotatedMessageHandlingMember.java:129)
+	at org.axonframework.messaging.annotation.WrappedMessageHandlingMember.handle(WrappedMessageHandlingMember.java:61)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.lambda$handle$0(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.model.AggregateLifecycle.executeWithResult(AggregateLifecycle.java:166)
+	at org.axonframework.commandhandling.model.inspection.AnnotatedAggregate.registerRoot(AnnotatedAggregate.java:176)
+	at org.axonframework.eventsourcing.EventSourcedAggregate.initialize(EventSourcedAggregate.java:79)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:242)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:45)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:125)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:49)
+	at org.axonframework.commandhandling.model.AbstractRepository.newInstance(AbstractRepository.java:84)
+	at org.axonframework.test.aggregate.AggregateTestFixture$IdentifierValidatingRepository.newInstance(AggregateTestFixture.java:439)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:173)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:151)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:43)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:57)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.messaging.unitofwork.DefaultUnitOfWork.executeWithResult(DefaultUnitOfWork.java:69)
+	at org.axonframework.commandhandling.SimpleCommandBus.handle(SimpleCommandBus.java:156)
+	at org.axonframework.commandhandling.SimpleCommandBus.doDispatch(SimpleCommandBus.java:127)
+	at org.axonframework.commandhandling.SimpleCommandBus.dispatch(SimpleCommandBus.java:91)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:260)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:249)
+	at io.pivotal.catalog.aggregates.ProductAggregateTest.testCommandAddProductToCatalogFailsWhenIdNull(ProductAggregateTest.java:37)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:106)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:155)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:137)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.lang.Thread.run(Thread.java:748)
+15:00:25.880 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase ROLLBACK
+15:00:25.880 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.880 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.880 [Test worker] DEBUG org.axonframework.test.aggregate.AggregateTestFixture - Starting separate Unit of Work for the purpose of checking illegal state changes in Aggregate
+15:00:25.884 [Test worker] DEBUG org.axonframework.commandhandling.SimpleCommandBus - Handling command [io.pivotal.catalog.commands.AddProductToCatalogCommand]
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$62/817833264 for phase COMMIT
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$63/741562964 for phase ROLLBACK
+15:00:25.885 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.886 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.886 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.887 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling AddProductToCatalogCommand command: , test-dab0a54a-bd4e-4a9f-b6db-0d49b202f9dc
+15:00:25.887 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Rolling back Unit Of Work.
+java.lang.IllegalArgumentException: ID should NOT be empty or null.
+	at org.springframework.util.Assert.hasLength(Assert.java:157)
+	at io.pivotal.catalog.aggregates.ProductAggregate.<init>(ProductAggregate.java:30)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.axonframework.messaging.annotation.AnnotatedMessageHandlingMember.handle(AnnotatedMessageHandlingMember.java:129)
+	at org.axonframework.messaging.annotation.WrappedMessageHandlingMember.handle(WrappedMessageHandlingMember.java:61)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.lambda$handle$0(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.model.AggregateLifecycle.executeWithResult(AggregateLifecycle.java:166)
+	at org.axonframework.commandhandling.model.inspection.AnnotatedAggregate.registerRoot(AnnotatedAggregate.java:176)
+	at org.axonframework.eventsourcing.EventSourcedAggregate.initialize(EventSourcedAggregate.java:79)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:242)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:45)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:125)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:49)
+	at org.axonframework.commandhandling.model.AbstractRepository.newInstance(AbstractRepository.java:84)
+	at org.axonframework.test.aggregate.AggregateTestFixture$IdentifierValidatingRepository.newInstance(AggregateTestFixture.java:439)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:173)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:151)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:43)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:57)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.messaging.unitofwork.DefaultUnitOfWork.executeWithResult(DefaultUnitOfWork.java:69)
+	at org.axonframework.commandhandling.SimpleCommandBus.handle(SimpleCommandBus.java:156)
+	at org.axonframework.commandhandling.SimpleCommandBus.doDispatch(SimpleCommandBus.java:127)
+	at org.axonframework.commandhandling.SimpleCommandBus.dispatch(SimpleCommandBus.java:91)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:260)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:249)
+	at io.pivotal.catalog.aggregates.ProductAggregateTest.testCommandAddProductToCatalogFailsWhenIdNull(ProductAggregateTest.java:41)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:106)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:155)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:137)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.lang.Thread.run(Thread.java:748)
+15:00:25.889 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase ROLLBACK
+15:00:25.889 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.889 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.889 [Test worker] DEBUG org.axonframework.test.aggregate.AggregateTestFixture - Starting separate Unit of Work for the purpose of checking illegal state changes in Aggregate
+15:00:25.902 [Test worker] DEBUG org.axonframework.commandhandling.SimpleCommandBus - Handling command [io.pivotal.catalog.commands.AddProductToCatalogCommand]
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$62/817833264 for phase COMMIT
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$63/741562964 for phase ROLLBACK
+15:00:25.902 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.902 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling AddProductToCatalogCommand command: 8400aadd-3491-4791-9c6b-287c7271141d, null
+15:00:25.904 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Rolling back Unit Of Work.
+java.lang.IllegalArgumentException: Name should NOT be empty or null.
+	at org.springframework.util.Assert.hasLength(Assert.java:157)
+	at io.pivotal.catalog.aggregates.ProductAggregate.<init>(ProductAggregate.java:31)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.axonframework.messaging.annotation.AnnotatedMessageHandlingMember.handle(AnnotatedMessageHandlingMember.java:129)
+	at org.axonframework.messaging.annotation.WrappedMessageHandlingMember.handle(WrappedMessageHandlingMember.java:61)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.lambda$handle$0(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.model.AggregateLifecycle.executeWithResult(AggregateLifecycle.java:166)
+	at org.axonframework.commandhandling.model.inspection.AnnotatedAggregate.registerRoot(AnnotatedAggregate.java:176)
+	at org.axonframework.eventsourcing.EventSourcedAggregate.initialize(EventSourcedAggregate.java:79)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:242)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:45)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:125)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:49)
+	at org.axonframework.commandhandling.model.AbstractRepository.newInstance(AbstractRepository.java:84)
+	at org.axonframework.test.aggregate.AggregateTestFixture$IdentifierValidatingRepository.newInstance(AggregateTestFixture.java:439)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:173)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:151)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:43)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:57)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.messaging.unitofwork.DefaultUnitOfWork.executeWithResult(DefaultUnitOfWork.java:69)
+	at org.axonframework.commandhandling.SimpleCommandBus.handle(SimpleCommandBus.java:156)
+	at org.axonframework.commandhandling.SimpleCommandBus.doDispatch(SimpleCommandBus.java:127)
+	at org.axonframework.commandhandling.SimpleCommandBus.dispatch(SimpleCommandBus.java:91)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:260)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:249)
+	at io.pivotal.catalog.aggregates.ProductAggregateTest.testCommandAddProductToCatalogFailsWhenNameNull(ProductAggregateTest.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:106)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:155)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:137)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.lang.Thread.run(Thread.java:748)
+15:00:25.912 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase ROLLBACK
+15:00:25.913 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.913 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.913 [Test worker] DEBUG org.axonframework.test.aggregate.AggregateTestFixture - Starting separate Unit of Work for the purpose of checking illegal state changes in Aggregate
+15:00:25.914 [Test worker] DEBUG org.axonframework.commandhandling.SimpleCommandBus - Handling command [io.pivotal.catalog.commands.AddProductToCatalogCommand]
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Starting Unit Of Work
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.messaging.unitofwork.AbstractUnitOfWork$$Lambda$58/1917522656 for phase ROLLBACK
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase STARTED
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$62/817833264 for phase COMMIT
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.commandhandling.SimpleCommandBus$$Lambda$63/741562964 for phase ROLLBACK
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.914 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Adding handler org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor$$Lambda$66/1361147147 for phase PREPARE_COMMIT
+15:00:25.915 [Test worker] DEBUG io.pivotal.catalog.aggregates.ProductAggregate - Handling AddProductToCatalogCommand command: 8400aadd-3491-4791-9c6b-287c7271141d, 
+15:00:25.915 [Test worker] DEBUG org.axonframework.messaging.unitofwork.AbstractUnitOfWork - Rolling back Unit Of Work.
+java.lang.IllegalArgumentException: Name should NOT be empty or null.
+	at org.springframework.util.Assert.hasLength(Assert.java:157)
+	at io.pivotal.catalog.aggregates.ProductAggregate.<init>(ProductAggregate.java:31)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.axonframework.messaging.annotation.AnnotatedMessageHandlingMember.handle(AnnotatedMessageHandlingMember.java:129)
+	at org.axonframework.messaging.annotation.WrappedMessageHandlingMember.handle(WrappedMessageHandlingMember.java:61)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.lambda$handle$0(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.model.AggregateLifecycle.executeWithResult(AggregateLifecycle.java:166)
+	at org.axonframework.commandhandling.model.inspection.AnnotatedAggregate.registerRoot(AnnotatedAggregate.java:176)
+	at org.axonframework.eventsourcing.EventSourcedAggregate.initialize(EventSourcedAggregate.java:79)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:242)
+	at org.axonframework.eventsourcing.EventSourcingRepository.doCreateNewForLock(EventSourcingRepository.java:45)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:125)
+	at org.axonframework.commandhandling.model.LockingRepository.doCreateNew(LockingRepository.java:49)
+	at org.axonframework.commandhandling.model.AbstractRepository.newInstance(AbstractRepository.java:84)
+	at org.axonframework.test.aggregate.AggregateTestFixture$IdentifierValidatingRepository.newInstance(AggregateTestFixture.java:439)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:184)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler$AggregateConstructorCommandHandler.handle(AggregateAnnotationCommandHandler.java:173)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:151)
+	at org.axonframework.commandhandling.AggregateAnnotationCommandHandler.handle(AggregateAnnotationCommandHandler.java:43)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:57)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.test.aggregate.AggregateTestFixture$AggregateRegisteringInterceptor.handle(AggregateTestFixture.java:571)
+	at org.axonframework.messaging.DefaultInterceptorChain.proceed(DefaultInterceptorChain.java:55)
+	at org.axonframework.messaging.unitofwork.DefaultUnitOfWork.executeWithResult(DefaultUnitOfWork.java:69)
+	at org.axonframework.commandhandling.SimpleCommandBus.handle(SimpleCommandBus.java:156)
+	at org.axonframework.commandhandling.SimpleCommandBus.doDispatch(SimpleCommandBus.java:127)
+	at org.axonframework.commandhandling.SimpleCommandBus.dispatch(SimpleCommandBus.java:91)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:260)
+	at org.axonframework.test.aggregate.AggregateTestFixture.when(AggregateTestFixture.java:249)
+	at io.pivotal.catalog.aggregates.ProductAggregateTest.testCommandAddProductToCatalogFailsWhenNameNull(ProductAggregateTest.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:106)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:155)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:137)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.lang.Thread.run(Thread.java:748)
+15:00:25.918 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase ROLLBACK
+15:00:25.918 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLEANUP
+15:00:25.918 [Test worker] DEBUG org.axonframework.messaging.unitofwork.MessageProcessingContext - Notifying handlers for phase CLOSED
+15:00:25.918 [Test worker] DEBUG org.axonframework.test.aggregate.AggregateTestFixture - Starting separate Unit of Work for the purpose of checking illegal state changes in Aggregate
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

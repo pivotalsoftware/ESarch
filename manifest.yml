@@ -1,0 +1,28 @@
+---
+applications:
+- name: command-side
+  path: command-side/build/libs/pcf-axon-cqrs-demo-command-side.jar
+  timeout: 120
+  instances: 1
+  random-route: true
+  services:
+    - mysql
+    - rabbit
+    - config
+    - registry
+#  env:
+#     JBP_CONFIG_DEBUG: '{enabled: true}'
+#     JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=178.62.37.59:13456
+- name: query-side
+  path: query-side/build/libs/pcf-axon-cqrs-demo-query-side.jar
+  timeout: 120
+  instances: 1
+  random-route: true
+  services:
+    - mysql
+    - rabbit
+    - config
+    - registry
+#  env:
+#     JBP_CONFIG_DEBUG: '{enabled: true}'
+#     JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=178.62.37.59:8000
