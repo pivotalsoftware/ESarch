@@ -1,0 +1,15 @@
+.gradle/
+.idea/
+.DS_Store
+*.class
+**/private.*
+**/.classpath
+**/.project
+**/.settings
+**/out
+
+# Package Files #
+**/build/
+**/bin
+**/*.iml
+axoniq-conference-demo.md
