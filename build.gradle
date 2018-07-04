@@ -42,7 +42,7 @@ subprojects {
 
     buildscript {
         ext {
-            axonVersion = '3.2.2'
+            axonVersion = '3.3'
             springBootVersion = '1.5.14.RELEASE'
         }
     }

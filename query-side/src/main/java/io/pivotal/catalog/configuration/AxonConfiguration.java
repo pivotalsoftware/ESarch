@@ -23,7 +23,7 @@ public class AxonConfiguration {
 
             @RabbitListener(queues = "${axon.amqp.exchange}")
             @Override
-            public void onMessage(Message message, Channel channel) throws Exception {
+            public void onMessage(Message message, Channel channel) {
                 LOG.debug("Event Received: {}", message.getBody().toString());
                 super.onMessage(message, channel);
             }

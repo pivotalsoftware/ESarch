@@ -17,8 +17,8 @@
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.query.orderbook.repositories.OrderBookViewRepository;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
 import org.axonframework.samples.trader.api.orders.OrderBookId;
 import org.axonframework.samples.trader.api.orders.transaction.BuyTransactionStartedEvent;

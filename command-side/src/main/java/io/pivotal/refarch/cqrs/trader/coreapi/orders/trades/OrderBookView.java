@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.orderbook;
+package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades;
 
+import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderView;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
@@ -33,10 +34,10 @@ public class OrderBookView {
     private String identifier;
     private String companyIdentifier;
     private String companyName;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "ORDERENTRY_SELL", joinColumns = @JoinColumn(name = "ORDERBOOK_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
     private List<OrderView> sellOrders = new ArrayList<>();
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "ORDERENTRY_BUY", joinColumns = @JoinColumn(name = "ORDERBOOK_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
     private List<OrderView> buyOrders = new ArrayList<>();
 

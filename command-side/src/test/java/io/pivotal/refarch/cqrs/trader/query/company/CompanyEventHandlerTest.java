@@ -2,7 +2,6 @@ package io.pivotal.refarch.cqrs.trader.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.query.company.repositories.CompanyViewRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ public class CompanyEventHandlerTest {
 
         CompanyView result = companyViewCaptor.getValue();
         assertNotNull(result);
-        assertEquals(expectedCompanyId.toString(), result.getIdentifier());
+        assertEquals(expectedCompanyId.getIdentifier(), result.getIdentifier());
         assertEquals(expectedCompanyName, result.getName());
         assertEquals(expectedCompanyValue, result.getValue());
         assertEquals(expectedAmountOfShares, result.getAmountOfShares());

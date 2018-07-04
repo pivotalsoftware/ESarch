@@ -19,10 +19,10 @@ package io.pivotal.refarch.cqrs.trader.query.orderbook;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyEventHandler;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyView;
-import io.pivotal.refarch.cqrs.trader.query.company.repositories.CompanyViewRepository;
-import io.pivotal.refarch.cqrs.trader.query.orderbook.repositories.OrderBookViewRepository;
+import io.pivotal.refarch.cqrs.trader.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.repositories.TradeExecutedQueryRepository;
 import org.axonframework.samples.trader.api.orders.OrderBookId;
@@ -33,12 +33,12 @@ import org.axonframework.samples.trader.api.orders.trades.TradeExecutedEvent;
 import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
 import org.axonframework.samples.trader.api.portfolio.PortfolioId;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
@@ -46,10 +46,8 @@ import static org.junit.Assert.*;
  * @author Jettro Coenradie
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@Ignore
-//@ContextConfiguration(classes = {PersistenceInfrastructureConfig.class, HsqlDbConfiguration.class})
-@ActiveProfiles("hsqldb")
-@SuppressWarnings("SpringJavaAutowiringInspection")
+@SpringBootTest
+@Transactional
 public class OrderBookEventHandlerIntegrationTest {
 
     OrderId orderId = new OrderId();
@@ -107,7 +105,6 @@ public class OrderBookEventHandlerIntegrationTest {
     }
 
     @Test
-    @Ignore // TODO Fix
     public void testHandleSellOrderPlaced() {
         CompanyView company = createCompany();
         OrderBookView orderBook = createOrderBook(company);
@@ -191,7 +188,7 @@ public class OrderBookEventHandlerIntegrationTest {
 
     private OrderBookView createOrderBook(CompanyView company) {
         OrderBookView orderBookView = new OrderBookView();
-        orderBookView.setIdentifier(orderBookId.toString());
+        orderBookView.setIdentifier(orderBookId.getIdentifier());
         orderBookView.setCompanyIdentifier(company.getIdentifier());
         orderBookView.setCompanyName(company.getName());
         orderBookRepository.save(orderBookView);
@@ -201,7 +198,7 @@ public class OrderBookEventHandlerIntegrationTest {
     private CompanyView createCompany() {
         CompanyId companyId = new CompanyId();
         CompanyView companyView = new CompanyView();
-        companyView.setIdentifier(companyId.toString());
+        companyView.setIdentifier(companyId.getIdentifier());
         companyView.setName("Test Company");
         companyView.setAmountOfShares(100000);
         companyView.setTradeStarted(true);

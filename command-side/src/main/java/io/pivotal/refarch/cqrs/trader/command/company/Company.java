@@ -47,7 +47,6 @@ public class Company {
         apply(new OrderBookAddedToCompanyEvent(companyId, cmd.getOrderBookId()));
     }
 
-
     @EventSourcingHandler
     public void on(CompanyCreatedEvent event) {
         companyId = event.getCompanyId();

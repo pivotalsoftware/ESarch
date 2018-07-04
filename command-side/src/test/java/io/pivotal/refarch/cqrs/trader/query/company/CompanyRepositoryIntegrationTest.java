@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.company.repositories;
+package io.pivotal.refarch.cqrs.trader.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.query.company.CompanyView;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Jettro Coenradie
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@Ignore
-//@ContextConfiguration(classes = {PersistenceInfrastructureConfig.class, HsqlDbConfiguration.class})
-@ActiveProfiles("hsqldb")
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class CompanyRepositoryIntegrationTest {
 
     @Autowired
@@ -40,11 +36,13 @@ public class CompanyRepositoryIntegrationTest {
     @Test
     public void storeCompanyInRepository() {
         CompanyView companyView = new CompanyView();
-        companyView.setIdentifier(new CompanyId().toString());
+        companyView.setIdentifier(new CompanyId().getIdentifier());
         companyView.setValue(100000);
         companyView.setAmountOfShares(1000);
         companyView.setTradeStarted(true);
 
         companyRepository.save(companyView);
+
+        // TODO: Assertions
     }
 }

@@ -17,7 +17,6 @@
 package io.pivotal.refarch.cqrs.trader.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.query.company.repositories.CompanyViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class CompanyEventHandler {
     public void on(CompanyCreatedEvent event) {
         CompanyView companyView = new CompanyView();
 
-        companyView.setIdentifier(event.getCompanyId().toString());
+        companyView.setIdentifier(event.getCompanyId().getIdentifier());
         companyView.setValue(event.getCompanyValue());
         companyView.setAmountOfShares(event.getAmountOfShares());
         companyView.setTradeStarted(true);

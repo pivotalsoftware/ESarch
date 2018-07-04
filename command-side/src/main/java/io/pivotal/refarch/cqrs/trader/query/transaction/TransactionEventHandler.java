@@ -16,8 +16,8 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
-import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.query.orderbook.repositories.OrderBookViewRepository;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;

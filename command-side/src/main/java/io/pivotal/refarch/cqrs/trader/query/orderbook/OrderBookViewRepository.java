@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.company.repositories;
+package io.pivotal.refarch.cqrs.trader.query.orderbook;
 
-import io.pivotal.refarch.cqrs.trader.query.company.CompanyView;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CompanyViewRepository extends JpaRepository<CompanyView, String> {
+import java.util.List;
 
+
+public interface OrderBookViewRepository extends JpaRepository<OrderBookView, String> {
+
+    List<OrderBookView> findByCompanyIdentifier(String companyIdentifier);
 }
