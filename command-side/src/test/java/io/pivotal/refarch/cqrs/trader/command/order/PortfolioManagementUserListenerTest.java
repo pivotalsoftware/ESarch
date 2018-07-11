@@ -43,7 +43,7 @@ public class PortfolioManagementUserListenerTest {
     }
 
     // TODO #28 replace this by a direct command equals call. This requires instantiating the aggregate ids ourselves
-    private class CreatePortfolioCommandMatcher extends ArgumentMatcher<CreatePortfolioCommand> {
+    private class CreatePortfolioCommandMatcher implements ArgumentMatcher<CreatePortfolioCommand> {
 
         private UserId userId;
 
@@ -52,12 +52,7 @@ public class PortfolioManagementUserListenerTest {
         }
 
         @Override
-        public boolean matches(Object argument) {
-            if (!(argument instanceof CreatePortfolioCommand)) {
-                return false;
-            }
-
-            CreatePortfolioCommand createPortfolioCommand = (CreatePortfolioCommand) argument;
+        public boolean matches(CreatePortfolioCommand createPortfolioCommand) {
             return createPortfolioCommand.getUserId().equals(userId);
         }
     }

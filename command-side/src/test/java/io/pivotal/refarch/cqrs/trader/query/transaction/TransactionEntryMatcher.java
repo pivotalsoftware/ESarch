@@ -16,80 +16,34 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
-import org.axonframework.samples.trader.api.orders.TransactionType;
-import org.hamcrest.Description;
 import org.mockito.ArgumentMatcher;
 
-public class TransactionEntryMatcher extends ArgumentMatcher<TransactionView> {
+public class TransactionEntryMatcher implements ArgumentMatcher<TransactionView> {
 
     private final TransactionState state;
-    private final TransactionType type;
     private final String companyName;
     private final int amountOfItems;
     private final int amountOfItemsExecuted;
     private final long pricePerItem;
 
-    private String problemDescription;
-
     public TransactionEntryMatcher(int amountOfItems,
                                    int amountOfItemsExecuted,
                                    String companyName,
                                    long pricePerItem,
-                                   TransactionState state,
-                                   TransactionType type) {
+                                   TransactionState state) {
         this.amountOfItems = amountOfItems;
         this.amountOfItemsExecuted = amountOfItemsExecuted;
         this.companyName = companyName;
         this.pricePerItem = pricePerItem;
         this.state = state;
-        this.type = type;
     }
 
     @Override
-    public boolean matches(Object argument) {
-        if (!(argument instanceof TransactionView)) {
-            problemDescription = String.format("Wrong argument type, required %s but received %s",
-                                               TransactionView.class.getName(),
-                                               argument.getClass().getName());
-            return false;
-        }
-        TransactionView transactionView = (TransactionView) argument;
-        if (amountOfItems != transactionView.getAmountOfItems()) {
-            problemDescription = String.format("Amount of items is not %d but %d",
-                                               amountOfItems,
-                                               transactionView.getAmountOfItems());
-            return false;
-        }
-        if (amountOfItemsExecuted != transactionView.getAmountOfExecutedItems()) {
-            problemDescription = String.format("Amount of executed items is not %d but %d",
-                                               amountOfItemsExecuted,
-                                               transactionView.getAmountOfExecutedItems());
-            return false;
-        }
-        if (!companyName.equals(transactionView.getCompanyName())) {
-            problemDescription = String.format("Company name is not %s but %s",
-                                               companyName,
-                                               transactionView.getCompanyName());
-            return false;
-        }
-        if (pricePerItem != transactionView.getPricePerItem()) {
-            problemDescription = String.format("Price per item is not %d but %d",
-                                               pricePerItem,
-                                               transactionView.getPricePerItem());
-            return false;
-        }
-        if (state != transactionView.getState()) {
-            problemDescription = String.format("State is not %s but %s", state, transactionView.getState());
-            return false;
-        }
-        if (type != transactionView.getType()) {
-            problemDescription = String.format("Type is not %s but %s", type, transactionView.getType());
-        }
-        return true;
-    }
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendText(problemDescription);
+    public boolean matches(TransactionView transactionView) {
+        return amountOfItems == transactionView.getAmountOfItems()
+                && amountOfItemsExecuted == transactionView.getAmountOfExecutedItems()
+                && companyName.equals(transactionView.getCompanyName())
+                && pricePerItem == transactionView.getPricePerItem()
+                && state == transactionView.getState();
     }
 }

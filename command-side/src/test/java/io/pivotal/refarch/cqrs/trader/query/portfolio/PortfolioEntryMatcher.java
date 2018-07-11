@@ -16,10 +16,9 @@
 
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
-import org.hamcrest.Description;
 import org.mockito.ArgumentMatcher;
 
-public class PortfolioEntryMatcher extends ArgumentMatcher<PortfolioView> {
+public class PortfolioEntryMatcher implements ArgumentMatcher<PortfolioView> {
 
     private final int itemsInPossession;
     private final String itemIdentifier;
@@ -40,29 +39,12 @@ public class PortfolioEntryMatcher extends ArgumentMatcher<PortfolioView> {
     }
 
     @Override
-    public boolean matches(Object argument) {
-        if (!(argument instanceof PortfolioView)) {
-            return false;
-        }
-        PortfolioView portfolioView = (PortfolioView) argument;
+    public boolean matches(PortfolioView portfolioView) {
 
         return portfolioView.getItemsInPossession().size() == itemsInPossession
                 && amountOfItemInPossession == portfolioView.findItemInPossession(itemIdentifier).getAmount()
                 && portfolioView.getItemsReserved().size() == itemsInReservation
                 && !(itemsInReservation != 0 && (amountOfItemInReservation != portfolioView
                 .findReservedItemByIdentifier(itemIdentifier).getAmount()));
-    }
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendText("PortfolioView with itemsInPossession [")
-                   .appendValue(itemsInPossession)
-                   .appendText("] and amountOfItemsInPossession [")
-                   .appendValue(amountOfItemInPossession)
-                   .appendText("] and amountOfItemsInReservation [")
-                   .appendValue(amountOfItemInReservation)
-                   .appendText("] and itemsInReservation [")
-                   .appendValue(itemsInReservation)
-                   .appendText("]");
     }
 }

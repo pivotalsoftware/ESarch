@@ -55,8 +55,8 @@ public class PortfolioItemEventHandlerTest {
 
     @Before
     public void setUp() {
-        when(orderBookViewRepository.findOne(itemId.toString())).thenReturn(createOrderBookEntry());
-        when(portfolioViewRepository.findOne(portfolioId.toString())).thenReturn(createPortfolioEntry());
+        when(orderBookViewRepository.getOne(itemId.toString())).thenReturn(createOrderBookEntry());
+        when(portfolioViewRepository.getOne(portfolioId.toString())).thenReturn(createPortfolioEntry());
 
         testSubject = new PortfolioItemEventHandler(portfolioViewRepository, orderBookViewRepository);
     }

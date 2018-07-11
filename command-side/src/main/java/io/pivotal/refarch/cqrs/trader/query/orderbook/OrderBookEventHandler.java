@@ -62,7 +62,7 @@ public class OrderBookEventHandler {
 
     @EventHandler
     public void on(OrderBookAddedToCompanyEvent event) {
-        CompanyView companyView = companyRepository.findOne(event.getCompanyId().getIdentifier());
+        CompanyView companyView = companyRepository.getOne(event.getCompanyId().getIdentifier());
 
         OrderBookView orderBookView = new OrderBookView();
         orderBookView.setCompanyIdentifier(event.getCompanyId().getIdentifier());
@@ -74,7 +74,7 @@ public class OrderBookEventHandler {
 
     @EventHandler
     public void on(BuyOrderPlacedEvent event) {
-        OrderBookView orderBook = orderBookRepository.findOne(event.getOrderBookId().getIdentifier());
+        OrderBookView orderBook = orderBookRepository.getOne(event.getOrderBookId().getIdentifier());
 
         OrderView buyOrder = createPlacedOrder(event, BUY);
         orderBook.buyOrders().add(buyOrder);
@@ -84,7 +84,7 @@ public class OrderBookEventHandler {
 
     @EventHandler
     public void on(SellOrderPlacedEvent event) {
-        OrderBookView orderBook = orderBookRepository.findOne(event.getOrderBookId().getIdentifier());
+        OrderBookView orderBook = orderBookRepository.getOne(event.getOrderBookId().getIdentifier());
 
         OrderView sellOrder = createPlacedOrder(event, SELL);
         orderBook.sellOrders().add(sellOrder);
@@ -98,7 +98,7 @@ public class OrderBookEventHandler {
         OrderId sellOrderId = event.getSellOrderId();
 
         OrderBookId orderBookIdentifier = event.getOrderBookId();
-        OrderBookView orderBookView = orderBookRepository.findOne(orderBookIdentifier.getIdentifier());
+        OrderBookView orderBookView = orderBookRepository.getOne(orderBookIdentifier.getIdentifier());
 
         TradeExecutedView tradeExecutedView = new TradeExecutedView();
         tradeExecutedView.setCompanyName(orderBookView.getCompanyName());

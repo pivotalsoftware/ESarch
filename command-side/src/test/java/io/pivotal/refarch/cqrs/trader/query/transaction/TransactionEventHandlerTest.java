@@ -29,7 +29,6 @@ import org.axonframework.samples.trader.api.portfolio.PortfolioId;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.axonframework.samples.trader.api.orders.TransactionType.BUY;
 import static org.axonframework.samples.trader.api.orders.TransactionType.SELL;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.*;
@@ -52,7 +51,7 @@ public class TransactionEventHandlerTest {
 
     @Before
     public void setUp() {
-        when(orderBookViewRepository.findOne(orderBookIdentifier.toString())).thenReturn(createOrderBookEntry());
+        when(orderBookViewRepository.getOne(orderBookIdentifier.toString())).thenReturn(createOrderBookEntry());
 
         testSubject = new TransactionEventHandler(orderBookViewRepository, transactionViewRepository);
     }
@@ -66,7 +65,7 @@ public class TransactionEventHandlerTest {
                                                       DEFAULT_ITEM_PRICE));
 
         verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED, BUY
+                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED
         )));
     }
 
@@ -79,7 +78,7 @@ public class TransactionEventHandlerTest {
                                                        DEFAULT_ITEM_PRICE));
 
         verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED, SELL
+                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED
         )));
     }
 
@@ -96,14 +95,14 @@ public class TransactionEventHandlerTest {
         transactionView.setPortfolioId(portfolioIdentifier.toString());
         transactionView.setType(SELL);
 
-        when(transactionViewRepository.findOne(transactionIdentifier.toString())).thenReturn(transactionView);
+        when(transactionViewRepository.getOne(transactionIdentifier.toString())).thenReturn(transactionView);
 
         testSubject.on(new SellTransactionCancelledEvent(transactionIdentifier,
                                                          DEFAULT_TOTAL_ITEMS,
                                                          DEFAULT_TOTAL_ITEMS));
 
         verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.CANCELLED, SELL
+                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.CANCELLED
         )));
     }
 

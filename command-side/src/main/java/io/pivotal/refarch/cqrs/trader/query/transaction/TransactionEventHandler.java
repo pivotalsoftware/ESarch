@@ -49,7 +49,7 @@ public class TransactionEventHandler {
     }
 
     private void startTransaction(AbstractTransactionStartedEvent event, TransactionType type) {
-        OrderBookView orderBookView = orderBookViewRepository.findOne(event.getOrderBookId().toString());
+        OrderBookView orderBookView = orderBookViewRepository.getOne(event.getOrderBookId().toString());
 
         TransactionView entry = new TransactionView();
         entry.setAmountOfExecutedItems(0);
@@ -86,7 +86,7 @@ public class TransactionEventHandler {
     }
 
     private void changeStateOfTransaction(String identifier, TransactionState newState) {
-        TransactionView transactionView = transactionViewRepository.findOne(identifier);
+        TransactionView transactionView = transactionViewRepository.getOne(identifier);
 
         transactionView.setState(newState);
 
@@ -104,7 +104,7 @@ public class TransactionEventHandler {
     }
 
     private void executeTransaction(AbstractTransactionExecutedEvent event) {
-        TransactionView transactionView = transactionViewRepository.findOne(event.getTransactionId().toString());
+        TransactionView transactionView = transactionViewRepository.getOne(event.getTransactionId().toString());
 
         long value = transactionView.getAmountOfExecutedItems() * transactionView.getPricePerItem();
         long additionalValue = event.getAmountOfItems() * event.getItemPrice();
@@ -128,7 +128,7 @@ public class TransactionEventHandler {
     }
 
     private void partiallyExecuteTransaction(AbstractTransactionPartiallyExecutedEvent event) {
-        TransactionView transactionView = transactionViewRepository.findOne(event.getTransactionId().toString());
+        TransactionView transactionView = transactionViewRepository.getOne(event.getTransactionId().toString());
 
         long value = transactionView.getAmountOfExecutedItems() * transactionView.getPricePerItem();
         long additionalValue = event.getAmountOfExecutedItems() * event.getItemPrice();
