@@ -42,8 +42,7 @@ public class TraderApplication {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // TODO: Figure this out...
-            http.anonymous()
-                .and()
+            http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
         }
