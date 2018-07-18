@@ -8,9 +8,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class PcfAxonCqrsQuerySideApplication {
+public class TraderQueryApplication {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PcfAxonCqrsQuerySideApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TraderQueryApplication.class);
 
     /*
     * There is not much to do here. Apart from integrating with Rabbit for the incoming events
@@ -19,7 +19,7 @@ public class PcfAxonCqrsQuerySideApplication {
     */
 
     public static void main(String[] args) {
-        SpringApplication.run(PcfAxonCqrsQuerySideApplication.class, args);
+        SpringApplication.run(TraderQueryApplication.class, args);
         LOG.info("Starting the QUERY-SIDE PCF Axon CQRS Demo [The Catalog Viewer] with SpringBoot.");
     }
 }
