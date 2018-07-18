@@ -22,7 +22,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookViewQuery;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedView;
-import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.repositories.TradeExecutedQueryRepository;
+import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedQueryRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;

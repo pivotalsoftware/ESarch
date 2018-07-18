@@ -22,7 +22,6 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCanc
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
-import io.pivotal.refarch.cqrs.trader.query.portfolio.repositories.PortfolioViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.user.UserViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;

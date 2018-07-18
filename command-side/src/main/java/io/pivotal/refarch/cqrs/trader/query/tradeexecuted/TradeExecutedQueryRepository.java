@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.tradeexecuted.repositories;
+package io.pivotal.refarch.cqrs.trader.query.tradeexecuted;
 
 import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedView;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -32,7 +32,6 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
-import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Service;

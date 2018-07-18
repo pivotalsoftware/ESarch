@@ -24,7 +24,7 @@ import io.pivotal.refarch.cqrs.trader.query.company.CompanyEventHandler;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedView;
-import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.repositories.TradeExecutedQueryRepository;
+import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.TradeExecutedQueryRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;

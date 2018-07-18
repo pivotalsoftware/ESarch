@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.portfolio.repositories;
+package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.query.portfolio.PortfolioView;
 import org.springframework.data.jpa.repository.JpaRepository;
