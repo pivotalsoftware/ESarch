@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.company;
+package io.pivotal.refarch.cqrs.trader.coreapi.company;
 
 import org.springframework.data.annotation.Id;
 

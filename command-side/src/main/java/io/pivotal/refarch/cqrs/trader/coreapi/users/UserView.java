@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.user;
+package io.pivotal.refarch.cqrs.trader.coreapi.users;
 
 import org.springframework.data.annotation.Id;
 

@@ -17,6 +17,7 @@
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;

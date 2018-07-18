@@ -17,6 +17,7 @@
 package io.pivotal.refarch.cqrs.trader.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyView;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Service;

@@ -16,16 +16,12 @@
 
 package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades;
 
-import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderView;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Jettro Coenradie
- */
 @Entity
 public class OrderBookView {
 

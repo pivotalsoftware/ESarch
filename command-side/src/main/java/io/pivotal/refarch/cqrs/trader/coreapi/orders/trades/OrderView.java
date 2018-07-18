@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.orderbook;
+package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
-/**
- * @author Jettro Coenradie
- */
 @Entity
 public class OrderView {
 
@@ -41,7 +38,7 @@ public class OrderView {
         return identifier;
     }
 
-    void setIdentifier(String identifier) {
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
@@ -49,7 +46,7 @@ public class OrderView {
         return itemPrice;
     }
 
-    void setItemPrice(long itemPrice) {
+    public void setItemPrice(long itemPrice) {
         this.itemPrice = itemPrice;
     }
 
@@ -57,7 +54,7 @@ public class OrderView {
         return itemsRemaining;
     }
 
-    void setItemsRemaining(long itemsRemaining) {
+    public void setItemsRemaining(long itemsRemaining) {
         this.itemsRemaining = itemsRemaining;
     }
 
@@ -65,7 +62,7 @@ public class OrderView {
         return tradeCount;
     }
 
-    void setTradeCount(long tradeCount) {
+    public void setTradeCount(long tradeCount) {
         this.tradeCount = tradeCount;
     }
 
@@ -73,7 +70,7 @@ public class OrderView {
         return userId;
     }
 
-    void setUserId(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -81,7 +78,7 @@ public class OrderView {
         return type;
     }
 
-    void setType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 

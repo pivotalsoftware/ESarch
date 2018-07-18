@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.user;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserViewRepository extends JpaRepository<UserView, String> {

@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.user;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserView;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCreatedEvent;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.portfolio;
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio;
 
 import org.springframework.data.annotation.Id;
 

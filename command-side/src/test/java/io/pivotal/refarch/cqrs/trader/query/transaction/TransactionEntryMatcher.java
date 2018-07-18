@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionView;
 import org.mockito.ArgumentMatcher;
 
 public class TransactionEntryMatcher implements ArgumentMatcher<TransactionView> {

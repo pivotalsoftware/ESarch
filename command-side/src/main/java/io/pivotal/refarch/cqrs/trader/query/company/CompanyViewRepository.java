@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.company;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompanyViewRepository extends JpaRepository<CompanyView, String> {

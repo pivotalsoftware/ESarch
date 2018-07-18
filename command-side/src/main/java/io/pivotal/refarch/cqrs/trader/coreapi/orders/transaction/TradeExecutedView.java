@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.tradeexecuted;
+package io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

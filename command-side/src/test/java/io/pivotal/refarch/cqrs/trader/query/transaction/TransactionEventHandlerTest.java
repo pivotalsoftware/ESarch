@@ -18,6 +18,7 @@ package io.pivotal.refarch.cqrs.trader.query.transaction;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionView;
 import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;

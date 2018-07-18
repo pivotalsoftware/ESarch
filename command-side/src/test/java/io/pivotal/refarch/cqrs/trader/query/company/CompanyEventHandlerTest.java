@@ -2,6 +2,7 @@ package io.pivotal.refarch.cqrs.trader.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

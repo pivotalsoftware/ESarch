@@ -16,6 +16,8 @@
 
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.ItemEntry;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioView;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

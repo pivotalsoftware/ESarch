@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.query.portfolio;
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

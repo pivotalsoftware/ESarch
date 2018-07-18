@@ -16,7 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
-import io.pivotal.refarch.cqrs.trader.query.transaction.TransactionView;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

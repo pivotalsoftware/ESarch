@@ -17,6 +17,8 @@
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.ItemEntry;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;

@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioView;
 import org.mockito.ArgumentMatcher;
 
 public class PortfolioEntryMatcher implements ArgumentMatcher<PortfolioView> {
