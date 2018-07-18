@@ -16,11 +16,17 @@
 
 package io.pivotal.refarch.cqrs.trader.command.trade;
 
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import org.axonframework.samples.trader.api.orders.trades.*;
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.Test;

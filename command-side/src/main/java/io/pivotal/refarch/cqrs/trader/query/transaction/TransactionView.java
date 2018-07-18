@@ -16,7 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
-import org.axonframework.samples.trader.api.orders.TransactionType;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;

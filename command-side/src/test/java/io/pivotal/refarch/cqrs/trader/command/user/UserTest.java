@@ -16,6 +16,11 @@
 
 package io.pivotal.refarch.cqrs.trader.command.user;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.users.AuthenticateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserAuthenticatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.samples.trader.api.users.*;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;

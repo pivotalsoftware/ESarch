@@ -18,7 +18,7 @@ package io.pivotal.refarch.cqrs.trader.query.user;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.samples.trader.api.users.UserCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCreatedEvent;
 import org.springframework.stereotype.Service;
 
 @Service

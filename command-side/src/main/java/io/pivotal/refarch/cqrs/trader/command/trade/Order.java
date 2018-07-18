@@ -18,10 +18,10 @@ package io.pivotal.refarch.cqrs.trader.command.trade;
 
 import org.axonframework.commandhandling.model.EntityId;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.samples.trader.api.orders.OrderId;
-import org.axonframework.samples.trader.api.orders.trades.TradeExecutedEvent;
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 
 public class Order {
 

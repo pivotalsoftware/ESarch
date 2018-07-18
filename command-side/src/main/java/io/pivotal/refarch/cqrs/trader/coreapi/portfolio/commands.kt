@@ -1,7 +1,7 @@
-package org.axonframework.samples.trader.api.portfolio
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier
-import org.axonframework.samples.trader.api.users.UserId
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId
 
 abstract class PortfolioCommand(@TargetAggregateIdentifier open val portfolioId: PortfolioId)
 

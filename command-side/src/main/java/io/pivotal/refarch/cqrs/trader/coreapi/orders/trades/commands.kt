@@ -1,10 +1,10 @@
-package org.axonframework.samples.trader.api.orders.trades
+package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier
-import org.axonframework.samples.trader.api.orders.OrderBookId
-import org.axonframework.samples.trader.api.orders.OrderId
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId
-import org.axonframework.samples.trader.api.portfolio.PortfolioId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId
 import javax.validation.constraints.Min
 
 abstract class AbstractOrderCommand(

@@ -1,4 +1,4 @@
-package org.axonframework.samples.trader.api.users
+package io.pivotal.refarch.cqrs.trader.coreapi.users
 
 abstract class UserEvent(open val userId: UserId)
 

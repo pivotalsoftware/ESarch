@@ -20,16 +20,16 @@ import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.transaction.BuyTransactionStartedEvent;
-import org.axonframework.samples.trader.api.orders.transaction.SellTransactionCancelledEvent;
-import org.axonframework.samples.trader.api.orders.transaction.SellTransactionStartedEvent;
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.axonframework.samples.trader.api.orders.TransactionType.SELL;
+import static io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType.SELL;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.*;
 

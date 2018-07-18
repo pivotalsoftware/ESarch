@@ -1,9 +1,9 @@
-package org.axonframework.samples.trader.api.portfolio.stock
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock
 
-import org.axonframework.samples.trader.api.orders.OrderBookId
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId
-import org.axonframework.samples.trader.api.portfolio.PortfolioEvent
-import org.axonframework.samples.trader.api.portfolio.PortfolioId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioEvent
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId
 
 data class ItemReservationCancelledForPortfolioEvent(
         override val portfolioId: PortfolioId,

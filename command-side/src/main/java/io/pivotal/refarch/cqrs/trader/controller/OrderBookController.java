@@ -7,8 +7,8 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookViewQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.trades.CreateOrderBookCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package io.pivotal.refarch.cqrs.trader.command.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.*;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.users.UserId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.Test;

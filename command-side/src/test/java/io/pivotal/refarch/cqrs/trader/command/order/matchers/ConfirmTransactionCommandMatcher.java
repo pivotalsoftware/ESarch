@@ -16,8 +16,8 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order.matchers;
 
-import org.axonframework.samples.trader.api.orders.transaction.ConfirmTransactionCommand;
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ConfirmTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 

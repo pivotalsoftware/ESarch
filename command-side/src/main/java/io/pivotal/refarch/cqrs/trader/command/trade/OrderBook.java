@@ -16,11 +16,18 @@
 
 package io.pivotal.refarch.cqrs.trader.command.trade;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateBuyOrderCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.commandhandling.model.AggregateMember;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import org.axonframework.samples.trader.api.orders.trades.*;
 import org.axonframework.spring.stereotype.Aggregate;
 

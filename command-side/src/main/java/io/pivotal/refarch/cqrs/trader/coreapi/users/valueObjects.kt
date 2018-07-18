@@ -1,4 +1,4 @@
-package org.axonframework.samples.trader.api.users
+package io.pivotal.refarch.cqrs.trader.coreapi.users
 
 import org.axonframework.common.IdentifierFactory
 import java.io.Serializable

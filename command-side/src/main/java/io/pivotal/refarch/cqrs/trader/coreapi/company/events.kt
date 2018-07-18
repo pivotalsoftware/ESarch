@@ -1,6 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.coreapi.company
 
-import org.axonframework.samples.trader.api.orders.OrderBookId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
 
 abstract class CompanyEvent(open val companyId: CompanyId)
 

@@ -16,10 +16,26 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.CancelTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ConfirmTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartBuyTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartSellTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.samples.trader.api.orders.TransactionType;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import org.axonframework.samples.trader.api.orders.transaction.*;
 import org.axonframework.spring.stereotype.Aggregate;
 

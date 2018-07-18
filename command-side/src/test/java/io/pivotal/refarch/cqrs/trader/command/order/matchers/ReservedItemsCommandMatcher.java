@@ -16,9 +16,9 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order.matchers;
 
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
-import org.axonframework.samples.trader.api.portfolio.stock.ReserveItemsCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ReserveItemsCommand;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 

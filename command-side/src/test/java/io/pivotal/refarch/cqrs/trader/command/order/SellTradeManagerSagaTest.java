@@ -17,13 +17,19 @@
 package io.pivotal.refarch.cqrs.trader.command.order;
 
 import io.pivotal.refarch.cqrs.trader.command.order.matchers.*;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.OrderId;
-import org.axonframework.samples.trader.api.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import org.axonframework.samples.trader.api.orders.transaction.*;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
-import org.axonframework.samples.trader.api.portfolio.stock.ItemsReservedEvent;
-import org.axonframework.samples.trader.api.portfolio.stock.NotEnoughItemsAvailableToReserveInPortfolioEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.NotEnoughItemsAvailableToReserveInPortfolioEvent;
 import org.axonframework.test.saga.SagaTestFixture;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,10 +54,10 @@ public class SellTradeManagerSagaTest {
     public void testHandle_SellTransactionStarted() throws Exception {
         fixture.givenAggregate(transactionIdentifier.toString()).published()
                 .whenAggregate(transactionIdentifier.toString()).publishes(new SellTransactionStartedEvent(transactionIdentifier,
-                orderbookIdentifier,
-                portfolioIdentifier,
-                100,
-                10))
+                                                                                                           orderbookIdentifier,
+                                                                                                           portfolioIdentifier,
+                                                                                                           100,
+                                                                                                           10))
                 .expectActiveSagas(1)
                 .expectDispatchedCommandsMatching(exactSequenceOf(ReservedItemsCommandMatcher.newInstance(orderbookIdentifier,
                         portfolioIdentifier,

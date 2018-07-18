@@ -17,9 +17,9 @@
 package io.pivotal.refarch.cqrs.trader.command.order;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId;
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

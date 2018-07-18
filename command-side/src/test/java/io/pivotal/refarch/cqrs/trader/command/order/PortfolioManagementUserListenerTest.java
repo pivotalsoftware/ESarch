@@ -17,9 +17,9 @@
 package io.pivotal.refarch.cqrs.trader.command.order;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.samples.trader.api.portfolio.CreatePortfolioCommand;
-import org.axonframework.samples.trader.api.users.UserCreatedEvent;
-import org.axonframework.samples.trader.api.users.UserId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 

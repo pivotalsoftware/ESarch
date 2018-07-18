@@ -1,6 +1,6 @@
-package org.axonframework.samples.trader.api.portfolio
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio
 
-import org.axonframework.samples.trader.api.users.UserId
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId
 
 abstract class PortfolioEvent(open val portfolioId: PortfolioId)
 

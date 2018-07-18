@@ -16,8 +16,8 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order.matchers;
 
-import org.axonframework.samples.trader.api.portfolio.PortfolioId;
-import org.axonframework.samples.trader.api.portfolio.cash.ConfirmCashReservationCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.ConfirmCashReservationCommand;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 

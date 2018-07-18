@@ -3,7 +3,7 @@ package io.pivotal.refarch.cqrs.trader.controller;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.samples.trader.api.users.UserId;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Future;

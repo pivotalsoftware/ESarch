@@ -1,8 +1,8 @@
-package org.axonframework.samples.trader.api.portfolio.cash
+package io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash
 
-import org.axonframework.samples.trader.api.orders.transaction.TransactionId
-import org.axonframework.samples.trader.api.portfolio.PortfolioEvent
-import org.axonframework.samples.trader.api.portfolio.PortfolioId
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioEvent
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId
 
 data class CashDepositedEvent(
         override val portfolioId: PortfolioId,

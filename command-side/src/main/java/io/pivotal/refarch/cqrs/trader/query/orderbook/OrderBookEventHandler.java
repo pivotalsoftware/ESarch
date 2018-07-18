@@ -26,12 +26,12 @@ import io.pivotal.refarch.cqrs.trader.query.tradeexecuted.repositories.TradeExec
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
-import org.axonframework.samples.trader.api.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.OrderId;
-import org.axonframework.samples.trader.api.orders.trades.AbstractOrderPlacedEvent;
-import org.axonframework.samples.trader.api.orders.trades.BuyOrderPlacedEvent;
-import org.axonframework.samples.trader.api.orders.trades.SellOrderPlacedEvent;
-import org.axonframework.samples.trader.api.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -17,11 +17,24 @@
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.samples.trader.api.orders.TransactionType;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import org.axonframework.samples.trader.api.orders.transaction.*;
 import org.springframework.stereotype.Service;
 
