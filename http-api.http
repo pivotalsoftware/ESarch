@@ -12,6 +12,13 @@ Content-Type: application/json
 ###
 
 
+POST https://command-side-quiet-baboon.cfapps.io/company/
+Content-Type: application/json
+
+"AxonIQ"
+###
+
+
 POST http://localhost:8080/orderbook/a869e39d-4e97-4d1e-a662-2690f992c28d
 Content-Type: application/json
 
