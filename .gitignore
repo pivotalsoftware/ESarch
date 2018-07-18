@@ -1,4 +1,3 @@
-.gradle/
 .idea/
 .DS_Store
 *.class
@@ -9,7 +8,7 @@
 **/out
 
 # Package Files #
-**/build/
+**/target/
 **/bin
 **/*.iml
 axoniq-conference-demo.md
