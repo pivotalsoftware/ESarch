@@ -1,7 +1,7 @@
 ---
 applications:
 - name: command-side
-  path: command-side/build/libs/pcf-axon-cqrs-demo-command-side.jar
+  path: command-side/target/trader-command.jar
   timeout: 120
   instances: 1
   random-route: true
@@ -14,7 +14,7 @@ applications:
 #     JBP_CONFIG_DEBUG: '{enabled: true}'
 #     JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=178.62.37.59:13456
 - name: query-side
-  path: query-side/build/libs/pcf-axon-cqrs-demo-query-side.jar
+  path: query-side/target/trader-query.jar
   timeout: 120
   instances: 1
   random-route: true
