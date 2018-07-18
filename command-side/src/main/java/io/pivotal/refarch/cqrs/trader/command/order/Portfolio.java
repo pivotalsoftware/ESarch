@@ -16,6 +16,11 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CancelCashReservationCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
@@ -40,13 +45,6 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ReserveItemsComman
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import org.axonframework.samples.trader.api.portfolio.cash.*;
-import org.axonframework.samples.trader.api.portfolio.stock.*;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.HashMap;

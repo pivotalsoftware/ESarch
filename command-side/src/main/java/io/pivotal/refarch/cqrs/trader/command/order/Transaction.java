@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
@@ -35,8 +36,6 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
-import org.axonframework.samples.trader.api.orders.transaction.*;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;

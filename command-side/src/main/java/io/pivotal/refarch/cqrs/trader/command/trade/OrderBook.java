@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.command.trade;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateBuyOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
@@ -27,8 +28,6 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.commandhandling.model.AggregateMember;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.trades.*;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.Comparator;
@@ -60,13 +59,23 @@ public class OrderBook {
 
     @CommandHandler
     public void handle(CreateBuyOrderCommand cmd) {
-        apply(new BuyOrderPlacedEvent(orderBookId, cmd.getOrderId(), cmd.getTransactionId(), cmd.getTradeCount(), cmd.getItemPrice(), cmd.getPortfolioId()));
+        apply(new BuyOrderPlacedEvent(orderBookId,
+                                      cmd.getOrderId(),
+                                      cmd.getTransactionId(),
+                                      cmd.getTradeCount(),
+                                      cmd.getItemPrice(),
+                                      cmd.getPortfolioId()));
         executeTrades();
     }
 
     @CommandHandler
     public void handle(CreateSellOrderCommand cmd) {
-        apply(new SellOrderPlacedEvent(orderBookId, cmd.getOrderId(), cmd.getTransactionId(), cmd.getTradeCount(), cmd.getItemPrice(), cmd.getPortfolioId()));
+        apply(new SellOrderPlacedEvent(orderBookId,
+                                       cmd.getOrderId(),
+                                       cmd.getTransactionId(),
+                                       cmd.getTradeCount(),
+                                       cmd.getItemPrice(),
+                                       cmd.getPortfolioId()));
         executeTrades();
     }
 

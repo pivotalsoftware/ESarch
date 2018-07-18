@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.portfolio;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
@@ -25,8 +26,6 @@ import io.pivotal.refarch.cqrs.trader.query.portfolio.repositories.PortfolioView
 import io.pivotal.refarch.cqrs.trader.query.user.UserViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import org.axonframework.samples.trader.api.portfolio.cash.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

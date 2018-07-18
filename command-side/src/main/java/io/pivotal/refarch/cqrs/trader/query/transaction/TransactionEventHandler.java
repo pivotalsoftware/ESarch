@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionPartiallyExecutedEvent;
@@ -34,8 +35,6 @@ import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.query.transaction.repositories.TransactionViewRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
-import org.axonframework.samples.trader.api.orders.transaction.*;
 import org.springframework.stereotype.Service;
 
 @Service

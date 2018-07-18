@@ -24,7 +24,6 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.samples.trader.api.users.*;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;

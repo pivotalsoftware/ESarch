@@ -16,23 +16,27 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
-import io.pivotal.refarch.cqrs.trader.command.order.matchers.*;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.AddItemsToPortfolioCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.CancelMoneyReservationFromPortfolioCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.ConfirmMoneyReservationFromPortfolionCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.ConfirmTransactionCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.CreateBuyOrderCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.ExecutedTransactionCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.command.order.matchers.ReserveMoneyFromPortfolioCommandMatcher;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
-import org.axonframework.samples.trader.api.orders.transaction.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationRejectedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
 import org.axonframework.test.saga.SagaTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.exactSequenceOf;

@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
@@ -32,12 +33,9 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartBuyTransactionCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartSellTransactionCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import org.axonframework.samples.trader.api.orders.transaction.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class TransactionCommandHandlingTest {
 

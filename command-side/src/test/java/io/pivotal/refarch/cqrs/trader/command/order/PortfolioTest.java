@@ -16,6 +16,11 @@
 
 package io.pivotal.refarch.cqrs.trader.command.order;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CancelCashReservationCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
@@ -37,17 +42,9 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfo
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.NotEnoughItemsAvailableToReserveInPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ReserveItemsCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import org.axonframework.samples.trader.api.portfolio.cash.*;
-import org.axonframework.samples.trader.api.portfolio.stock.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class PortfolioTest {
 

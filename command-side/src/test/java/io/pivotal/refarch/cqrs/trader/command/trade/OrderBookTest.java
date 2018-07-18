@@ -16,20 +16,18 @@
 
 package io.pivotal.refarch.cqrs.trader.command.trade;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
-import org.axonframework.samples.trader.api.orders.trades.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class OrderBookTest {
 
@@ -64,12 +62,23 @@ public class OrderBookTest {
                 new CreateSellOrderCommand(sellOrder, sellingUser, orderBookId, sellingTransaction, 100, 100);
 
         TradeExecutedEvent expectedTradeEvent =
-                new TradeExecutedEvent(orderBookId, 100, 100, buyOrder, sellOrder, buyTransactionId, sellingTransaction);
+                new TradeExecutedEvent(orderBookId,
+                                       100,
+                                       100,
+                                       buyOrder,
+                                       sellOrder,
+                                       buyTransactionId,
+                                       sellingTransaction);
 
         fixture.given(orderBookCreatedEvent,
                       new BuyOrderPlacedEvent(orderBookId, buyOrder, buyTransactionId, 200, 100, buyPortfolioId))
                .when(orderCommand)
-               .expectEvents(new SellOrderPlacedEvent(orderBookId, sellOrder, sellingTransaction, 100, 100, sellingUser),
+               .expectEvents(new SellOrderPlacedEvent(orderBookId,
+                                                      sellOrder,
+                                                      sellingTransaction,
+                                                      100,
+                                                      100,
+                                                      sellingUser),
                              expectedTradeEvent);
     }
 
@@ -90,18 +99,41 @@ public class OrderBookTest {
                 new CreateSellOrderCommand(sellOrderId, sellingUser, orderBookId, sellingTransaction, 200, 100);
 
         TradeExecutedEvent expectedTradeEventOne =
-                new TradeExecutedEvent(orderBookId, 44, 120, buyOrder3, sellOrderId, buyTransaction3, sellingTransaction);
+                new TradeExecutedEvent(orderBookId,
+                                       44,
+                                       120,
+                                       buyOrder3,
+                                       sellOrderId,
+                                       buyTransaction3,
+                                       sellingTransaction);
         TradeExecutedEvent expectedTradeEventTwo =
-                new TradeExecutedEvent(orderBookId, 66, 110, buyOrder2, sellOrderId, buyTransaction2, sellingTransaction);
+                new TradeExecutedEvent(orderBookId,
+                                       66,
+                                       110,
+                                       buyOrder2,
+                                       sellOrderId,
+                                       buyTransaction2,
+                                       sellingTransaction);
         TradeExecutedEvent expectedTradeEventThree =
-                new TradeExecutedEvent(orderBookId, 90, 100, buyOrder1, sellOrderId, buyTransaction1, sellingTransaction);
+                new TradeExecutedEvent(orderBookId,
+                                       90,
+                                       100,
+                                       buyOrder1,
+                                       sellOrderId,
+                                       buyTransaction1,
+                                       sellingTransaction);
 
         fixture.given(orderBookCreatedEvent,
                       new BuyOrderPlacedEvent(orderBookId, buyOrder1, buyTransaction1, 100, 100, new PortfolioId()),
                       new BuyOrderPlacedEvent(orderBookId, buyOrder2, buyTransaction2, 66, 120, new PortfolioId()),
                       new BuyOrderPlacedEvent(orderBookId, buyOrder3, buyTransaction3, 44, 140, new PortfolioId()))
                .when(sellOrder)
-               .expectEvents(new SellOrderPlacedEvent(orderBookId, sellOrderId, sellingTransaction, 200, 100, sellingUser),
+               .expectEvents(new SellOrderPlacedEvent(orderBookId,
+                                                      sellOrderId,
+                                                      sellingTransaction,
+                                                      200,
+                                                      100,
+                                                      sellingUser),
                              expectedTradeEventOne,
                              expectedTradeEventTwo,
                              expectedTradeEventThree);
