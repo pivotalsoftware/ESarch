@@ -5,6 +5,7 @@ applications:
   timeout: 120
   instances: 1
   random-route: true
+  buildpack: java_buildpack
   services:
     - mysql
     - rabbit
@@ -18,6 +19,7 @@ applications:
   timeout: 120
   instances: 1
   random-route: true
+  buildpack: java_buildpack
   services:
     - mysql
     - rabbit
@@ -26,3 +28,4 @@ applications:
 #  env:
 #     JBP_CONFIG_DEBUG: '{enabled: true}'
 #     JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=178.62.37.59:8000
+

@@ -31,7 +31,6 @@ public class TraderApplication {
         commandBus.registerHandlerInterceptor(new MessageHandlerInterceptor<CommandMessage<?>>() {
             @Override
             public Object handle(UnitOfWork<? extends CommandMessage<?>> unitOfWork, InterceptorChain interceptorChain) throws Exception {
-                LOG.info("Got a request: " + unitOfWork.getMessage().getPayload());
                 return interceptorChain.proceed();
             }
         });
