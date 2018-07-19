@@ -55,7 +55,6 @@ public class BuyTradeManagerSaga extends TradeManagerSaga {
         pricePerItem = event.getPricePerItem();
         totalItems = event.getTotalItems();
 
-
         logger.debug(
                 "A new buy transaction is started with identifier {}, for portfolio with identifier {} and order book with identifier {}",
                 transactionId,
@@ -66,7 +65,6 @@ public class BuyTradeManagerSaga extends TradeManagerSaga {
                 "The new buy transaction with identifier {} is for buying {} items for the price of {}",
                 transactionId, totalItems, pricePerItem
         );
-
 
         commandGateway.send(new ReserveCashCommand(portfolioId, transactionId, totalItems * pricePerItem));
     }
@@ -80,7 +78,7 @@ public class BuyTradeManagerSaga extends TradeManagerSaga {
                             new CommandCallback<ConfirmTransactionCommand, Void>() {
                                 @Override
                                 public void onSuccess(CommandMessage commandMessage, Void result) {
-                                    // TODO jettro : Do we really need this? TODO #28 discuss this with Allard
+                                    // TODO Do we really need this? TODO #28 discuss this with Allard
                                     logger.debug("Confirm transaction is dispatched successfully!");
                                 }
 
