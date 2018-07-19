@@ -19,31 +19,44 @@ package io.pivotal.refarch.cqrs.trader.command.order.matchers;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import org.axonframework.commandhandling.CommandMessage;
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-public class CreateSellOrderCommandMatcher extends BaseCommandMatcher<CreateSellOrderCommand> {
+// TODO should be replaced by an inline lambda matching function
+public class CreateSellOrderCommandMatcher extends BaseMatcher<CreateSellOrderCommand> {
 
-    private OrderBookId orderbookIdentifier;
-    private PortfolioId portfolioIdentifier;
+    private OrderBookId orderBookdId;
+    private PortfolioId portfolioId;
     private long tradeCount;
     private int itemPrice;
 
-    private CreateSellOrderCommandMatcher(PortfolioId portfolioId, OrderBookId orderbookId, long tradeCount, int itemPrice) {
-        this.portfolioIdentifier = portfolioId;
-        this.orderbookIdentifier = orderbookId;
+    private CreateSellOrderCommandMatcher(PortfolioId portfolioId, OrderBookId orderbookId, long tradeCount,
+                                          int itemPrice) {
+        this.portfolioId = portfolioId;
+        this.orderBookdId = orderbookId;
         this.tradeCount = tradeCount;
         this.itemPrice = itemPrice;
     }
 
-    public static Matcher newInstance(PortfolioId portfolioIdentifier, OrderBookId orderbookIdentifier, int tradeCount, int itemPrice) {
-        return new CreateSellOrderCommandMatcher(portfolioIdentifier, orderbookIdentifier, tradeCount, itemPrice);
+    public static Matcher newInstance(PortfolioId portfolioId, OrderBookId orderBookId, int tradeCount, int itemPrice) {
+        return new CreateSellOrderCommandMatcher(portfolioId, orderBookId, tradeCount, itemPrice);
     }
 
     @Override
-    protected boolean doMatches(CreateSellOrderCommand command) {
-        return command.getOrderBookId().equals(orderbookIdentifier)
-                && command.getPortfolioId().equals(portfolioIdentifier)
+    public final boolean matches(Object o) {
+        if (!(o instanceof CommandMessage)) {
+            return false;
+        }
+        CommandMessage<CreateSellOrderCommand> message = (CommandMessage<CreateSellOrderCommand>) o;
+
+        return doMatches(message.getPayload());
+    }
+
+    private boolean doMatches(CreateSellOrderCommand command) {
+        return command.getOrderBookId().equals(orderBookdId)
+                && command.getPortfolioId().equals(portfolioId)
                 && tradeCount == command.getTradeCount()
                 && itemPrice == command.getItemPrice();
     }
@@ -51,13 +64,13 @@ public class CreateSellOrderCommandMatcher extends BaseCommandMatcher<CreateSell
     @Override
     public void describeTo(Description description) {
         description.appendText("CreateSellOrderCommand with tradeCount [")
-                .appendValue(tradeCount)
-                .appendText("], itemPrice [")
-                .appendValue(itemPrice)
-                .appendText("] for OrderBook with identifier [")
-                .appendValue(orderbookIdentifier)
-                .appendText("] and for Portfolio with identifier [")
-                .appendValue(portfolioIdentifier)
-                .appendText("]");
+                   .appendValue(tradeCount)
+                   .appendText("], itemPrice [")
+                   .appendValue(itemPrice)
+                   .appendText("] for OrderBook with identifier [")
+                   .appendValue(orderBookdId)
+                   .appendText("] and for Portfolio with identifier [")
+                   .appendValue(portfolioId)
+                   .appendText("]");
     }
 }
