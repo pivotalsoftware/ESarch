@@ -1,5 +1,6 @@
 {
   "git": {
-    "uri": "https://github.com/pivotal/esarch.git"
+    "uri": "https://github.com/pivotalsoftware/ESarch",
+    "searchPaths": "configuration"
   }
 }

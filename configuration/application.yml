@@ -7,40 +7,25 @@ management:
   cloudfoundry:
     enabled: true
 
-
 axon:
   distributed:
     enabled: true
-#We use Eureka, so the Fallback approach shouldn't be necessary
     spring-cloud:
       fallback-to-http-get: false
-
 
 spring:
   datasource:
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
-#    generate-ddl: true
-#    database: MySQL
     hibernate:
       ddl-auto: create
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     show-sql: true
-#    hibernate:
-#      naming:
-#        strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL55Dialect
-#          storage_engine: InnoDB
-
-
-#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDB53Dialect
-
-
-# spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL55Dialect
 
 logging:
   level:
