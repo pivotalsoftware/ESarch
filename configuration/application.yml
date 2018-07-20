@@ -7,11 +7,11 @@ management:
   cloudfoundry:
     enabled: true
 
-axon:
-  distributed:
-    enabled: true
-    spring-cloud:
-      fallback-to-http-get: false
+#axon:
+#  distributed:
+#    enabled: true
+#    spring-cloud:
+#      fallback-to-http-get: false
 
 spring:
   datasource:
