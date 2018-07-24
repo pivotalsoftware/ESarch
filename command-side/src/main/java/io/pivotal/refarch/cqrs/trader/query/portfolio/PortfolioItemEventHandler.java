@@ -53,7 +53,7 @@ public class PortfolioItemEventHandler {
 
         ItemEntry itemEntry = createItemEntry(orderBookId.toString(), event.getAmountOfItemsAdded());
 
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().toString());
         portfolioView.addItemInPossession(itemEntry);
 
         portfolioViewRepository.save(portfolioView);
@@ -66,7 +66,7 @@ public class PortfolioItemEventHandler {
 
         ItemEntry itemEntry = createItemEntry(orderBookId.toString(), event.getAmountOfCancelledItems());
 
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().toString());
         portfolioView.removeReservedItem(orderBookId.toString(), event.getAmountOfCancelledItems());
         portfolioView.addItemInPossession(itemEntry);
 
@@ -78,7 +78,7 @@ public class PortfolioItemEventHandler {
         OrderBookId orderBookId = event.getOrderBookId();
         logger.debug("Handle ItemReservationConfirmedForPortfolioEvent for orderBook with identifier {}", orderBookId);
 
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().toString());
 
         portfolioView.removeReservedItem(orderBookId.toString(), event.getAmountOfConfirmedItems());
         portfolioView.removeItemsInPossession(orderBookId.toString(), event.getAmountOfConfirmedItems());
@@ -93,14 +93,14 @@ public class PortfolioItemEventHandler {
 
         ItemEntry itemEntry = createItemEntry(orderBookId.toString(), event.getAmountOfItemsReserved());
 
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().toString());
         portfolioView.addReservedItem(itemEntry);
 
         portfolioViewRepository.save(portfolioView);
     }
 
     private ItemEntry createItemEntry(String identifier, long amount) {
-        OrderBookView orderBookView = orderBookViewRepository.findById(identifier).orElse(null);
+        OrderBookView orderBookView = orderBookViewRepository.getOne(identifier);
 
         ItemEntry itemEntry = new ItemEntry();
         itemEntry.setIdentifier(identifier);
