@@ -17,20 +17,28 @@
 package io.pivotal.refarch.cqrs.trader.query.transaction;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionView;
-import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionView;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import org.junit.Before;
-import org.junit.Test;
+import io.pivotal.refarch.cqrs.trader.query.orderbook.OrderBookViewRepository;
+import org.junit.*;
+import org.mockito.*;
 
 import static io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType.SELL;
-import static org.mockito.Matchers.argThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TransactionEventHandlerTest {
@@ -44,75 +52,194 @@ public class TransactionEventHandlerTest {
 
     private TransactionEventHandler testSubject;
 
-    private final TransactionId transactionIdentifier = new TransactionId();
-    private final OrderBookId orderBookIdentifier = new OrderBookId();
-    private final PortfolioId portfolioIdentifier = new PortfolioId();
-    private final CompanyId companyIdentifier = new CompanyId();
+    private final TransactionId transactionId = new TransactionId();
+    private final OrderBookId orderBookId = new OrderBookId();
+    private final PortfolioId portfolioId = new PortfolioId();
+    private final CompanyId companyId = new CompanyId();
+
+
+    private ArgumentCaptor<TransactionView> transactionViewCaptor = ArgumentCaptor.forClass(TransactionView.class);
 
     @Before
     public void setUp() {
-        when(orderBookViewRepository.getOne(orderBookIdentifier.toString())).thenReturn(createOrderBookEntry());
+        OrderBookView orderBookView = new OrderBookView();
+        orderBookView.setIdentifier(orderBookId.toString());
+        orderBookView.setCompanyIdentifier(companyId.toString());
+        orderBookView.setCompanyName(DEFAULT_COMPANY_NAME);
+        when(orderBookViewRepository.getOne(orderBookId.getIdentifier())).thenReturn(orderBookView);
 
-        testSubject = new TransactionEventHandler(orderBookViewRepository, transactionViewRepository);
-    }
-
-    @Test
-    public void handleBuyTransactionStartedEvent() {
-        testSubject.on(new BuyTransactionStartedEvent(transactionIdentifier,
-                                                      orderBookIdentifier,
-                                                      portfolioIdentifier,
-                                                      DEFAULT_TOTAL_ITEMS,
-                                                      DEFAULT_ITEM_PRICE));
-
-        verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED
-        )));
-    }
-
-    @Test
-    public void handleSellTransactionStartedEvent() {
-        testSubject.on(new SellTransactionStartedEvent(transactionIdentifier,
-                                                       orderBookIdentifier,
-                                                       portfolioIdentifier,
-                                                       DEFAULT_TOTAL_ITEMS,
-                                                       DEFAULT_ITEM_PRICE));
-
-        verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.STARTED
-        )));
-    }
-
-    @Test
-    public void handleSellTransactionCancelledEvent() {
         TransactionView transactionView = new TransactionView();
-        transactionView.setIdentifier(transactionIdentifier.toString());
+        transactionView.setIdentifier(transactionId.toString());
         transactionView.setAmountOfExecutedItems(0);
         transactionView.setPricePerItem(DEFAULT_ITEM_PRICE);
         transactionView.setState(TransactionState.CANCELLED);
         transactionView.setAmountOfItems(DEFAULT_TOTAL_ITEMS);
         transactionView.setCompanyName(DEFAULT_COMPANY_NAME);
-        transactionView.setOrderBookId(orderBookIdentifier.toString());
-        transactionView.setPortfolioId(portfolioIdentifier.toString());
+        transactionView.setOrderBookId(orderBookId.toString());
+        transactionView.setPortfolioId(portfolioId.toString());
         transactionView.setType(SELL);
+        when(transactionViewRepository.getOne(transactionId.getIdentifier())).thenReturn(transactionView);
 
-        when(transactionViewRepository.getOne(transactionIdentifier.toString())).thenReturn(transactionView);
-
-        testSubject.on(new SellTransactionCancelledEvent(transactionIdentifier,
-                                                         DEFAULT_TOTAL_ITEMS,
-                                                         DEFAULT_TOTAL_ITEMS));
-
-        verify(transactionViewRepository).save(argThat(new TransactionEntryMatcher(
-                DEFAULT_TOTAL_ITEMS, 0, DEFAULT_COMPANY_NAME, DEFAULT_ITEM_PRICE, TransactionState.CANCELLED
-        )));
+        testSubject = new TransactionEventHandler(orderBookViewRepository, transactionViewRepository);
     }
 
-    private OrderBookView createOrderBookEntry() {
-        OrderBookView orderBookView = new OrderBookView();
+    @Test
+    public void testOnBuyTransactionStartedEventSavesTransactionView() {
+        int expectedAmountOfExecutedItems = 0;
 
-        orderBookView.setIdentifier(orderBookIdentifier.toString());
-        orderBookView.setCompanyIdentifier(companyIdentifier.toString());
-        orderBookView.setCompanyName(DEFAULT_COMPANY_NAME);
+        BuyTransactionStartedEvent testEvent = new BuyTransactionStartedEvent(
+                transactionId, orderBookId, portfolioId, DEFAULT_TOTAL_ITEMS, DEFAULT_ITEM_PRICE
+        );
+        testSubject.on(testEvent);
 
-        return orderBookView;
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(transactionId.getIdentifier(), result.getIdentifier());
+        assertEquals(orderBookId.getIdentifier(), result.getOrderBookId());
+        assertEquals(portfolioId.getIdentifier(), result.getPortfolioId());
+        assertEquals(DEFAULT_COMPANY_NAME, result.getCompanyName());
+        assertEquals(DEFAULT_TOTAL_ITEMS, result.getAmountOfItems());
+        assertEquals(expectedAmountOfExecutedItems, result.getAmountOfExecutedItems());
+        assertEquals(DEFAULT_ITEM_PRICE, result.getPricePerItem());
+        assertEquals(TransactionState.STARTED, result.getState());
+        assertEquals(TransactionType.BUY, result.getType());
+    }
+
+    @Test
+    public void testOnSellTransactionStartedEventSavesTransactionView() {
+        int expectedAmountOfExecutedItems = 0;
+
+        SellTransactionStartedEvent testEvent = new SellTransactionStartedEvent(
+                transactionId, orderBookId, portfolioId, DEFAULT_TOTAL_ITEMS, DEFAULT_ITEM_PRICE
+        );
+        testSubject.on(testEvent);
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(transactionId.getIdentifier(), result.getIdentifier());
+        assertEquals(orderBookId.getIdentifier(), result.getOrderBookId());
+        assertEquals(portfolioId.getIdentifier(), result.getPortfolioId());
+        assertEquals(DEFAULT_COMPANY_NAME, result.getCompanyName());
+        assertEquals(DEFAULT_TOTAL_ITEMS, result.getAmountOfItems());
+        assertEquals(expectedAmountOfExecutedItems, result.getAmountOfExecutedItems());
+        assertEquals(DEFAULT_ITEM_PRICE, result.getPricePerItem());
+        assertEquals(TransactionState.STARTED, result.getState());
+        assertEquals(TransactionType.SELL, result.getType());
+    }
+
+    @Test
+    public void testOnBuyTransactionCancelledEventCancelsTransactionView() {
+        testSubject.on(new BuyTransactionCancelledEvent(transactionId, DEFAULT_TOTAL_ITEMS, DEFAULT_TOTAL_ITEMS));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.CANCELLED, result.getState());
+    }
+
+    @Test
+    public void testOnSellTransactionCancelledEventCancelsTransactionView() {
+        testSubject.on(new SellTransactionCancelledEvent(transactionId, DEFAULT_TOTAL_ITEMS, DEFAULT_TOTAL_ITEMS));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.CANCELLED, result.getState());
+    }
+
+    @Test
+    public void testOnBuyTransactionConfirmedEventConfirmsTransactionView() {
+        testSubject.on(new BuyTransactionConfirmedEvent(transactionId));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.CONFIRMED, result.getState());
+    }
+
+    @Test
+    public void testOnSellTransactionConfirmedEventConfirmsTransactionView() {
+        testSubject.on(new SellTransactionConfirmedEvent(transactionId));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.CONFIRMED, result.getState());
+    }
+
+    @Test
+    public void testOnBuyTransactionExecutedEventAdjustsExecutedItemsAndPrice() {
+        long testAmountOfItems = 2L;
+        long testItemPrice = 50L;
+        long expectedPricePerItem = (testAmountOfItems * testItemPrice) / DEFAULT_TOTAL_ITEMS;
+
+        testSubject.on(new BuyTransactionExecutedEvent(transactionId, testAmountOfItems, testItemPrice));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.EXECUTED, result.getState());
+        assertEquals(DEFAULT_TOTAL_ITEMS, result.getAmountOfExecutedItems());
+        assertEquals(expectedPricePerItem, result.getPricePerItem());
+    }
+
+    @Test
+    public void testOnSellTransactionExecutedEventAdjustsExecutedItemsAndPrice() {
+        long testAmountOfItems = 2L;
+        long testItemPrice = 50L;
+        long expectedPricePerItem = (testAmountOfItems * testItemPrice) / DEFAULT_TOTAL_ITEMS;
+
+        testSubject.on(new SellTransactionExecutedEvent(transactionId, testAmountOfItems, testItemPrice));
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.EXECUTED, result.getState());
+        assertEquals(DEFAULT_TOTAL_ITEMS, result.getAmountOfExecutedItems());
+        assertEquals(expectedPricePerItem, result.getPricePerItem());
+    }
+
+    @Test
+    public void testOnBuyTransactionPartiallyExecutedEvent() {
+        long testAmountExecutedItems = 3L;
+        long testTotalExecutedItems = 4L;
+        long testItemPrice = 50L;
+        BuyTransactionPartiallyExecutedEvent testEvent = new BuyTransactionPartiallyExecutedEvent(
+                transactionId, testAmountExecutedItems, testTotalExecutedItems, testItemPrice
+        );
+
+        long expectedPricePerItem = (testAmountExecutedItems * testItemPrice) / testTotalExecutedItems;
+
+        testSubject.on(testEvent);
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.PARTIALLY_EXECUTED, result.getState());
+        assertEquals(testTotalExecutedItems, result.getAmountOfExecutedItems());
+        assertEquals(expectedPricePerItem, result.getPricePerItem());
+    }
+
+    @Test
+    public void testOnSellTransactionPartiallyExecutedEvent() {
+        long testAmountExecutedItems = 3L;
+        long testTotalExecutedItems = 4L;
+        long testItemPrice = 50L;
+        SellTransactionPartiallyExecutedEvent testEvent = new SellTransactionPartiallyExecutedEvent(
+                transactionId, testAmountExecutedItems, testTotalExecutedItems, testItemPrice
+        );
+
+        long expectedPricePerItem = (testAmountExecutedItems * testItemPrice) / testTotalExecutedItems;
+
+        testSubject.on(testEvent);
+
+        verify(transactionViewRepository).save(transactionViewCaptor.capture());
+
+        TransactionView result = transactionViewCaptor.getValue();
+        assertEquals(TransactionState.PARTIALLY_EXECUTED, result.getState());
+        assertEquals(testTotalExecutedItems, result.getAmountOfExecutedItems());
+        assertEquals(expectedPricePerItem, result.getPricePerItem());
     }
 }
