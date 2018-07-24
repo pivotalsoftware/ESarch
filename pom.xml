@@ -19,8 +19,8 @@
     </parent>
 
     <modules>
-        <module>command-side</module>
-        <module>query-side</module>
+        <module>trader-app</module>
+        <module>trading-engine</module>
         <module>discovery-server</module>
     </modules>
 

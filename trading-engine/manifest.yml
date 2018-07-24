@@ -1,0 +1,12 @@
+---
+- name: trading-engine
+  path: trading-engine/target/trading-engine.jar
+  timeout: 120
+  instances: 1
+  random-route: true
+  buildpack: java_buildpack
+  services:
+    - mysql
+    - rabbit
+    - config
+    - registry
