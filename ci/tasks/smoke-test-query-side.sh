@@ -20,7 +20,7 @@ else
     exit 1
 fi
 
-export COMPANY_NAME=`curl -sL -H "Content-Type: application/json" -X GET ${URL}/orderbook/${COMPANY_UUID} | jq -r '.[]|.companyName'
+export COMPANY_NAME=`curl -sL -H "Content-Type: application/json" -X GET ${URL}/orderbook/${COMPANY_UUID} | jq -r '.[]|.companyName'`
 echo "Company Name: ${COMPANY_NAME}"
 
 if [ "$COMPANY_NAME" = "$RANDOM_NAME" ]
