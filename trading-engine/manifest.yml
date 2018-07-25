@@ -1,4 +1,5 @@
 ---
+applications:
 - name: esrefarch-demo-trading-engine
   path: target/trading-engine.jar
   timeout: 120
