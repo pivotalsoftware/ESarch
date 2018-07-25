@@ -7,7 +7,9 @@ apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
 # Begin the Integration-testing...
 
 export RANDOM_NAME=`uuid`
+echo "Random Name: ${RANDOM_NAME}"
 export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company | jq -r .identifier`
+echo "Company Uuid: ${COMPANY_UUID}"
 
 
 if [ "$COMPANY_UUID" != "" ]
@@ -19,6 +21,8 @@ else
 fi
 
 export COMPANY_NAME=`curl -sL -H "Content-Type: application/json" -X GET ${URL}/orderbook/${COMPANY_UUID} | jq -r '.[]|.companyName'
+echo "Company Name: ${COMPANY_NAME}"
+
 if [ "$COMPANY_NAME" = "$RANDOM_NAME" ]
 then
     echo "[$URL/orderbook/$COMPANY_UUID] Has been found (as expected)."
