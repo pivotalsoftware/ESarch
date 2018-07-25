@@ -2,9 +2,7 @@
 
 apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
 
-#set -ex
-
-# Begin the Integration-testing...
+# Begin the Smoke-testing...
 
 export RANDOM_NAME=`uuid`
 echo "Random Name: ${RANDOM_NAME}"
@@ -25,7 +23,7 @@ echo "Company Name: ${COMPANY_NAME}"
 
 if [ "$COMPANY_NAME" = "$RANDOM_NAME" ]
 then
-    echo "[$URL/orderbook/$COMPANY_UUID] Has been found (as expected)."
+    echo "The Order Book for company: $COMPANY_UUID has been found (as expected)."
 else
     echo -e "\e[31mError. Unable to find the orderbook for company [$RANDOM_NAME]"
     exit 1
