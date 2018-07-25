@@ -24,7 +24,7 @@ jobs:
 #  - put: version
 #    params: { bump: patch }
 
-- name: build-command-side
+- name: trading-engine
   public: false
   serial: true
   plan:
@@ -40,7 +40,7 @@ jobs:
   - put: push-to-pcf
     params:
       manifest: source-code/command-side/manifest.yml
-      path: package-output/pcf-axon-cqrs-demo-command-side.jar
+      path: package-output/trading-engine.jar
 
 - name: build-query-side
   serial: true
@@ -60,23 +60,23 @@ jobs:
       manifest: source-code/query-side/manifest.yml
       path: package-output/pcf-axon-cqrs-demo-query-side.jar
 
-- name: smoke-test-command-side
+- name: smoke-test-trading-engine
   serial: true
   public: false
   plan:
   - get: manualtrigger
     trigger: true
-    passed: [build-command-side]
+    passed: [trading-engine]
   - get: source-code
     trigger: true
-    passed: [build-command-side]
+    passed: [trading-engine]
 #  - get: version
 #    trigger: true
 #    passed: [build-command-side]
   - task: smoke-test-command-side
     file: source-code/ci/tasks/smoke-test-command-side.yml
     params:
-      URL: {{cf-cmd-app-url}}
+      URL: ((cf-cmd-app-url))
 
 - name: smoke-test-query-side
   serial: true
@@ -94,26 +94,26 @@ jobs:
   - task: smoke-test-query-side
     file: source-code/ci/tasks/smoke-test-query-side.yml
     params:
-      URL: {{cf-qry-app-url}}
+      URL: ((cf-qry-app-url))
 
-- name: integration-test-both-sides
+- name: e2e-test
   serial: true
   public: false
   plan:
   - get: manualtrigger
     trigger: true
-    passed: [smoke-test-command-side, smoke-test-query-side]
+    passed: [smoke-test-trading-engine, smoke-test-query-side]
   - get: source-code
     trigger: true
-    passed: [smoke-test-command-side, smoke-test-query-side]
+    passed: [smoke-test-trading-engine, smoke-test-query-side]
 #  - get: version
 #    trigger: true
 #    passed: [smoke-test-command-side, smoke-test-query-side]
   - task: integration-test-both-sides
     file: source-code/ci/tasks/integration-test-both-sides.yml
     params:
-      cmdURL: {{cf-cmd-app-url}}
-      qryURL: {{cf-qry-app-url}}
+      cmdURL: ((cf-cmd-app-url))
+      qryURL: ((cf-qry-app-url))
     on_success:
       put: slack-alert
       params:
@@ -137,13 +137,14 @@ resources:
 
 - name: manualtrigger
   type: time           # technique to trigger and propagate manual execution through pipeline
-  source: {interval: 1m}
+  source: {interval: 2m}
 
 - name: source-code
   type: git
   source:
-    uri: https://github.com/benwilcock/pcf-axon-cqrs-demo.git
+    uri: ((git-uri))
     branch: master
+    private_key: ((git-private-key))
 
 #- name: midday-weekdays
 #  type: time
@@ -156,17 +157,17 @@ resources:
 - name: push-to-pcf
   type: cf
   source:
-    api: {{cf-endpoint}}
-    username: {{cf-user}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf-endpoint))
+    username: ((cf-user))
+    password: ((cf-password))
+    organization: ((cf-org))
+    space: ((cf-space))
     skip_cert_check: false
 
 - name: slack-alert
   type: slack-notification
   source:
-    url: {{webhook}}
+    url: ((webhook))
     insecure: true
 
 #- name: version
@@ -174,7 +175,7 @@ resources:
 #  source:
 #    initial_version: 0.0.0
 #    driver: git
-#    uri: {{git-uri}}
+#    uri: ((git-uri))
 #    branch: version
 #    file: version
-#    private_key: {{git-private-key}}
+#    private_key: ((git-private-key))

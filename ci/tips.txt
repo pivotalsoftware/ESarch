@@ -7,10 +7,10 @@ fly -t local execute --config ci/tasks/build-command-side.yml --input source-cod
 
 
 
-fly -t wings set-pipeline -p bw-pcf-axon-cqrs-demo -c ci/pipeline.yml -l ci/private.yml
-fly -t wings unpause-pipeline -p bw-pcf-axon-cqrs-demo
+fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.yml
+fly -t wings unpause-pipeline -p bw-esrefarch-demo
 fly -t wings containers
-fly -t wings trigger-job -j bw-pcf-axon-cqrs-demo/build-command-side
+fly -t wings trigger-job -j bw-esrefarch-demo/build-command-side
 
 ssh-keygen -t rsa -b 4096 -C "myemail@server.com"
 sh-agent -s
