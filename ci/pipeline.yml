@@ -35,8 +35,8 @@ jobs:
     file: source-code/ci/tasks/build-query-side.yml
   - put: push-to-pcf
     params:
-      manifest: source-code/query-side/manifest.yml
-      path: package-output/pcf-axon-cqrs-demo-query-side.jar
+      manifest: source-code/trader-app/manifest.yml
+      path: package-output/trader-app.jar
 
 - name: smoke-test-trading-engine
   serial: true

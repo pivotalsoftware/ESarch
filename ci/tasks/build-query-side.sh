@@ -3,18 +3,19 @@
 set -e +x
 
 pushd source-code
-  echo "Testing and Packaging the query-side JAR"
-  ./gradlew query-side:build
+  echo "Testing and Packaging the trader App JAR..."
+  cd trader-app
+  ../mvnw verify
 popd
 
-jar_count=`find source-code/query-side/build/libs -type f -name *.jar | wc -l`
+jar_count=`find source-code/trader-app/target -type f -name *.jar | wc -l`
 
 if [ $jar_count -gt 1 ]; then
   echo "More than one jar found, don't know which one to deploy. Exiting :("
   exit 1
 fi
 
-find source-code/query-side/build/libs -type f -name *.jar -exec cp "{}" package-output/pcf-axon-cqrs-demo-query-side.jar \;
+find source-code/trader-app/target -type f -name *.jar -exec cp "{}" package-output/trader-app.jar \;
 
 echo "Done packaging"
 exit 0
