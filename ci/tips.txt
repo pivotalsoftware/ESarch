@@ -9,6 +9,7 @@ fly -t local execute --config ci/tasks/build-command-side.yml --input source-cod
 
 fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.yml
 fly -t wings unpause-pipeline -p bw-esrefarch-demo
+fly -t wings expose-pipeline -p bw-esrefarch-demo
 fly -t wings containers
 fly -t wings trigger-job -j bw-esrefarch-demo/build-command-side
 
