@@ -1,10 +1,9 @@
 ---
 applications:
-- name: trader-app
-  path: trader-app/target/trader-app.jar
+- name: esrefarch-demo-trader-app
+  path: target/trader-app.jar
   timeout: 120
   instances: 1
-  random-route: true
   buildpack: java_buildpack
   services:
     - mysql

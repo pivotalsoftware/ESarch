@@ -19,7 +19,7 @@ jobs:
     file: source-code/ci/tasks/build-command-side.yml
   - put: push-to-pcf
     params:
-      manifest: source-code/command-side/manifest.yml
+      manifest: source-code/trading-engine/manifest.yml
       path: package-output/trading-engine.jar
 
 - name: build-trader-app
