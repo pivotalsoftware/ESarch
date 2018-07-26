@@ -9,7 +9,7 @@ then
   echo -e "\e[31mThe Trading-engine URL to test has not been set."
   exit 1
 else
-  echo -e "The Trading-engine URL for this smoke test is: \e[32m $engineURL \e[0m"
+  echo -e "The Trading-engine URL for this e2e test is: \e[32m $engineURL \e[0m"
 fi
 
 if [ -z $appURL ];
@@ -17,7 +17,7 @@ then
   echo -e "\e[31mThe Trader-app URL to test has not been set."
   exit 1
 else
-  echo -e "The Trader-app URL for this smoke test is: \e[32m $appURL \e[0m"
+  echo -e "The Trader-app URL for this e2e test is: \e[32m $appURL \e[0m"
 fi
 
 # Make sure the apps are healthy first...
@@ -25,7 +25,7 @@ fi
 export ENGINE_HEALTH_STATUS=`curl -sL -X GET ${engineURL}/actuator/health | jq -r .status`
 if [ -z $ENGINE_HEALTH_STATUS ] || [ "$ENGINE_HEALTH_STATUS" != "UP" ]
 then
-    echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
+    echo -e "\e[31mError. The e2e test has failed, the application health check didn't work!"
     exit 1
 else
     echo "The health check status is reporting that ${engineURL} is ${ENGINE_HEALTH_STATUS}"
@@ -34,7 +34,7 @@ fi
 export APP_HEALTH_STATUS=`curl -sL -X GET ${appURL}/actuator/health | jq -r .status`
 if [ -z $APP_HEALTH_STATUS ] || [ "$APP_HEALTH_STATUS" != "UP" ]
 then
-    echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
+    echo -e "\e[31mError. The e2e test has failed, the application health check didn't work!"
     exit 1
 else
     echo "The health check status is reporting that ${appURL} is ${APP_HEALTH_STATUS}"

@@ -25,7 +25,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` completed successfully > ((cf-trading-engine-url))
+          `$BUILD_JOB_NAME` pushed --> ((cf-trading-engine-url)) to PWS.
     on_failure:
       put: slack-alert
       params:
@@ -51,7 +51,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` completed successfully > ((cf-trader-app-url))
+          `$BUILD_JOB_NAME` pushed --> ((cf-trader-app-url)) to PWS.
     on_failure:
       put: slack-alert
       params:
