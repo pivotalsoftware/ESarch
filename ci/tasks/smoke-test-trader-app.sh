@@ -2,6 +2,8 @@
 
 apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
+set -eux
+
 echo "Smoke Testing the Trader App using the URL: ${URL}"
 
 # Begin the Smoke-testing...
@@ -19,7 +21,7 @@ export RANDOM_NAME=`uuidgen`
 echo "The randomly generated Company Name is: ${RANDOM_NAME}"
 
 export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company | jq -r .identifier`
-if [ -z $COMPANY_UUID ];
+if [ -z $COMPANY_UUID ] || [ "$COMPANY_UUID" = "" ];
 then
     echo -e "\e[31mError. The smoke test has failed, it didn't create a new company!"
     exit 1
