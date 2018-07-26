@@ -25,12 +25,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          "$BUILD_JOB_NAME" completed successfully (inc. push to PCF).
+          "$BUILD_JOB_NAME" completed successfully >> >> ((cf-trading-engine-url))
     on_failure:
       put: slack-alert
       params:
         text: |
-          "$BUILD_JOB_NAME" has *FAILED*, please check te logs.
+          "$BUILD_JOB_NAME" has *FAILED*, please check the logs.
 
 - name: build-trader-app
   serial: true
@@ -56,7 +56,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          "$BUILD_JOB_NAME" has *FAILED*, please check te logs.
+          "$BUILD_JOB_NAME" has *FAILED*, please check the logs.
 
 - name: smoke-test-trading-engine
   serial: true
