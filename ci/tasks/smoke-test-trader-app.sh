@@ -7,7 +7,7 @@ apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
 export HEALTH_STATUS=`curl -sL -X GET ${URL}/actuator/health | jq -r .status`
 echo "The Health status is: ${HEALTH_STATUS}"
 
-if [ -z $HEALTH_STATUS] || [ $HEALTH_STATUS != "UP"]
+if [ -z $HEALTH_STATUS ] || [ "$HEALTH_STATUS" != "UP" ]
 then
     echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
     exit 1

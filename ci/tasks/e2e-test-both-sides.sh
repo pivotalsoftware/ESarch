@@ -23,7 +23,7 @@ fi
 # Make sure the apps are healthy first...
 
 export ENGINE_HEALTH_STATUS=`curl -sL -X GET ${engineURL}/actuator/health | jq -r .status`
-if [ -z $ENGINE_HEALTH_STATUS] || [ $ENGINE_HEALTH_STATUS != "UP"]
+if [ -z $ENGINE_HEALTH_STATUS ] || [ "$ENGINE_HEALTH_STATUS" != "UP" ]
 then
     echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
     exit 1
@@ -32,7 +32,7 @@ else
 fi
 
 export APP_HEALTH_STATUS=`curl -sL -X GET ${appURL}/actuator/health | jq -r .status`
-if [ -z $APP_HEALTH_STATUS] || [ $APP_HEALTH_STATUS != "UP"]
+if [ -z $APP_HEALTH_STATUS ] || [ "$APP_HEALTH_STATUS" != "UP" ]
 then
     echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
     exit 1
@@ -62,7 +62,7 @@ fi
 
 export MESSAGE=`uuid`
 export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE} | grep ${MESSAGE}`
-if [ -z $REPLY] || [ $REPLY != $MESSAGE ]
+if [ -z $REPLY ] || [ "$REPLY" != "$MESSAGE" ]
 then
   echo -e "\e[31mError. [${appURL}/echo/${MESSAGE}] didn't return a valid response [$REPLY]"
   exit 1
