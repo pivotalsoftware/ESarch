@@ -76,12 +76,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` _PASSED_.
+          `$BUILD_JOB_NAME` _PASSED_ :white_check_mark:
     on_failure:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` *FAILED*!
+          `$BUILD_JOB_NAME` *FAILED* :x:
 
 - name: smoke-test-trader-app
   serial: true
@@ -101,12 +101,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` _PASSED_.
+          `$BUILD_JOB_NAME` _PASSED_ :white_check_mark:
     on_failure:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` *FAILED*!
+          `$BUILD_JOB_NAME` *FAILED* :x:
 
 - name: e2e-test
   serial: true
@@ -127,12 +127,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` _PASSED_.
+          <!here> `$BUILD_JOB_NAME` has _PASSED_ :partyparrot:
     on_failure:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` *FAILED*!
+          <!here> `$BUILD_JOB_NAME` has *FAILED* :sadpanda:
 
 resource_types:
 
