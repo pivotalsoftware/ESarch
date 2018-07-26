@@ -3,12 +3,13 @@
 set -e +x
 
 export OLDPATH=`pwd`
+echo "The path is ${OLDPATH}"
 # pushd source-code
-  echo "Testing and Packaging the trader App JAR..."
-  cd trader-app
+echo "Testing and Packaging the trader App JAR..."
+cd source-code/trader-app
   ../mvnw verify
-# popd
 cd $OLDPATH
+# popd
 
 jar_count=`find source-code/trader-app/target -type f -name *.jar | wc -l`
 
