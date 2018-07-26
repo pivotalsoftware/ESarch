@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: ubuntu
-    tag: "latest"
+    repository: alpine
+    tag: "3.8"
 
 params:
   URL:
@@ -14,4 +14,4 @@ inputs:
 - name: source-code
 
 run:
-  path: source-code/ci/tasks/smoke-test-query-side.sh
+  path: source-code/ci/tasks/smoke-test-trader-app.sh

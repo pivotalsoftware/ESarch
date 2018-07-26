@@ -5,7 +5,7 @@ image_resource:
   type: docker-image
   source:
     repository: java
-    tag: "8"
+    tag: "openjdk-8-jdk-alpine"
 
 inputs:
 - name: source-code
@@ -14,4 +14,4 @@ outputs:
 - name: package-output
 
 run:
-  path: source-code/ci/tasks/build-query-side.sh
+  path: source-code/ci/tasks/build-trader-app.sh

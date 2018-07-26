@@ -2,6 +2,8 @@
 
 set -e +x
 
+apk update && apk add --no-cache pushd popd
+
 pushd source-code
   echo "Testing and Packaging the trader App JAR..."
   cd trader-app
