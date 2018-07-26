@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-apk update && apk add --no-cache curl uuid jq
-# apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
+apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
 
 # Begin the Smoke-testing...
 

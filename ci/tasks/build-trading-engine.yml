@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: java
-    tag: "8"
+    repository: maven
+    tag: "3.5-jdk-8-alpine"
 
 inputs:
 - name: source-code
@@ -14,4 +14,4 @@ outputs:
 - name: package-output
 
 run:
-  path: source-code/ci/tasks/build-command-side.sh
+  path: source-code/ci/tasks/build-trading-engine.sh

@@ -14,4 +14,4 @@ inputs:
 - name: source-code
 
 run:
-  path: source-code/ci/tasks/smoke-test-command-side.sh
+  path: source-code/ci/tasks/smoke-test-trading-engine.sh

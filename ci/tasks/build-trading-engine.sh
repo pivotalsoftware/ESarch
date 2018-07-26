@@ -2,11 +2,13 @@
 
 set -e +x
 
-pushd source-code
-  echo "Testing and Packaging Trading Engine JAR..."
-  cd trading-engine
-  ../mvnw verify
-popd
+export FOLDER=`pwd`
+echo "The path is ${OLDPATH}"
+
+echo "Testing and Packaging the Trading Engine JAR..."
+cd source-code/trading-engine
+  mvn verify
+cd $FOLDER
 
 jar_count=`find source-code/trading-engine/target -type f -name *.jar | wc -l`
 

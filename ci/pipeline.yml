@@ -15,8 +15,8 @@ jobs:
     passed: [just-build-it]
   - get: source-code
     trigger: true
-  - task: package-command-side
-    file: source-code/ci/tasks/build-command-side.yml
+  - task: package-trading-engine
+    file: source-code/ci/tasks/build-trading-engine.yml
   - put: push-to-pcf
     params:
       manifest: source-code/trading-engine/manifest.yml
@@ -31,7 +31,7 @@ jobs:
     passed: [just-build-it]
   - get: source-code
     trigger: true
-  - task: package-query-side
+  - task: package-trader-app
     file: source-code/ci/tasks/build-trader-app.yml
   - put: push-to-pcf
     params:
@@ -48,8 +48,8 @@ jobs:
   - get: source-code
     trigger: true
     passed: [build-trading-engine]
-  - task: smoke-test-command-side
-    file: source-code/ci/tasks/smoke-test-command-side.yml
+  - task: smoke-test-trading-engine
+    file: source-code/ci/tasks/smoke-test-trading-engine.yml
     params:
       URL: ((cf-cmd-app-url))
     on_success:
@@ -73,7 +73,7 @@ jobs:
   - get: source-code
     trigger: true
     passed: [build-trader-app]
-  - task: smoke-test-query-side
+  - task: smoke-test-trader-app
     file: source-code/ci/tasks/smoke-test-trader-app.yml
     params:
       URL: ((cf-qry-app-url))
