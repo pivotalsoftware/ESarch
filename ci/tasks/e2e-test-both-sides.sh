@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
+apt-get update && apt-get install -y curl uuidgen jq --allow-unauthenticated
 
 #set -ex
 
@@ -60,7 +60,7 @@ fi
 
 # Begin the Integration-testing...
 
-export MESSAGE=`uuid`
+export MESSAGE=`uuidgen`
 export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE} | grep ${MESSAGE}`
 if [ -z $REPLY ] || [ "$REPLY" != "$MESSAGE" ]
 then
