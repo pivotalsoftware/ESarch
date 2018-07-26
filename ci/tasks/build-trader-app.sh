@@ -2,13 +2,13 @@
 
 set -e +x
 
-apk update && apk add --no-cache pushd popd
-
-pushd source-code
+export OLDPATH=`pwd`
+# pushd source-code
   echo "Testing and Packaging the trader App JAR..."
   cd trader-app
   ../mvnw verify
-popd
+# popd
+cd $OLDPATH
 
 jar_count=`find source-code/trader-app/target -type f -name *.jar | wc -l`
 
