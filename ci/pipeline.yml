@@ -119,7 +119,7 @@ jobs:
     trigger: true
     passed: [smoke-test-trading-engine, smoke-test-trader-app]
   - task: integration-test-both-sides
-    file: source-code/ci/tasks/integration-test-both-sides.yml
+    file: source-code/ci/tasks/e2e-test-both-sides.yml
     params:
       engineURL: ((cf-trading-engine-url))
       appURL: ((cf-trader-app-url))
