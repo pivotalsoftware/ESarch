@@ -2,8 +2,6 @@
 
 set -e +x
 
-apk update && apk add maven --no-chache 
-
 export FOLDER=`pwd`
 echo "The path is ${OLDPATH}"
 
