@@ -76,7 +76,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` _PASSED_ :white_check_mark:
+          `$BUILD_JOB_NAME` _passed_ :white_check_mark:
     on_failure:
       put: slack-alert
       params:
@@ -101,7 +101,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          `$BUILD_JOB_NAME` _PASSED_ :white_check_mark:
+          `$BUILD_JOB_NAME` _passed_ :white_check_mark:
     on_failure:
       put: slack-alert
       params:
@@ -127,7 +127,7 @@ jobs:
       put: slack-alert
       params:
         text: |
-          <!here> `$BUILD_JOB_NAME` has _PASSED_ :partyparrot:
+          <!here> `$BUILD_JOB_NAME` has _passed_ :partyparrot:
     on_failure:
       put: slack-alert
       params:
