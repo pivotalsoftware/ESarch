@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
+apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
+
+set -eux
+
+echo "Smoke Testing the Trading Engine using the URL: ${URL}"
 
 # Begin the Smoke-testing...
 
 export HEALTH_STATUS=`curl -sL -X GET ${URL}/actuator/health | jq -r .status`
-echo "The Health status is: ${HEALTH_STATUS}"
-
 if [ -z $HEALTH_STATUS ] || [ "$HEALTH_STATUS" != "UP" ]
 then
     echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"

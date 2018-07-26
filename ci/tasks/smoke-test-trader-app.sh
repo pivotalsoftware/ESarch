@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-apt-get update && apt-get install -y curl uuid jq --allow-unauthenticated
+apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
+
+echo "Smoke Testing the Trader App using the URL: ${URL}"
 
 # Begin the Smoke-testing...
 
 export HEALTH_STATUS=`curl -sL -X GET ${URL}/actuator/health | jq -r .status`
-echo "The Health status is: ${HEALTH_STATUS}"
-
 if [ -z $HEALTH_STATUS ] || [ "$HEALTH_STATUS" != "UP" ]
 then
     echo -e "\e[31mError. The smoke test has failed, the application health check didn't work!"
@@ -15,7 +15,7 @@ else
     echo "The health check status is reporting that ${URL} is ${HEALTH_STATUS}"
 fi
 
-export RANDOM_NAME=`uuid`
+export RANDOM_NAME=`uuidgen`
 echo "The randomly generated Company Name is: ${RANDOM_NAME}"
 
 export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company | jq -r .identifier`
