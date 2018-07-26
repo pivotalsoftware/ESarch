@@ -2,14 +2,15 @@
 
 set -e +x
 
-export OLDPATH=`pwd`
+apk update && apk add maven --no-chache 
+
+export FOLDER=`pwd`
 echo "The path is ${OLDPATH}"
-# pushd source-code
+
 echo "Testing and Packaging the trader App JAR..."
 cd source-code/trader-app
-  ../mvnw verify
-cd $OLDPATH
-# popd
+  mvn verify
+cd $FOLDER
 
 jar_count=`find source-code/trader-app/target -type f -name *.jar | wc -l`
 
