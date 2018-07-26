@@ -71,7 +71,7 @@ jobs:
   - task: smoke-test-trading-engine
     file: source-code/ci/tasks/smoke-test-trading-engine.yml
     params:
-      URL: ((cf-cmd-app-url))
+      URL: ((cf-trading-engine-url))
     on_success:
       put: slack-alert
       params:
@@ -96,7 +96,7 @@ jobs:
   - task: smoke-test-trader-app
     file: source-code/ci/tasks/smoke-test-trader-app.yml
     params:
-      URL: ((cf-qry-app-url))
+      URL: ((cf-trader-app-url))
     on_success:
       put: slack-alert
       params:
@@ -121,8 +121,8 @@ jobs:
   - task: integration-test-both-sides
     file: source-code/ci/tasks/integration-test-both-sides.yml
     params:
-      cmdURL: ((cf-cmd-app-url))
-      qryURL: ((cf-qry-app-url))
+      engineURL: ((cf-trading-engine-url))
+      appURL: ((cf-trader-app-url))
     on_success:
       put: slack-alert
       params:
