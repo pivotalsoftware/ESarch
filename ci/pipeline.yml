@@ -21,6 +21,16 @@ jobs:
     params:
       manifest: source-code/trading-engine/manifest.yml
       path: package-output/trading-engine.jar
+    on_success:
+      put: slack-alert
+      params:
+        text: |
+          "$BUILD_JOB_NAME" completed successfully (inc. push to PCF).
+    on_failure:
+      put: slack-alert
+      params:
+        text: |
+          "$BUILD_JOB_NAME" has *FAILED*, please check te logs.
 
 - name: build-trader-app
   serial: true
@@ -37,6 +47,16 @@ jobs:
     params:
       manifest: source-code/trader-app/manifest.yml
       path: package-output/trader-app.jar
+    on_success:
+      put: slack-alert
+      params:
+        text: |
+          "$BUILD_JOB_NAME" completed successfully (inc. push to PCF).
+    on_failure:
+      put: slack-alert
+      params:
+        text: |
+          "$BUILD_JOB_NAME" has *FAILED*, please check te logs.
 
 - name: smoke-test-trading-engine
   serial: true
