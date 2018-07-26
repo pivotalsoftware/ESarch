@@ -76,12 +76,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          Smoke test _PASSED_ for `$BUILD_JOB_NAME` in pipeline `$BUILD_PIPELINE_NAME`.
+          Smoke test _PASSED_ for `$BUILD_JOB_NAME`.
     on_failure:
       put: slack-alert
       params:
         text: |
-          Smoke test *FAILED* for `$BUILD_JOB_NAME` in pipeline `$BUILD_PIPELINE_NAME`!
+          Smoke test *FAILED* for `$BUILD_JOB_NAME`!
 
 - name: smoke-test-trader-app
   serial: true
@@ -101,12 +101,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          Smoke test _PASSED_ for `$BUILD_JOB_NAME` in pipeline `$BUILD_PIPELINE_NAME`.
+          Smoke test _PASSED_ for `$BUILD_JOB_NAME`.
     on_failure:
       put: slack-alert
       params:
         text: |
-          Smoke test *FAILED* for `$BUILD_JOB_NAME` in pipeline "$BUILD_PIPELINE_NAME"!
+          Smoke test *FAILED* for `$BUILD_JOB_NAME`!
 
 - name: e2e-test
   serial: true
@@ -127,12 +127,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          E2E tests _PASSED_ in Job `$BUILD_JOB_NAME` for Pipeline `$BUILD_PIPELINE_NAME`!
+          E2E tests _PASSED_ in Job `$BUILD_JOB_NAME`.
     on_failure:
       put: slack-alert
       params:
         text: |
-          E2E tests *FAILED* in Job `$BUILD_JOB_NAME` for Pipeline `$BUILD_PIPELINE_NAME`!
+          E2E tests *FAILED* in Job `$BUILD_JOB_NAME`!
 
 resource_types:
 
