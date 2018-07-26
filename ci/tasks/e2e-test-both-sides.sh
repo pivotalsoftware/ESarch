@@ -61,7 +61,7 @@ fi
 # Begin the Integration-testing...
 
 export MESSAGE=`uuidgen`
-export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE} | grep ${MESSAGE}`
+export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE} | grep -E -o ${MESSAGE}`
 if [ -z $REPLY ] || [ "$REPLY" != "$MESSAGE" ]
 then
   echo -e "\e[31mError. [${appURL}/echo/${MESSAGE}] didn't return a valid response [$REPLY]"
