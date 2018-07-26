@@ -127,12 +127,12 @@ jobs:
       put: slack-alert
       params:
         text: |
-          <!here> `$BUILD_JOB_NAME` has _passed_ :partyparrot:
+          <!here> `$BUILD_JOB_NAME` has _passed_ :white_check_mark:
     on_failure:
       put: slack-alert
       params:
         text: |
-          <!here> `$BUILD_JOB_NAME` has *FAILED* :sadpanda:
+          <!here> `$BUILD_JOB_NAME` has *FAILED* :x:
 
 resource_types:
 
