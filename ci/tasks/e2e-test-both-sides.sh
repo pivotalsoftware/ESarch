@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-apt-get update && apt-get install -y curl uuidgen jq --allow-unauthenticated
+apt-get update && apt-get install -y curl jq --allow-unauthenticated
 
 #set -ex
 
