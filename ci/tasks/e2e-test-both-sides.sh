@@ -75,7 +75,7 @@ fi
 # Next test the content of the echo reply was as expected...
 
 export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE}`
-if [ -z $REPLY ] || [ $REPLY =~ .*You said: $MESSAGE.* ]
+if [ -z $REPLY ] || [ "$REPLY" =~ .*You said: $MESSAGE.* ]
 then
   echo -e "\e[31mError. [${appURL}/echo/${MESSAGE}] didn't return a valid response [$REPLY]"
   exit 1
