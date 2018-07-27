@@ -61,13 +61,27 @@ fi
 # Begin the Integration-testing...
 
 export MESSAGE=`uuidgen`
-export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE} | grep -E -o ${MESSAGE}`
-if [ -z $REPLY ] || [ "$REPLY" != "$MESSAGE" ]
+
+# Start by testing for a 200 OK response code from the echo function...
+
+if curl -sL -w %{http_code} "$appURL/echo/$MESSAGE" -o /dev/null | grep "200"
+then
+    echo "[$appURL/echo/{message}] shows 'HTTP/1.1 200 OK' (as expected)."
+else
+    echo -e "\e[31mError. Trader-app 'echo' is unresponsive. Failed to show '200 OK' on [$appURL/echo]"
+    exit 1
+fi
+
+# Next test the content of the echo reply was as expected...
+
+export REPLY=`curl -X GET -sL ${appURL}/echo/${MESSAGE}`
+if [ -z $REPLY ] || [ $REPLY =~ .*You said: $MESSAGE.* ]
 then
   echo -e "\e[31mError. [${appURL}/echo/${MESSAGE}] didn't return a valid response [$REPLY]"
   exit 1
 else
   echo "[${appURL}/echo/${MESSAGE}] returned a response that contained our expected message."
+  echo "The full response was: ${REPLY}"
 fi
 
 echo -e "\e[32mINTEGRATION TESTS FINISHED - NO ERRORS ;D "
