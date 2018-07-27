@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+# Pave your PWS space with the required services
+# You'll need to create the file 'private-config-server-setup.json')
+
 cf create-service cleardb spark mysql
 cf create-service cloudamqp lemur rabbit
-cf create-service p-service-registry standard registry
-cf create-service p-config-server standard config -c '{"git": { "uri": "https://github.com/dcaron/esrefarch-config" } }'
-cf add-network-policy esrefarch-demo-trader-app --destination-app esrefarch-demo-trading-engine
-cf add-network-policy esrefarch-demo-trading-engine --destination-app esrefarch-demo-trader-app
+cf create-service p-service-registry trial registry
+cf create-service p-config-server trial config -c private-config-server-setup.json
 
+# The instructions above need several minutes
+# It takes time for the Config and the Registry to be created (these are async)

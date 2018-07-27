@@ -1,7 +1,7 @@
 .idea/
 .DS_Store
 *.class
-**/private.*
+**/private*
 **/.classpath
 **/.project
 **/.settings
