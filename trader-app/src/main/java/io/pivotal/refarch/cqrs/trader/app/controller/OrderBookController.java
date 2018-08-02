@@ -1,6 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.app.controller;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.AddOrderBookToCompanyCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.AddOrderBookToCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;

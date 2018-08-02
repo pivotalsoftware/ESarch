@@ -1,6 +1,5 @@
-package io.pivotal.refarch.cqrs.trader.app.coreapi.company
+package io.pivotal.refarch.cqrs.trader.coreapi.company
 
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId
 import org.axonframework.commandhandling.TargetAggregateIdentifier
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId

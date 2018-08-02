@@ -1,6 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.app.controller;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.CreateCompanyCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.commandhandling.gateway.CommandGateway;
