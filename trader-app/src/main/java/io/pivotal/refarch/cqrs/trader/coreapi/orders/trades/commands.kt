@@ -1,5 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
@@ -9,15 +10,17 @@ import javax.validation.constraints.Min
 
 abstract class OrderBookCommand(@TargetAggregateIdentifier open val orderBookId: OrderBookId)
 
-data class CreateOrderBookCommand(override val orderBookId: OrderBookId) : OrderBookCommand(orderBookId)
+data class CreateOrderBookCommand(
+        @JsonProperty("orderBookId") override val orderBookId: OrderBookId
+) : OrderBookCommand(orderBookId)
 
 abstract class OrderCommand(
-        override val orderBookId: OrderBookId,
-        open val orderId: OrderId,
-        open val portfolioId: PortfolioId,
-        open val transactionId: TransactionId,
-        @Min(0) open val tradeCount: Long,
-        @Min(0) open val itemPrice: Long
+        @JsonProperty("orderBookId") override val orderBookId: OrderBookId,
+        @JsonProperty("orderId") open val orderId: OrderId,
+        @JsonProperty("portfolioId") open val portfolioId: PortfolioId,
+        @JsonProperty("transactionId") open val transactionId: TransactionId,
+        @JsonProperty("tradeCount") @Min(0) open val tradeCount: Long,
+        @JsonProperty("itemPrice") @Min(0) open val itemPrice: Long
 ) : OrderBookCommand(orderBookId)
 
 data class CreateBuyOrderCommand(

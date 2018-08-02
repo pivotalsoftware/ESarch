@@ -1,5 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.app.query.users
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId
 import org.axonframework.commandhandling.TargetAggregateIdentifier
 import java.util.*
@@ -9,16 +10,16 @@ import javax.validation.constraints.Size
 abstract class UserCommand(@TargetAggregateIdentifier open val userId: UserId)
 
 class CreateUserCommand(
-        override val userId: UserId,
-        val name: String, @NotNull @Size(min = 3)
-        val username: String, @NotNull @Size(min = 3)
-        val password: String
+        @JsonProperty("userId") override val userId: UserId,
+        @JsonProperty("name") val name: String, @NotNull @Size(min = 3)
+        @JsonProperty("username") val username: String, @NotNull @Size(min = 3)
+        @JsonProperty("password") val password: String
 ) : UserCommand(userId)
 
 data class AuthenticateUserCommand(
-        override val userId: UserId,
-        val userName: String,
-        @NotNull @Size(min = 3) val password: CharArray
+        @JsonProperty("userId") override val userId: UserId,
+        @JsonProperty("userName") val userName: String,
+        @JsonProperty("password") @NotNull @Size(min = 3) val password: CharArray
 ) : UserCommand(userId) {
 
     override fun equals(other: Any?): Boolean {
