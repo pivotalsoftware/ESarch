@@ -20,7 +20,7 @@ fi
 export RANDOM_NAME=`uuidgen`
 echo "The randomly generated Company Name is: ${RANDOM_NAME}"
 
-export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company | jq -r .identifier`
+export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company`
 if [ -z $COMPANY_UUID ] || [ "$COMPANY_UUID" = "" ];
 then
     echo -e "\e[31mError. The smoke test has failed, it didn't create a new company!"
