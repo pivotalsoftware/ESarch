@@ -16,6 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.app.command.order;
 
+import io.pivotal.refarch.cqrs.trader.app.tradingengine.command.order.Transaction;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;

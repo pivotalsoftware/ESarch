@@ -16,7 +16,7 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.orderbook;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.OrderBookAddedToCompanyEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
@@ -24,7 +24,6 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.app.query.tradeexecuted.TradeExecutedQueryRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
@@ -34,7 +33,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@ProcessingGroup("queryModel")
+@ProcessingGroup("trading")
 public class OrderBookEventHandler {
 
     private static final String BUY = "Buy";

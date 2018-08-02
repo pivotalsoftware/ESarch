@@ -6,7 +6,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -39,7 +39,7 @@ public class CommandController implements BeanClassLoaderAware {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final List<Class> BASE_COMMAND_CLASS = Arrays.asList(
-            OrderBookCommand.class, TransactionCommand.class, PortfolioCommand.class,
+            CreateOrderBookCommand.class, TransactionCommand.class, PortfolioCommand.class,
             CompanyCommand.class, // Should be removed once Company aggregate is reverted to an Entity
             UserCommand.class // Should be removed once User aggregate is reverted to an Entity
     );

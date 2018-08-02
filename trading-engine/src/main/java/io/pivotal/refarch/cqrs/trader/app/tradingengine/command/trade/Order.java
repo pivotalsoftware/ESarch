@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.app.command.trade;
+package io.pivotal.refarch.cqrs.trader.app.tradingengine.command.trade;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;

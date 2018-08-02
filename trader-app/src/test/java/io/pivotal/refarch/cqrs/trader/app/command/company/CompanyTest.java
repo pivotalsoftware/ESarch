@@ -1,9 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.app.command.company;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.*;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.AddOrderBookToCompanyCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
