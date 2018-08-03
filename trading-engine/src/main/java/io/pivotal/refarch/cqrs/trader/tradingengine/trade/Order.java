@@ -68,9 +68,7 @@ public class Order {
 
     @EventSourcingHandler
     protected void onTradeExecuted(TradeExecutedEvent event) {
-        if (orderId.equals(event.getBuyOrderId()) || orderId.equals(event.getSellOrderId())) {
-            recordTraded(event.getTradeCount());
-        }
+        recordTraded(event.getTradeCount());
     }
 
     private void recordTraded(long tradeCount) {

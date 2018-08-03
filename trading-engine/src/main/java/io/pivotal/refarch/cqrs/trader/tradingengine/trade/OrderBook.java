@@ -39,9 +39,9 @@ public class OrderBook {
     @AggregateIdentifier
     private OrderBookId orderBookId;
 
-    @AggregateMember
+    @AggregateMember(routingKey = "buyOrderId", eventForwardingMode = ForwardMatchingInstances.class)
     private SortedSet<Order> buyOrders;
-    @AggregateMember
+    @AggregateMember(routingKey = "sellOrderId", eventForwardingMode = ForwardMatchingInstances.class)
     private SortedSet<Order> sellOrders;
 
     @SuppressWarnings("UnusedDeclaration")
