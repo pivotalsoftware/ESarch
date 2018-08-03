@@ -21,6 +21,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.commandhandling.model.AggregateMember;
+import org.axonframework.commandhandling.model.ForwardMatchingInstances;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
@@ -32,6 +33,8 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 @Aggregate
 public class OrderBook {
+
+    private static final Comparator<Order> orderComparator = Comparator.comparingLong(Order::getItemPrice);
 
     @AggregateIdentifier
     private OrderBookId orderBookId;
@@ -97,8 +100,8 @@ public class OrderBook {
     @EventSourcingHandler
     protected void on(OrderBookCreatedEvent event) {
         this.orderBookId = event.getOrderBookId();
-        buyOrders = new TreeSet<>(new OrderComparator());
-        sellOrders = new TreeSet<>(new OrderComparator());
+        buyOrders = new TreeSet<>(orderComparator);
+        sellOrders = new TreeSet<>(orderComparator);
     }
 
     @EventSourcingHandler
@@ -132,12 +135,4 @@ public class OrderBook {
         }
     }
 
-    private static class OrderComparator implements Comparator<Order> {
-
-        public int compare(Order o1, Order o2) {
-            long x = o1.getItemPrice();
-            long y = o2.getItemPrice();
-            return Long.compare(x, y);
-        }
-    }
 }
