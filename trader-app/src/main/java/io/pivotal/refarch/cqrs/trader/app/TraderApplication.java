@@ -14,6 +14,6 @@ public class TraderApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TraderApplication.class, args);
-        LOG.info("Starting the COMMAND-SIDE PCF Axon CQRS Demo using SpringBoot.");
+        LOG.info("Started the Axon CQRS and Event Sourcing Trader-app.");
     }
 }
