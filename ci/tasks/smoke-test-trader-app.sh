@@ -2,7 +2,7 @@
 
 apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
-set -eux
+set -eu
 
 echo "Smoke Testing the Trader App using the URL: ${URL}"
 
