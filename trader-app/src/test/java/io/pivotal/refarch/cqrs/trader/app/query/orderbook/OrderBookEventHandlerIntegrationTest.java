@@ -36,6 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,8 +47,7 @@ import static org.junit.Assert.*;
  * @author Jettro Coenradie
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@Transactional
+@DataJpaTest
 public class OrderBookEventHandlerIntegrationTest {
 
     OrderId orderId = new OrderId();
@@ -56,6 +56,7 @@ public class OrderBookEventHandlerIntegrationTest {
     OrderBookId orderBookId = new OrderBookId();
     CompanyId companyId = new CompanyId();
     private OrderBookEventHandler orderBookEventHandler;
+
     @Autowired
     private OrderBookViewRepository orderBookRepository;
     @Autowired
