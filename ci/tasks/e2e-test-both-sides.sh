@@ -2,7 +2,7 @@
 
 apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
-set -eux
+set -eu
 
 if [ -z $engineURL ];
 then

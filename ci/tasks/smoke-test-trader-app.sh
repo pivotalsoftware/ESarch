@@ -2,7 +2,7 @@
 
 apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
-set -eux
+set -eu
 
 echo "Smoke Testing the Trader App using the URL: ${URL}"
 
@@ -17,10 +17,19 @@ else
     echo "The health check status is reporting that ${URL} is ${HEALTH_STATUS}"
 fi
 
+export API=`curl -sL -X GET ${URL}/command/api | jq '. | length'`
+if [ -z $API ] || [[ $API < 1 ]]
+then
+    echo -e "\e[31mError. The smoke test has failed, the application API command count was too low!"
+    exit 1
+else
+    echo "The API check status is reporting that there are ${API} commands available."
+fi
+
 export RANDOM_NAME=`uuidgen`
 echo "The randomly generated Company Name is: ${RANDOM_NAME}"
 
-export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company`
+export COMPANY_UUID=`curl -X POST -sL -d "${RANDOM_NAME}" -H "Content-Type:application/json" ${URL}/company | jq -r ''`
 if [ -z $COMPANY_UUID ] || [ "$COMPANY_UUID" = "" ];
 then
     echo -e "\e[31mError. The smoke test has failed, it didn't create a new company!"
