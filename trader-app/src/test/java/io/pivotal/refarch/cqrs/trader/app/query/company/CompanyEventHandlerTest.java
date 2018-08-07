@@ -1,6 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.app.query.company;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.CompanyCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import org.junit.Before;
 import org.junit.Test;

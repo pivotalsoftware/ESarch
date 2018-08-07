@@ -16,8 +16,8 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.orderbook;
 
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.CompanyCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.app.coreapi.company.OrderBookAddedToCompanyEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyEventHandler;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyViewRepository;
@@ -26,8 +26,8 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecuted
 import io.pivotal.refarch.cqrs.trader.app.query.tradeexecuted.TradeExecutedQueryRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
