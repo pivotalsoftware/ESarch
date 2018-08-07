@@ -4,7 +4,9 @@ import org.axonframework.commandhandling.distributed.CommandRouter;
 import org.axonframework.commandhandling.distributed.ConsistentHash;
 import org.axonframework.commandhandling.distributed.ConsistentHashChangeListener;
 import org.axonframework.commandhandling.distributed.RoutingStrategy;
+import org.axonframework.serialization.Serializer;
 import org.axonframework.springcloud.commandhandling.SpringCloudCommandRouter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -21,9 +23,12 @@ public class DistributedCommandBusActuator {
 
     private final AtomicReference<ConsistentHash> consistentHash = new AtomicReference<>();
 
+    @Autowired
+    private Serializer serializer;
+
     @ReadOperation
     public String consistentHash() {
-        return consistentHash.get().getMembers().toString();
+        return serializer.serialize(consistentHash.get().getMembers(), String.class).getData();
     }
 
     @Bean
