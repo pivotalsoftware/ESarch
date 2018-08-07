@@ -6,10 +6,10 @@ applications:
   timeout: 120
   instances: 1
   buildpack: java_buildpack
-  health-check-type: http
-  health-check-http-endpoint: /actuator/health
+  health-check-type: port
+#  health-check-http-endpoint: /actuator/health
   services:
-    - mysql
+    - appdb
     - rabbit
     - config
     - registry
