@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.tradingengine.command.user;
+package io.pivotal.refarch.cqrs.trader.app.command.user;
 
 import io.pivotal.refarch.cqrs.trader.app.query.users.AuthenticateUserCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.users.CreateUserCommand;

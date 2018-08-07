@@ -1,5 +1,6 @@
-package io.pivotal.refarch.cqrs.trader.tradingengine.command.company;
+package io.pivotal.refarch.cqrs.trader.app.company;
 
+import io.pivotal.refarch.cqrs.trader.app.command.company.Company;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;

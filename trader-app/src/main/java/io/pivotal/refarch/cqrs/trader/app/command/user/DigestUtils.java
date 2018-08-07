@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.tradingengine.command.user;
+package io.pivotal.refarch.cqrs.trader.app.command.user;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

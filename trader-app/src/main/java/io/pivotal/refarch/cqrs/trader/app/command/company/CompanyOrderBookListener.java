@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.tradingengine.command.company;
+package io.pivotal.refarch.cqrs.trader.app.command.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.AddOrderBookToCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
