@@ -23,7 +23,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
-import io.pivotal.refarch.cqrs.trader.app.query.tradeexecuted.TradeExecutedQueryRepository;
+import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedQueryRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
@@ -37,9 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
