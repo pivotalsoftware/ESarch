@@ -20,10 +20,28 @@ import io.pivotal.refarch.cqrs.trader.app.query.orderbook.OrderBookViewRepositor
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionView;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.AbstractTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByPortfolioIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @ProcessingGroup("queryModel")
@@ -139,5 +157,15 @@ public class TransactionEventHandler {
         transactionView.setPricePerItem(newPrice);
 
         transactionViewRepository.save(transactionView);
+    }
+
+    @QueryHandler
+    public TransactionView find(TransactionByIdQuery query) {
+        return transactionViewRepository.getOne(query.getTransactionId().getIdentifier());
+    }
+
+    @QueryHandler
+    public List<TransactionView> find(TransactionByPortfolioIdQuery query) {
+        return transactionViewRepository.findByPortfolioId(query.getPortfolioId().getIdentifier());
     }
 }
