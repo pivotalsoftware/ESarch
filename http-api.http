@@ -15,10 +15,26 @@ GET http://localhost:8080/command/api
 
 ###
 
+POST https://esrefarch-demo-trader-app.cfapps.io/command/CreateCompanyCommand
+Content-Type: application/json
+
+{
+  "companyId": "fa8e9411-9e3a-46a3-9751-14ff68824fe7",
+  "userId": "1bae0365-949c-467d-a6f5-4a32ddd96dbb",
+  "companyName": "AxonIQ",
+  "companyValue": "1337",
+  "amountOfShares": "42"
+}
+
+###
+
 POST https://esrefarch-demo-trader-app.cfapps.io/command/CreatePortfolioCommand
 Content-Type: application/json
 
-{"portfolioId":"abae5981-9eea-4b0a-b2cd-54002a837409","userId":"1bae0365-949c-467d-a6f5-4a32ddd96dbb"}
+{
+  "portfolioId":"abae5981-9eea-4b0a-b2cd-54002a837409",
+  "userId":"1bae0365-949c-467d-a6f5-4a32ddd96dbb"
+}
 
 
 ###
