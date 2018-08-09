@@ -22,14 +22,29 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionVi
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByPortfolioIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.*;
+import org.mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType.SELL;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TransactionEventHandlerTest {
@@ -232,5 +247,29 @@ public class TransactionEventHandlerTest {
         assertEquals(TransactionState.PARTIALLY_EXECUTED, result.getState());
         assertEquals(testTotalExecutedItems, result.getAmountOfExecutedItems());
         assertEquals(expectedPricePerItem, result.getPricePerItem());
+    }
+
+    @Test
+    public void testFindTransactionByIdQueryReturnsATransactionView() {
+        TransactionView testView = new TransactionView();
+        when(transactionViewRepository.getOne(transactionId.getIdentifier())).thenReturn(testView);
+
+        TransactionView result = testSubject.find(new TransactionByIdQuery(transactionId));
+
+        assertNotNull(result);
+        assertEquals(testView, result);
+    }
+
+    @Test
+    public void testFindTransactionByPortfolioIdQueryReturnsATransactionView() {
+        List<TransactionView> testViews = new ArrayList<>();
+        testViews.add(new TransactionView());
+        when(transactionViewRepository.findByPortfolioId(portfolioId.getIdentifier())).thenReturn(testViews);
+
+        List<TransactionView> results = testSubject.find(new TransactionByPortfolioIdQuery(portfolioId));
+
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(testViews, results);
     }
 }
