@@ -1,4 +1,5 @@
 .idea/
+.cf/
 .DS_Store
 *.class
 **/private*
