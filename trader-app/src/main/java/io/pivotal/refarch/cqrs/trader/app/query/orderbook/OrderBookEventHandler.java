@@ -16,15 +16,22 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.orderbook;
 
-import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderView;
+import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedQueryRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
-import io.pivotal.refarch.cqrs.trader.app.query.tradeexecuted.TradeExecutedQueryRepository;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByCompanyIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTradesByOrderBookIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
@@ -49,11 +56,6 @@ public class OrderBookEventHandler {
         this.orderBookRepository = orderBookRepository;
         this.companyRepository = companyRepository;
         this.tradeExecutedRepository = tradeExecutedRepository;
-    }
-
-    @QueryHandler
-    public List<OrderBookView> findOrderViews(OrderBookViewQuery query) {
-        return orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier());
     }
 
     @EventHandler
@@ -142,5 +144,20 @@ public class OrderBookEventHandler {
         entry.setItemPrice(event.getItemPrice());
 
         return entry;
+    }
+
+    @QueryHandler
+    public OrderBookView find(OrderBookByIdQuery query) {
+        return orderBookRepository.getOne(query.getOrderBookId().getIdentifier());
+    }
+
+    @QueryHandler
+    public List<OrderBookView> find(OrderBookByCompanyIdQuery query) {
+        return orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier());
+    }
+
+    @QueryHandler
+    public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
+        return tradeExecutedRepository.findByOrderBookId(query.getOrderBookId().getIdentifier());
     }
 }

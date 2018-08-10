@@ -20,5 +20,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PortfolioViewRepository extends JpaRepository<PortfolioView, String> {
 
-    PortfolioView findByUserIdentifier(String userIdentifier);
+    PortfolioView findByUserId(String userId);
 }

@@ -104,7 +104,7 @@ public class PortfolioItemEventHandlerTest {
     private PortfolioView createPortfolioEntry() {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(portfolioId.toString());
-        portfolioView.setUserIdentifier(userId.toString());
+        portfolioView.setUserId(userId.toString());
 
         portfolioView.addItemInPossession(createItemEntry(itemId, companyId));
         portfolioView.addReservedItem(createItemEntry(itemId, companyId));

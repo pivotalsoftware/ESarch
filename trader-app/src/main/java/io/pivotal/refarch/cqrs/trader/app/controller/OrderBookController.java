@@ -5,7 +5,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookViewQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByCompanyIdQuery;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
@@ -34,7 +34,7 @@ public class OrderBookController {
     @GetMapping("/{companyId}")
     public Future<List<OrderBookView>> getOrderBook(@PathVariable String companyId) {
         LOGGER.debug("Creating OrderBook view query for company [{}]", companyId);
-        return queryGateway.query(new OrderBookViewQuery(new CompanyId(companyId)), ResponseTypes.multipleInstancesOf(OrderBookView.class));
+        return queryGateway.query(new OrderBookByCompanyIdQuery(new CompanyId(companyId)), ResponseTypes.multipleInstancesOf(OrderBookView.class));
     }
 
     @PostMapping("/{companyId}")

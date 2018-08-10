@@ -17,14 +17,22 @@
 package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserViewRepository;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+// TODO do we need a specific PortfolioItemEventHandler and PortfolioMoneyEventHandler? Why not put them in one EH component?
 @Service
 @ProcessingGroup("queryModel")
 public class PortfolioMoneyEventHandler {
@@ -47,7 +55,7 @@ public class PortfolioMoneyEventHandler {
 
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(event.getPortfolioId().toString());
-        portfolioView.setUserIdentifier(userIdString);
+        portfolioView.setUserId(userIdString);
         portfolioView.setUserName(userViewRepository.findByIdentifier(userIdString).getFullName());
         portfolioView.setAmountOfMoney(0);
         portfolioView.setReservedAmountOfMoney(0);
@@ -106,5 +114,15 @@ public class PortfolioMoneyEventHandler {
         portfolioView.setAmountOfMoney(portfolioView.getAmountOfMoney() - amountOfMoneyConfirmed);
 
         portfolioViewRepository.save(portfolioView);
+    }
+
+    @QueryHandler
+    public PortfolioView find(PortfolioByIdQuery query) {
+        return portfolioViewRepository.getOne(query.getPortfolioId().getIdentifier());
+    }
+
+    @QueryHandler
+    public PortfolioView find(PortfolioByUserIdQuery query) {
+        return portfolioViewRepository.findByUserId(query.getUserId().getIdentifier());
     }
 }
