@@ -16,9 +16,9 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
-import org.junit.Test;
+import org.junit.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PortfolioViewTest {
 
@@ -36,7 +36,7 @@ public class PortfolioViewTest {
         portfolio.removeReservedItem(ORDER_BOOK_ID, AMOUNT_SELL);
         portfolio.removeItemsInPossession(ORDER_BOOK_ID, AMOUNT_SELL);
 
-        assertEquals(AMOUNT_RESERVED - AMOUNT_SELL, portfolio.findReservedItemByIdentifier(ORDER_BOOK_ID).getAmount());
+        assertEquals(AMOUNT_RESERVED - AMOUNT_SELL, portfolio.findReservedItemById(ORDER_BOOK_ID).getAmount());
         assertEquals(AMOUNT_ITEMS - AMOUNT_SELL, portfolio.findItemInPossession(ORDER_BOOK_ID).getAmount());
     }
 
@@ -64,11 +64,11 @@ public class PortfolioViewTest {
     }
 
     private ItemEntry createItem(long amount) {
-        ItemEntry item1InPossession = new ItemEntry();
-        item1InPossession.setIdentifier("item1");
-        item1InPossession.setAmount(amount);
-        item1InPossession.setCompanyIdentifier("company1");
-        item1InPossession.setCompanyName("Company One");
-        return item1InPossession;
+        ItemEntry itemInPossession = new ItemEntry();
+        itemInPossession.setIdentifier("item1");
+        itemInPossession.setAmount(amount);
+        itemInPossession.setCompanyId("company1");
+        itemInPossession.setCompanyName("Company One");
+        return itemInPossession;
     }
 }

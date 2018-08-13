@@ -18,9 +18,14 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 @Entity
 public class PortfolioView {
@@ -29,7 +34,7 @@ public class PortfolioView {
     @javax.persistence.Id
     private String identifier;
     private String userId;
-    private String userName;
+    private String username;
     private long amountOfMoney;
     private long reservedAmountOfMoney;
 
@@ -58,7 +63,7 @@ public class PortfolioView {
     }
 
     public long obtainAmountOfReservedItemsFor(String orderBookId) {
-        ItemEntry item = findReservedItemByIdentifier(orderBookId);
+        ItemEntry item = findReservedItemById(orderBookId);
         if (null == item) {
             return 0;
         }
@@ -77,7 +82,7 @@ public class PortfolioView {
         return amountOfMoney - reservedAmountOfMoney;
     }
 
-    public ItemEntry findReservedItemByIdentifier(String orderBookId) {
+    public ItemEntry findReservedItemById(String orderBookId) {
         return itemsReserved.get(orderBookId);
     }
 
@@ -93,17 +98,25 @@ public class PortfolioView {
         handleAdd(itemsInPossession, itemEntry);
     }
 
-    public void removeReservedItem(String itemIdentifier, long amount) {
-        handleRemoveItem(itemsReserved, itemIdentifier, amount);
+    public void removeReservedItem(String itemId, long amount) {
+        handleRemoveItem(itemsReserved, itemId, amount);
     }
 
-    public void removeItemsInPossession(String itemIdentifier, long amount) {
-        handleRemoveItem(itemsInPossession, itemIdentifier, amount);
+    public void removeItemsInPossession(String itemID, long amount) {
+        handleRemoveItem(itemsInPossession, itemID, amount);
     }
 
     /*-------------------------------------------------------------------------------------------*/
     /* Getters and setters                                                                       */
     /*-------------------------------------------------------------------------------------------*/
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -112,20 +125,20 @@ public class PortfolioView {
         this.userId = userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public long getAmountOfMoney() {
         return amountOfMoney;
     }
 
     public void setAmountOfMoney(long amountOfMoney) {
         this.amountOfMoney = amountOfMoney;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 
     public long getReservedAmountOfMoney() {
@@ -152,14 +165,6 @@ public class PortfolioView {
         this.itemsReserved = itemsReserved;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     /*-------------------------------------------------------------------------------------------*/
     /* Private helper methods                                                                    */
     /*-------------------------------------------------------------------------------------------*/
@@ -172,9 +177,9 @@ public class PortfolioView {
         }
     }
 
-    private void handleRemoveItem(Map<String, ItemEntry> items, String itemIdentifier, long amount) {
-        if (items.containsKey(itemIdentifier)) {
-            ItemEntry foundEntry = items.get(itemIdentifier);
+    private void handleRemoveItem(Map<String, ItemEntry> items, String itemId, long amount) {
+        if (items.containsKey(itemId)) {
+            ItemEntry foundEntry = items.get(itemId);
             foundEntry.setAmount(foundEntry.getAmount() - amount);
             if (foundEntry.getAmount() <= 0) {
                 items.remove(foundEntry.getIdentifier());
@@ -188,7 +193,7 @@ public class PortfolioView {
                 "amountOfMoney=" + amountOfMoney +
                 ", identifier='" + identifier + '\'' +
                 ", userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", reservedAmountOfMoney=" + reservedAmountOfMoney +
                 ", itemsInPossession=" + itemsInPossession +
                 ", itemsReserved=" + itemsReserved +

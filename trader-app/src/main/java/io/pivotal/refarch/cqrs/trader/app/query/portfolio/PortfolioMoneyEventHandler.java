@@ -28,16 +28,12 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 // TODO do we need a specific PortfolioItemEventHandler and PortfolioMoneyEventHandler? Why not put them in one EH component?
 @Service
 @ProcessingGroup("queryModel")
 public class PortfolioMoneyEventHandler {
-
-    private final static Logger logger = LoggerFactory.getLogger(PortfolioMoneyEventHandler.class);
 
     private final PortfolioViewRepository portfolioViewRepository;
     private final UserViewRepository userViewRepository;
@@ -50,13 +46,12 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(PortfolioCreatedEvent event) {
-        String userIdString = event.getUserId().toString();
-        logger.debug("About to handle the PortfolioCreatedEvent for user with identifier {}", userIdString);
+        String userIdString = event.getUserId().getIdentifier();
 
         PortfolioView portfolioView = new PortfolioView();
-        portfolioView.setIdentifier(event.getPortfolioId().toString());
+        portfolioView.setIdentifier(event.getPortfolioId().getIdentifier());
         portfolioView.setUserId(userIdString);
-        portfolioView.setUserName(userViewRepository.findByIdentifier(userIdString).getFullName());
+        portfolioView.setUsername(userViewRepository.findByIdentifier(userIdString).getFullName());
         portfolioView.setAmountOfMoney(0);
         portfolioView.setReservedAmountOfMoney(0);
 
@@ -65,7 +60,7 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(CashDepositedEvent event) {
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().getIdentifier());
         portfolioView.setAmountOfMoney(portfolioView.getAmountOfMoney() + event.getMoneyAddedInCents());
 
         portfolioViewRepository.save(portfolioView);
@@ -73,7 +68,7 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(CashWithdrawnEvent event) {
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().getIdentifier());
 
         portfolioView.setAmountOfMoney(portfolioView.getAmountOfMoney() - event.getAmountPaidInCents());
 
@@ -82,7 +77,7 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(CashReservedEvent event) {
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().getIdentifier());
 
         portfolioView.setReservedAmountOfMoney(portfolioView.getReservedAmountOfMoney() + event.getAmountToReserve());
 
@@ -91,7 +86,7 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(CashReservationCancelledEvent event) {
-        PortfolioView portfolioView = portfolioViewRepository.findById(event.getPortfolioId().toString()).orElse(null);
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().getIdentifier());
 
         portfolioView.setReservedAmountOfMoney(
                 portfolioView.getReservedAmountOfMoney() - event.getAmountOfMoneyToCancel()
@@ -102,7 +97,7 @@ public class PortfolioMoneyEventHandler {
 
     @EventHandler
     public void on(CashReservationConfirmedEvent event) {
-        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().toString());
+        PortfolioView portfolioView = portfolioViewRepository.getOne(event.getPortfolioId().getIdentifier());
 
         long reservedAmountOfMoney = portfolioView.getReservedAmountOfMoney();
         long amountOfMoneyConfirmed = event.getAmountOfMoneyConfirmedInCents();

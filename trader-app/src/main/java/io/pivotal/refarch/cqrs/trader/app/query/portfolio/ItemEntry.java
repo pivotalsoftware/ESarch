@@ -27,32 +27,16 @@ public class ItemEntry {
     private Long generatedId;
 
     private String identifier; // OrderBook identifier
-    private String companyIdentifier;
+    private String companyId;
     private String companyName;
     private long amount;
 
-    public long getAmount() {
-        return amount;
+    public Long getGeneratedId() {
+        return generatedId;
     }
 
-    public void setAmount(long amount) {
-        this.amount = amount;
-    }
-
-    public String getCompanyIdentifier() {
-        return companyIdentifier;
-    }
-
-    public void setCompanyIdentifier(String companyIdentifier) {
-        this.companyIdentifier = companyIdentifier;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setGeneratedId(Long generatedId) {
+        this.generatedId = generatedId;
     }
 
     public String getIdentifier() {
@@ -63,21 +47,37 @@ public class ItemEntry {
         this.identifier = identifier;
     }
 
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+
     @Override
     public String toString() {
         return "ItemEntry{" +
                 "amount=" + amount +
                 ", identifier='" + identifier + '\'' +
-                ", companyIdentifier='" + companyIdentifier + '\'' +
+                ", companyId='" + companyId + '\'' +
                 ", companyName='" + companyName + '\'' +
                 '}';
-    }
-
-    public Long getGeneratedId() {
-        return generatedId;
-    }
-
-    public void setGeneratedId(Long generatedId) {
-        this.generatedId = generatedId;
     }
 }
