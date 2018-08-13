@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package io.pivotal.refarch.cqrs.trader.app.user;
+package io.pivotal.refarch.cqrs.trader.app.command.user;
 
-import io.pivotal.refarch.cqrs.trader.app.command.user.DigestUtils;
-import io.pivotal.refarch.cqrs.trader.app.command.user.User;
 import io.pivotal.refarch.cqrs.trader.app.query.users.AuthenticateUserCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserAuthenticatedEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class UserTest {
 
