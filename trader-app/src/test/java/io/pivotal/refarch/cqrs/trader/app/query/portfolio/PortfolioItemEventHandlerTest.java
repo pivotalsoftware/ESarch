@@ -81,7 +81,7 @@ public class PortfolioItemEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUsername());
+        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -107,7 +107,7 @@ public class PortfolioItemEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUsername());
+        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -134,7 +134,7 @@ public class PortfolioItemEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUsername());
+        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -159,7 +159,7 @@ public class PortfolioItemEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUsername());
+        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -173,7 +173,7 @@ public class PortfolioItemEventHandlerTest {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(portfolioId.getIdentifier());
         portfolioView.setUserId(userId.getIdentifier());
-        portfolioView.setUsername(USERNAME);
+        portfolioView.setUserName(USERNAME);
         portfolioView.setAmountOfMoney(10000);
         portfolioView.setReservedAmountOfMoney(1000);
         portfolioView.addItemInPossession(buildTestItem(itemId, companyId));

@@ -51,7 +51,7 @@ public class PortfolioMoneyEventHandler {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(event.getPortfolioId().getIdentifier());
         portfolioView.setUserId(userIdString);
-        portfolioView.setUsername(userViewRepository.findByIdentifier(userIdString).getFullName());
+        portfolioView.setUserName(userViewRepository.findByIdentifier(userIdString).getFullName());
         portfolioView.setAmountOfMoney(0);
         portfolioView.setReservedAmountOfMoney(0);
 

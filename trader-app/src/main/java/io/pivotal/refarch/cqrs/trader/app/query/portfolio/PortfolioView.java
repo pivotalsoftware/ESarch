@@ -34,7 +34,7 @@ public class PortfolioView {
     @javax.persistence.Id
     private String identifier;
     private String userId;
-    private String username;
+    private String userName;
     private long amountOfMoney;
     private long reservedAmountOfMoney;
 
@@ -125,12 +125,12 @@ public class PortfolioView {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public long getAmountOfMoney() {
@@ -193,7 +193,7 @@ public class PortfolioView {
                 "amountOfMoney=" + amountOfMoney +
                 ", identifier='" + identifier + '\'' +
                 ", userId='" + userId + '\'' +
-                ", username='" + username + '\'' +
+                ", userName='" + userName + '\'' +
                 ", reservedAmountOfMoney=" + reservedAmountOfMoney +
                 ", itemsInPossession=" + itemsInPossession +
                 ", itemsReserved=" + itemsReserved +
