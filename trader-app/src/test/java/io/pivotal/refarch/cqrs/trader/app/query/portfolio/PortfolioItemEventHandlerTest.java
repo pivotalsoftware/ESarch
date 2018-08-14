@@ -59,8 +59,8 @@ public class PortfolioItemEventHandlerTest {
 
     @Before
     public void setUp() {
-        when(orderBookViewRepository.getOne(itemId.getIdentifier())).thenReturn(createOrderBookEntry());
-        when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(createPortfolioEntry());
+        when(orderBookViewRepository.getOne(itemId.getIdentifier())).thenReturn(buildTestOrderBook());
+        when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(buildTestPortfolio());
 
         testSubject = new PortfolioItemEventHandler(portfolioViewRepository, orderBookViewRepository);
     }
@@ -75,6 +75,7 @@ public class PortfolioItemEventHandlerTest {
 
         testSubject.on(new ItemsAddedToPortfolioEvent(portfolioId, itemId, 100));
 
+        verify(orderBookViewRepository).getOne(itemId.getIdentifier());
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();
@@ -100,6 +101,7 @@ public class PortfolioItemEventHandlerTest {
 
         testSubject.on(testEvent);
 
+        verify(orderBookViewRepository).getOne(itemId.getIdentifier());
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();
@@ -151,6 +153,7 @@ public class PortfolioItemEventHandlerTest {
 
         testSubject.on(new ItemsReservedEvent(portfolioId, itemId, transactionId, DEFAULT_AMOUNT_ITEMS));
 
+        verify(orderBookViewRepository).getOne(itemId.getIdentifier());
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();
@@ -165,33 +168,34 @@ public class PortfolioItemEventHandlerTest {
         assertEquals(expectedAmountOfReservedItems, resultItemsReserved.get(itemId.getIdentifier()).getAmount());
     }
 
-    private PortfolioView createPortfolioEntry() {
+    @SuppressWarnings("Duplicates")
+    private PortfolioView buildTestPortfolio() {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(portfolioId.getIdentifier());
         portfolioView.setUserId(userId.getIdentifier());
         portfolioView.setUsername(USERNAME);
-
-        portfolioView.addItemInPossession(createItemEntry(itemId, companyId));
-        portfolioView.addReservedItem(createItemEntry(itemId, companyId));
-        portfolioView.setReservedAmountOfMoney(1000);
         portfolioView.setAmountOfMoney(10000);
+        portfolioView.setReservedAmountOfMoney(1000);
+        portfolioView.addItemInPossession(buildTestItem(itemId, companyId));
+        portfolioView.addReservedItem(buildTestItem(itemId, companyId));
         return portfolioView;
     }
 
-    private OrderBookView createOrderBookEntry() {
-        OrderBookView orderBookView = new OrderBookView();
-        orderBookView.setIdentifier(itemId.getIdentifier());
-        orderBookView.setCompanyIdentifier(companyId.getIdentifier());
-        orderBookView.setCompanyName("Test Company");
-        return orderBookView;
-    }
-
-    private ItemEntry createItemEntry(OrderBookId itemIdentifier, CompanyId companyIdentifier) {
+    @SuppressWarnings("Duplicates")
+    private ItemEntry buildTestItem(OrderBookId itemIdentifier, CompanyId companyIdentifier) {
         ItemEntry itemInPossession = new ItemEntry();
         itemInPossession.setIdentifier(itemIdentifier.getIdentifier());
         itemInPossession.setCompanyId(companyIdentifier.getIdentifier());
         itemInPossession.setCompanyName("Test company");
         itemInPossession.setAmount(DEFAULT_AMOUNT_ITEMS);
         return itemInPossession;
+    }
+
+    private OrderBookView buildTestOrderBook() {
+        OrderBookView orderBookView = new OrderBookView();
+        orderBookView.setIdentifier(itemId.getIdentifier());
+        orderBookView.setCompanyIdentifier(companyId.getIdentifier());
+        orderBookView.setCompanyName("Test Company");
+        return orderBookView;
     }
 }
