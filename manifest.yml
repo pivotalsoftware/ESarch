@@ -1,3 +1,4 @@
+#Isn't this manifest file deprecated in favor of the manifest files in the trader and trading-engine folders?
 ---
 applications:
 - name: trader-app
