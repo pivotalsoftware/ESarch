@@ -33,7 +33,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByPortfolioIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
@@ -266,7 +266,7 @@ public class TransactionEventHandlerTest {
         testViews.add(new TransactionView());
         when(transactionViewRepository.findByPortfolioId(portfolioId.getIdentifier())).thenReturn(testViews);
 
-        List<TransactionView> results = testSubject.find(new TransactionByPortfolioIdQuery(portfolioId));
+        List<TransactionView> results = testSubject.find(new TransactionsByPortfolioIdQuery(portfolioId));
 
         assertNotNull(results);
         assertFalse(results.isEmpty());

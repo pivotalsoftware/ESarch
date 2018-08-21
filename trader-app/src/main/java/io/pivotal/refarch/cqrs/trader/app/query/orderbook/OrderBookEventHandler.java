@@ -26,7 +26,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEve
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByCompanyIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
@@ -152,7 +152,7 @@ public class OrderBookEventHandler {
     }
 
     @QueryHandler
-    public List<OrderBookView> find(OrderBookByCompanyIdQuery query) {
+    public List<OrderBookView> find(OrderBooksByCompanyIdQuery query) {
         return orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier());
     }
 

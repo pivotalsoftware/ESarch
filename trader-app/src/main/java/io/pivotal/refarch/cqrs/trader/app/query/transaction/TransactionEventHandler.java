@@ -34,7 +34,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByPortfolioIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
@@ -165,7 +165,7 @@ public class TransactionEventHandler {
     }
 
     @QueryHandler
-    public List<TransactionView> find(TransactionByPortfolioIdQuery query) {
+    public List<TransactionView> find(TransactionsByPortfolioIdQuery query) {
         return transactionViewRepository.findByPortfolioId(query.getPortfolioId().getIdentifier());
     }
 }

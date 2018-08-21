@@ -2,6 +2,7 @@ package io.pivotal.refarch.cqrs.trader.coreapi;
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
+//TODO remove this command eventually
 public class EchoCommand {
 
     @TargetAggregateIdentifier
