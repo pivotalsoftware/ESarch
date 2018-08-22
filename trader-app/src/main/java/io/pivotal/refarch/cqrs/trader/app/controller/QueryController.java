@@ -24,8 +24,8 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -42,60 +42,60 @@ public class QueryController {
     }
 
     @GetMapping("/company/{companyId}")
-    public CompletableFuture<CompanyView> getCompanyById(@RequestParam String companyId) {
+    public CompletableFuture<CompanyView> getCompanyById(@PathVariable String companyId) {
         return queryGateway.query(new CompanyByIdQuery(new CompanyId(companyId)),
                                   ResponseTypes.instanceOf(CompanyView.class));
     }
 
     @GetMapping("/order-book/{orderBookId}")
-    public CompletableFuture<OrderBookView> getOrderBookById(@RequestParam String orderBookId) {
+    public CompletableFuture<OrderBookView> getOrderBookById(@PathVariable String orderBookId) {
         return queryGateway.query(new OrderBookByIdQuery(new OrderBookId(orderBookId)),
                                   ResponseTypes.instanceOf(OrderBookView.class));
     }
 
     @GetMapping("/order-book/by-company/{companyId}")
-    public CompletableFuture<List<OrderBookView>> getOrderBooksByCompanyId(@RequestParam String companyId) {
+    public CompletableFuture<List<OrderBookView>> getOrderBooksByCompanyId(@PathVariable String companyId) {
         return queryGateway.query(new OrderBooksByCompanyIdQuery(new CompanyId(companyId)),
                                   ResponseTypes.multipleInstancesOf(OrderBookView.class));
     }
 
     @GetMapping("/transaction/{transactionId}")
-    public CompletableFuture<TransactionView> getTransactionById(@RequestParam String transactionId) {
+    public CompletableFuture<TransactionView> getTransactionById(@PathVariable String transactionId) {
         return queryGateway.query(new TransactionByIdQuery(new TransactionId(transactionId)),
                                   ResponseTypes.instanceOf(TransactionView.class));
     }
 
     @GetMapping("/transaction/by-portfolio/{portfolioId}")
-    public CompletableFuture<List<TransactionView>> getTransactionsByPortfolioId(@RequestParam String portfolioId) {
+    public CompletableFuture<List<TransactionView>> getTransactionsByPortfolioId(@PathVariable String portfolioId) {
         return queryGateway.query(new TransactionsByPortfolioIdQuery(new PortfolioId(portfolioId)),
                                   ResponseTypes.multipleInstancesOf(TransactionView.class));
     }
 
     @GetMapping("/executed-trades/{orderBookId}")
-    public CompletableFuture<List<TradeExecutedView>> getExecutedTradesByOrderBookId(@RequestParam String orderBookId) {
+    public CompletableFuture<List<TradeExecutedView>> getExecutedTradesByOrderBookId(@PathVariable String orderBookId) {
         return queryGateway.query(new ExecutedTradesByOrderBookIdQuery(new OrderBookId(orderBookId)),
                                   ResponseTypes.multipleInstancesOf(TradeExecutedView.class));
     }
 
     @GetMapping("/portfolio/{portfolioId}")
-    public CompletableFuture<PortfolioView> getPortfolioById(@RequestParam String portfolioId) {
+    public CompletableFuture<PortfolioView> getPortfolioById(@PathVariable String portfolioId) {
         return queryGateway.query(new PortfolioByIdQuery(new PortfolioId(portfolioId)),
                                   ResponseTypes.instanceOf(PortfolioView.class));
     }
 
     @GetMapping("/portfolio/by-user/{userId}")
-    public CompletableFuture<PortfolioView> getPortfolioByUserId(@RequestParam String userId) {
+    public CompletableFuture<PortfolioView> getPortfolioByUserId(@PathVariable String userId) {
         return queryGateway.query(new PortfolioByUserIdQuery(new UserId(userId)),
                                   ResponseTypes.instanceOf(PortfolioView.class));
     }
 
     @GetMapping("/user/{userId}")
-    public CompletableFuture<UserView> getUserById(@RequestParam String userId) {
+    public CompletableFuture<UserView> getUserById(@PathVariable String userId) {
         return queryGateway.query(new UserByIdQuery(new UserId(userId)), ResponseTypes.instanceOf(UserView.class));
     }
 
     @GetMapping("/user/by-name/{userName}")
-    public CompletableFuture<UserView> getUserByName(@RequestParam String userName) {
+    public CompletableFuture<UserView> getUserByName(@PathVariable String userName) {
         return queryGateway.query(new UserByNameQuery(userName), ResponseTypes.instanceOf(UserView.class));
     }
 }
