@@ -5,11 +5,6 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:8080/company/
-Content-Type: application/json
-
-"AxonIQ"
-###
 
 GET http://localhost:8080/command/api
 
@@ -35,26 +30,6 @@ Content-Type: application/json
   "portfolioId":"abae5981-9eea-4b0a-b2cd-54002a837409",
   "userId":"1bae0365-949c-467d-a6f5-4a32ddd96dbb"
 }
-
-
-###
-
-POST https://command-side-spontaneous-antelope.cfapps.io/company/
-Content-Type: application/json
-
-"AxonIQ"
-###
-
-
-POST http://localhost:8080/orderbook/a869e39d-4e97-4d1e-a662-2690f992c28d
-Content-Type: application/json
-
-# empty
-###
-
-
-GET http://localhost:8080/orderbook/a869e39d-4e97-4d1e-a662-2690f992c28d
-Accept: application/json
 
 ###
 
