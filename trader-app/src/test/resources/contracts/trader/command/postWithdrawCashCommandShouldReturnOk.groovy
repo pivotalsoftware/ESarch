@@ -17,8 +17,6 @@ Contract.make {
   }
   response {
     status HttpStatus.OK.value()
-    body("")
     async()
   }
 }
-

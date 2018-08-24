@@ -17,4 +17,3 @@ Contract.make {
     async()
   }
 }
-

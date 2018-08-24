@@ -18,9 +18,8 @@ Contract.make {
     status HttpStatus.OK.value()
     body("f82c40ec-a785-11e8-98d0-529269fb1459")
     headers {
-      contentType applicationJson()
+      contentType textPlain()
     }
     async()
   }
 }
-
