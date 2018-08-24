@@ -13,14 +13,17 @@ Contract.make {
             "username": anyNonBlankString(),
             "password": anyNonBlankString()
     )
-
     headers {
       contentType applicationJson()
     }
   }
   response {
     status HttpStatus.OK.value()
-    body("") // TODO body should actually be the CommandContractTest.EXPECTED_UUID field - not sure why that doesn't work
+    body("98684ad8-987e-4d16-8ad8-b620f4320f4c")
+    headers {
+      contentType applicationJson()
+    }
+    async()
   }
 }
 

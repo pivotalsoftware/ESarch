@@ -14,6 +14,7 @@ Contract.make {
   }
   response {
     status HttpStatus.NOT_FOUND.value()
+    async()
   }
 }
 

@@ -3,29 +3,49 @@ package io.pivotal.refarch.cqrs.trader.app.contracts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivotal.refarch.cqrs.trader.app.controller.CommandController;
+import io.pivotal.refarch.cqrs.trader.app.query.users.CreateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartBuyTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartSellTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.*;
-import org.springframework.http.ResponseEntity;
 
-import java.util.concurrent.CompletableFuture;
-
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.ResponseEntity.ok;
 
 public class CommandContractTest {
 
-    private static final String EXPECTED_UUID = "expected-uuid";
+
+    private static final String COMPANY_ID = "f82c4dd0-a785-11e8-98d0-529269fb1459";
+    private static final String ORDER_BOOK_ID = "f82c40ec-a785-11e8-98d0-529269fb1459";
+    private static final String PORTFOLIO_ID = "f82c481c-a785-11e8-98d0-529269fb1459";
+    private static final String USER_ID = "98684ad8-987e-4d16-8ad8-b620f4320f4c";
+    private static final String BUY_TRANSACTION_ID = "f82c4984-a785-11e8-98d0-529269fb1459";
+    private static final String SELL_TRANSACTION_ID = "f82c4ace-a785-11e8-98d0-529269fb1459";
 
     @SuppressWarnings("unchecked")
     @Before
     public void setup() {
         final CommandGateway commandGateway = mock(CommandGateway.class);
-        final CompletableFuture<Object> mockCompletableFuture = mock(CompletableFuture.class);
 
-        when(mockCompletableFuture.thenApply(ResponseEntity::ok))
-                .thenReturn(CompletableFuture.completedFuture(ResponseEntity.ok(EXPECTED_UUID)));
-        when(commandGateway.send(any())).thenReturn(mockCompletableFuture);
+        when(commandGateway.send(any())).thenReturn(completedFuture(ok()));
+        when(commandGateway.send(any(CreateCompanyCommand.class)))
+                .thenReturn(completedFuture(ok(COMPANY_ID)));
+        when(commandGateway.send(any(CreateOrderBookCommand.class)))
+                .thenReturn(completedFuture(ok(ORDER_BOOK_ID)));
+        when(commandGateway.send(any(CreatePortfolioCommand.class)))
+                .thenReturn(completedFuture(ok(PORTFOLIO_ID)));
+        when(commandGateway.send(any(CreateUserCommand.class)))
+                .thenReturn(completedFuture(ok(USER_ID)));
+        when(commandGateway.send(any(StartBuyTransactionCommand.class)))
+                .thenReturn(completedFuture(ok(BUY_TRANSACTION_ID)));
+        when(commandGateway.send(any(StartSellTransactionCommand.class)))
+                .thenReturn(completedFuture(ok(SELL_TRANSACTION_ID)));
 
         final ObjectMapper objectMapper = new ObjectMapper();
         final JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper);

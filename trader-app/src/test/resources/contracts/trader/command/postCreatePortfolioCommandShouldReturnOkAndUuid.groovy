@@ -11,14 +11,17 @@ Contract.make {
             "portfolioId": anyUuid(),
             "userId": anyUuid()
     )
-
     headers {
       contentType applicationJson()
     }
   }
   response {
     status HttpStatus.OK.value()
-    body("") // TODO body should actually be the CommandContractTest.EXPECTED_UUID field - not sure why that doesn't work
+    body("f82c481c-a785-11e8-98d0-529269fb1459")
+    headers {
+      contentType applicationJson()
+    }
+    async()
   }
 }
 

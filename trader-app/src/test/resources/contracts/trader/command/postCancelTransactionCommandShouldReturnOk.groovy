@@ -10,7 +10,6 @@ Contract.make {
     body(
             "transactionId": anyUuid()
     )
-
     headers {
       contentType applicationJson()
     }
@@ -18,6 +17,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body("")
+    async()
   }
 }
 

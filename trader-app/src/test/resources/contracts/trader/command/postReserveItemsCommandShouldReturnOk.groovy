@@ -13,7 +13,6 @@ Contract.make {
             "transactionId": anyUuid(),
             "amountOfItemsToReserve": anyPositiveInt()
     )
-
     headers {
       contentType applicationJson()
     }
@@ -21,6 +20,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body("")
+    async()
   }
 }
 

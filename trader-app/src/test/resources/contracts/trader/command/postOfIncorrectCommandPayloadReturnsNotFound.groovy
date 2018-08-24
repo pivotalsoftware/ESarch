@@ -7,13 +7,14 @@ Contract.make {
   request {
     method 'POST'
     url "/command/CreateCompanyCommand"
-    body("{}") // An empty Body point sto a faulty payload
+    body("{}") // An empty Body points to a faulty command payload
     headers {
       contentType applicationJson()
     }
   }
   response {
     status HttpStatus.NOT_FOUND.value()
+    async()
   }
 }
 

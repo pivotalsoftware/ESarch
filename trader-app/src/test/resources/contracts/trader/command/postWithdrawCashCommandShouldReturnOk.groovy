@@ -11,7 +11,6 @@ Contract.make {
             "portfolioId": anyUuid(),
             "amountToPayInCents": anyPositiveInt()
     )
-
     headers {
       contentType applicationJson()
     }
@@ -19,6 +18,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body("")
+    async()
   }
 }
 

@@ -11,7 +11,6 @@ Contract.make {
             "companyId": anyUuid(),
             "orderBookId": anyUuid()
     )
-
     headers {
       contentType applicationJson()
     }
@@ -19,6 +18,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body("")
+    async()
   }
 }
 

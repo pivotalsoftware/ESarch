@@ -12,7 +12,6 @@ Contract.make {
             "transactionId": anyUuid(),
             "amountOfMoneyToCancel": anyPositiveInt()
     )
-
     headers {
       contentType applicationJson()
     }
@@ -20,6 +19,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body("")
+    async()
   }
 }
 
