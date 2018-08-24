@@ -27,9 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/**
- * This listener is used to create order book instances when we have created a new company</p>
- */
 @Service
 @ProcessingGroup("commandPublishingEventHandlers")
 public class CompanyOrderBookListener {

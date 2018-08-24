@@ -26,10 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/**
- * Listener that is used to create a new portfolio for each new user that is created.
- * TODO #28 might benefit from a cleaner approach still. Think about this
- */
 @Service
 @ProcessingGroup("commandPublishingEventHandlers")
 public class PortfolioManagementUserListener {
