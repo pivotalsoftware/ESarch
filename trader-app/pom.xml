@@ -41,7 +41,16 @@
                 <version>2.0.0.RELEASE</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <baseClassForTests>io.pivotal.refarch.cqrs.trader.app.CommandContractTest</baseClassForTests>
+                    <baseClassMappings>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*.command.*</contractPackageRegex>
+                            <baseClassFQN>io.pivotal.refarch.cqrs.trader.app.contracts.CommandContractTest</baseClassFQN>
+                        </baseClassMapping>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*.query.*</contractPackageRegex>
+                            <baseClassFQN>io.pivotal.refarch.cqrs.trader.app.contracts.QueryContractTest</baseClassFQN>
+                        </baseClassMapping>
+                    </baseClassMappings>
                 </configuration>
             </plugin>
         </plugins>

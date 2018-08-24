@@ -1,4 +1,4 @@
-package io.pivotal.refarch.cqrs.trader.app;
+package io.pivotal.refarch.cqrs.trader.app.contracts;
 
 import io.pivotal.refarch.cqrs.trader.app.controller.QueryController;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
@@ -29,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import java.util.Collections;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,14 +36,14 @@ import static org.mockito.Mockito.*;
 
 public class QueryContractTest {
 
-    private static final String ORDER_BOOK_ID = UUID.randomUUID().toString();
-    private static final String TRANSACTION_ID = UUID.randomUUID().toString();
-    private static final String PORTFOLIO_ID = UUID.randomUUID().toString();
-    private static final String BUY_ORDER_ID = UUID.randomUUID().toString();
-    private static final String SELL_ORDER_ID = UUID.randomUUID().toString();
-    private static final String COMPANY_ID = UUID.randomUUID().toString();
+    private static final String ORDER_BOOK_ID = "f82c40ec-a785-11e8-98d0-529269fb1459";
+    private static final String TRANSACTION_ID = "f82c448e-a785-11e8-98d0-529269fb1459";
+    private static final String PORTFOLIO_ID = "f82c481c-a785-11e8-98d0-529269fb1459";
+    private static final String BUY_ORDER_ID = "f82c4984-a785-11e8-98d0-529269fb1459";
+    private static final String SELL_ORDER_ID = "f82c4ace-a785-11e8-98d0-529269fb1459";
+    private static final String COMPANY_ID = "f82c4dd0-a785-11e8-98d0-529269fb1459";
     private static final String COMPANY_NAME = "Pivotal";
-    private static final String USER_ID = UUID.randomUUID().toString();
+    private static final String USER_ID = "98684ad8-987e-4d16-8ad8-b620f4320f4c";
     private static final String USER_NAME = "Pieter Humphrey";
 
     @SuppressWarnings("unchecked")

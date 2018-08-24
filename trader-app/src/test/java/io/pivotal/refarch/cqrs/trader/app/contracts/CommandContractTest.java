@@ -1,4 +1,4 @@
-package io.pivotal.refarch.cqrs.trader.app;
+package io.pivotal.refarch.cqrs.trader.app.contracts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
