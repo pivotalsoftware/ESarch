@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
@@ -32,12 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping(value = "/command")
 public class CommandController implements BeanClassLoaderAware {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final List<Class> BASE_COMMAND_CLASS = Arrays.asList(
             CreateOrderBookCommand.class, TransactionCommand.class, PortfolioCommand.class,
@@ -68,14 +68,14 @@ public class CommandController implements BeanClassLoaderAware {
             initializeCommandApi();
         }
 
-        LOGGER.debug("Getting the list of API commands. Returning all {} known commands.", commandApi.size());
+        logger.debug("Getting the list of API commands. Returning all {} known commands.", commandApi.size());
         return commandApi;
     }
 
     @PostConstruct
     private void initializeCommandApi() {
+        logger.info("Initialising the command API list.");
 
-        LOGGER.info("Initialising the command API list.");
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         BASE_COMMAND_CLASS.forEach(superCmdClazz -> provider.addIncludeFilter(new AssignableTypeFilter(superCmdClazz)));
 
@@ -92,7 +92,7 @@ public class CommandController implements BeanClassLoaderAware {
                 this::simpleCommandClassName, this::commandJsonSchema
         ));
 
-        LOGGER.info("{} commands available.", commandApi.size());
+        logger.info("{} commands available.", commandApi.size());
     }
 
     private String commandJsonSchema(String commandClassName) {
@@ -101,7 +101,7 @@ public class CommandController implements BeanClassLoaderAware {
             commandSchema.setId(null);
             return objectMapper.writeValueAsString(commandSchema);
         } catch (ClassNotFoundException | JsonProcessingException e) {
-            LOGGER.error("Failed to instantiate command api for [{}]", commandClassName, e);
+            logger.error("Failed to instantiate command api for [{}]", commandClassName, e);
             return String.format("{\n\tmessage: Failed to instantiate command api for [%s]\n}", commandClassName);
         }
     }
@@ -117,11 +117,11 @@ public class CommandController implements BeanClassLoaderAware {
             initializeCommandApi();
         }
 
-        LOGGER.debug("Attempting to execute the '{}' command...", commandType);
+        logger.debug("Attempting to execute the '{}' command...", commandType);
 
         String fullCommandClassName = simpleToFullClassName.get(commandType);
         if (fullCommandClassName == null) {
-            LOGGER.warn("Tried to publish the command[{}] which does not exist.", commandType);
+            logger.warn("Tried to publish the command[{}] which does not exist.", commandType);
             return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
         }
 
@@ -130,7 +130,7 @@ public class CommandController implements BeanClassLoaderAware {
         try {
             command = objectMapper.readValue(jsonCommand, classLoader.loadClass(fullCommandClassName));
         } catch (ClassNotFoundException | IOException e) {
-            LOGGER.error("Failed to instantiate command for [{}] and json [{}]", commandType, jsonCommand, e);
+            logger.error("Failed to instantiate command for [{}] and json [{}]", commandType, jsonCommand, e);
             return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
         }
 
