@@ -42,7 +42,7 @@ public class CommandControllerTest {
 
     @Test
     public void testGetCommandApiGeneratesAndReturnsApi() throws Exception {
-        int expectedNumberOfCommandApis = 18;
+        int expectedNumberOfCommandApis = 20;
 
         Map<String, String> result = testSubject.getCommandApi();
 

@@ -1,7 +1,6 @@
-package io.pivotal.refarch.cqrs.trader.app.query.users
+package io.pivotal.refarch.cqrs.trader.coreapi.users
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId
 import org.axonframework.commandhandling.TargetAggregateIdentifier
 import java.util.*
 import javax.validation.constraints.NotNull

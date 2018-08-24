@@ -3,7 +3,7 @@ package io.pivotal.refarch.cqrs.trader.app.contracts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivotal.refarch.cqrs.trader.app.controller.CommandController;
-import io.pivotal.refarch.cqrs.trader.app.query.users.CreateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.StartBuyTransactionCommand;

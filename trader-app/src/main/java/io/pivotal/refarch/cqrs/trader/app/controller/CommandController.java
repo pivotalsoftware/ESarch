@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
-import io.pivotal.refarch.cqrs.trader.app.query.users.UserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionCommand;
