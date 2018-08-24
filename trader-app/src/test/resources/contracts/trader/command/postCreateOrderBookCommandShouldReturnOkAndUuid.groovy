@@ -6,13 +6,9 @@ import org.springframework.http.HttpStatus
 Contract.make {
   request {
     method 'POST'
-    url "/command/CreateCompanyCommand"
+    url "/command/CreateOrderBookCommand"
     body(
-            "companyId": anyUuid(),
-            "userId": anyNonBlankString(),
-            "companyName": anyNonEmptyString(),
-            "companyValue": anyPositiveInt(),
-            "amountOfShares": anyPositiveInt()
+            "orderBookId": anyUuid()
     )
 
     headers {
@@ -21,7 +17,7 @@ Contract.make {
   }
   response {
     status HttpStatus.OK.value()
-    body("")
+    body("") // TODO body should actually be the BaseContractTest.EXPECTED_UUID field - not sure why that doesn't work
   }
 }
 
