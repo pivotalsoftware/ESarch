@@ -41,7 +41,7 @@
                 <version>2.0.0.RELEASE</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <baseClassForTests>io.pivotal.refarch.cqrs.trader.app.BaseContractTest</baseClassForTests>
+                    <baseClassForTests>io.pivotal.refarch.cqrs.trader.app.CommandContractTest</baseClassForTests>
                 </configuration>
             </plugin>
         </plugins>

@@ -17,7 +17,7 @@ Contract.make {
   }
   response {
     status HttpStatus.OK.value()
-    body("") // TODO body should actually be the BaseContractTest.EXPECTED_UUID field - not sure why that doesn't work
+    body("") // TODO body should actually be the CommandContractTest.EXPECTED_UUID field - not sure why that doesn't work
   }
 }
 

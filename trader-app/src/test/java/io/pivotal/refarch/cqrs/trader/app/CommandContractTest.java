@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class BaseContractTest {
+public class CommandContractTest {
 
     private static final String EXPECTED_UUID = "expected-uuid";
 
