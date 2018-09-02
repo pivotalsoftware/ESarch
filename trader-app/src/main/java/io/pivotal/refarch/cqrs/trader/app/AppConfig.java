@@ -2,6 +2,7 @@ package io.pivotal.refarch.cqrs.trader.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.distributed.DistributedCommandBus;
 import org.axonframework.messaging.interceptors.LoggingInterceptor;
@@ -32,9 +33,17 @@ public class AppConfig {
         commandBus.registerHandlerInterceptor((unitOfWork, interceptorChain) -> interceptorChain.proceed());
     }
 
+    /**
+     * Instantiate an {@link ObjectMapper} for Jackson de-/serialization.
+     * Additionally, a {@link KotlinModule} is registered, as the Commands, Events and Queries are written in Kotlin.
+     *
+     * @return an {@link ObjectMapper} for Jackson de-/serialization
+     */
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new KotlinModule());
+        return objectMapper;
     }
 
     @Bean

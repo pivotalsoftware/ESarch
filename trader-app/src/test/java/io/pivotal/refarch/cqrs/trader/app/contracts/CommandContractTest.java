@@ -2,6 +2,7 @@ package io.pivotal.refarch.cqrs.trader.app.contracts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import io.pivotal.refarch.cqrs.trader.app.controller.CommandController;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
@@ -45,6 +46,7 @@ public class CommandContractTest {
                 .thenReturn(completedFuture(SELL_TRANSACTION_ID));
 
         final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new KotlinModule());
         final JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper);
 
         final CommandController commandController =
