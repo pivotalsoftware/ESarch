@@ -6,6 +6,6 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier
 
 data class CreateOrderBookCommand(
         @TargetAggregateIdentifier
-        @JsonProperty("orderBookId") val orderBookId: OrderBookId
+        @JsonProperty("orderBookId") val orderBookId: OrderBookId = OrderBookId()
 )
 

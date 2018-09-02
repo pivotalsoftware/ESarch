@@ -11,7 +11,7 @@ import javax.validation.constraints.Min
 abstract class OrderBookCommand(@TargetAggregateIdentifier open val orderBookId: OrderBookId)
 
 data class CreateOrderBookCommand(
-        @JsonProperty("orderBookId") override val orderBookId: OrderBookId
+        @JsonProperty("orderBookId") override val orderBookId: OrderBookId = OrderBookId()
 ) : OrderBookCommand(orderBookId)
 
 abstract class OrderCommand(

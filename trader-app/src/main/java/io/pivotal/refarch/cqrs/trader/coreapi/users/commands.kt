@@ -9,7 +9,7 @@ import javax.validation.constraints.Size
 abstract class UserCommand(@TargetAggregateIdentifier open val userId: UserId)
 
 class CreateUserCommand(
-        @JsonProperty("userId") override val userId: UserId,
+        @JsonProperty("userId") override val userId: UserId = UserId(),
         @JsonProperty("name") val name: String, @NotNull @Size(min = 3)
         @JsonProperty("username") val username: String, @NotNull @Size(min = 3)
         @JsonProperty("password") val password: String

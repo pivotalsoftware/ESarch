@@ -8,7 +8,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId
 abstract class CompanyCommand(@TargetAggregateIdentifier open val companyId: CompanyId)
 
 data class CreateCompanyCommand(
-        @JsonProperty("companyId") override val companyId: CompanyId,
+        @JsonProperty("companyId") override val companyId: CompanyId = CompanyId(),
         @JsonProperty("userId") val userId: UserId,
         @JsonProperty("companyName") val companyName: String,
         @JsonProperty("companyValue") val companyValue: Long,

@@ -20,7 +20,7 @@ abstract class AbstractStartTransactionCommand(
 }
 
 data class StartBuyTransactionCommand(
-        @JsonProperty("transactionId") override val transactionId: TransactionId,
+        @JsonProperty("transactionId") override val transactionId: TransactionId = TransactionId(),
         @JsonProperty("orderBookId") override val orderBookId: OrderBookId,
         @JsonProperty("portfolioId") override val portfolioId: PortfolioId,
         @JsonProperty("tradeCount") override val tradeCount: Long,
@@ -31,7 +31,7 @@ data class StartBuyTransactionCommand(
 }
 
 data class StartSellTransactionCommand(
-        @JsonProperty("transactionId") override val transactionId: TransactionId,
+        @JsonProperty("transactionId") override val transactionId: TransactionId = TransactionId(),
         @JsonProperty("orderBookId") override val orderBookId: OrderBookId,
         @JsonProperty("portfolioId") override val portfolioId: PortfolioId,
         @JsonProperty("tradeCount") override val tradeCount: Long,
