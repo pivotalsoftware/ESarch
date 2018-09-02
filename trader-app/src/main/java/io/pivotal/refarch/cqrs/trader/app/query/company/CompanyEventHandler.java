@@ -17,6 +17,7 @@
 package io.pivotal.refarch.cqrs.trader.app.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
@@ -47,5 +48,10 @@ public class CompanyEventHandler {
     @QueryHandler
     public CompanyView find(CompanyByIdQuery query) {
         return companyRepository.getOne(query.getCompanyId().getIdentifier());
+    }
+
+    @QueryHandler
+    public CompanyView find(CompanyByNameQuery query) {
+        return companyRepository.findByName(query.getCompanyName());
     }
 }

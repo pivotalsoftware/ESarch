@@ -7,6 +7,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionVi
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
@@ -44,6 +45,12 @@ public class QueryController {
     @GetMapping("/company/{companyId}")
     public CompletableFuture<CompanyView> getCompanyById(@PathVariable String companyId) {
         return queryGateway.query(new CompanyByIdQuery(new CompanyId(companyId)),
+                                  ResponseTypes.instanceOf(CompanyView.class));
+    }
+
+    @GetMapping("/company/by-name/{companyName}")
+    public CompletableFuture<CompanyView> getCompanyByName(@PathVariable String companyName) {
+        return queryGateway.query(new CompanyByNameQuery(companyName),
                                   ResponseTypes.instanceOf(CompanyView.class));
     }
 

@@ -7,6 +7,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionVi
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
@@ -57,6 +58,22 @@ public class QueryControllerTest {
                 .thenReturn(completedFuture(expectedView));
 
         CompletableFuture<CompanyView> result = testSubject.getCompanyById(testCompanyId);
+
+        assertTrue(result.isDone());
+        assertEquals(expectedView, result.get());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetCompanyByNameReturnsCompany() throws Exception {
+        CompanyView expectedView = new CompanyView();
+
+        String testCompanyName = "some-company-name";
+        CompanyByNameQuery testQuery = new CompanyByNameQuery(testCompanyName);
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(expectedView));
+
+        CompletableFuture<CompanyView> result = testSubject.getCompanyByName(testCompanyName);
 
         assertTrue(result.isDone());
         assertEquals(expectedView, result.get());

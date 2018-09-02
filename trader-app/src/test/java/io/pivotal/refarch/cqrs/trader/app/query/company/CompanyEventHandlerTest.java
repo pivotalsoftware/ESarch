@@ -1,6 +1,7 @@
 package io.pivotal.refarch.cqrs.trader.app.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import org.junit.*;
@@ -62,6 +63,22 @@ public class CompanyEventHandlerTest {
         when(companyViewRepository.getOne(testCompanyId.getIdentifier())).thenReturn(testView);
 
         CompanyView result = testSubject.find(new CompanyByIdQuery(testCompanyId));
+
+        assertEquals(testView, result);
+    }
+
+    @Test
+    public void testFindCompanyByNameReturnsACompanyView() {
+        CompanyView testView = new CompanyView();
+        testView.setIdentifier(testCompanyId.getIdentifier());
+        testView.setName(COMPANY_NAME);
+        testView.setValue(COMPANY_VALUE);
+        testView.setAmountOfShares(AMOUNT_OF_SHARES);
+        testView.setTradeStarted(false);
+
+        when(companyViewRepository.findByName(COMPANY_NAME)).thenReturn(testView);
+
+        CompanyView result = testSubject.find(new CompanyByNameQuery(COMPANY_NAME));
 
         assertEquals(testView, result);
     }
