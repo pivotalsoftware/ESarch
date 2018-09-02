@@ -8,7 +8,6 @@ Contract.make {
     method 'POST'
     url "/command/CreatePortfolioCommand"
     body(
-            "portfolioId": anyUuid(),
             "userId": anyUuid()
     )
     headers {

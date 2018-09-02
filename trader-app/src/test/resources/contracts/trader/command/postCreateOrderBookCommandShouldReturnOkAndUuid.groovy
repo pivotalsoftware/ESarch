@@ -7,9 +7,7 @@ Contract.make {
   request {
     method 'POST'
     url "/command/CreateOrderBookCommand"
-    body(
-            "orderBookId": anyUuid()
-    )
+    body
     headers {
       contentType applicationJson()
     }

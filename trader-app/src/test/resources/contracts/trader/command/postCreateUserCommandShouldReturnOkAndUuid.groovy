@@ -8,7 +8,6 @@ Contract.make {
     method 'POST'
     url "/command/CreateUserCommand"
     body(
-            "userId": anyUuid(),
             "name": anyNonBlankString(),
             "username": anyNonBlankString(),
             "password": anyNonBlankString()

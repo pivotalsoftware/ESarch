@@ -8,7 +8,6 @@ Contract.make {
     method 'POST'
     url "/command/CreateCompanyCommand"
     body(
-            "companyId": anyUuid(),
             "userId": anyNonBlankString(),
             "companyName": anyNonEmptyString(),
             "companyValue": anyPositiveInt(),

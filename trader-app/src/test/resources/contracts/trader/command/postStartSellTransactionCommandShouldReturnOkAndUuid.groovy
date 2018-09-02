@@ -8,7 +8,6 @@ Contract.make {
     method 'POST'
     url "/command/StartSellTransactionCommand"
     body(
-            "transactionId": anyUuid(),
             "orderBookId": anyUuid(),
             "portfolioId": anyUuid(),
             "tradeCount": anyPositiveInt(),
