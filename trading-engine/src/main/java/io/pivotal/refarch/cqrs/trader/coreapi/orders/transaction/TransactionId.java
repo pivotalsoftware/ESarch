@@ -1,5 +1,6 @@
 package io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.util.Assert;
 
@@ -17,8 +18,9 @@ public class TransactionId implements Serializable {
         this(UUID.randomUUID().toString());
     }
 
+    @JsonCreator
     public TransactionId(String identifier) {
-        Assert.notNull(identifier, "identifier may not be null");
+        Assert.notNull(identifier, "Identifier parameter may not be null");
         this.identifier = identifier;
     }
 
@@ -28,15 +30,26 @@ public class TransactionId implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TransactionId that = (TransactionId) o;
-        return Objects.equals(identifier, that.identifier);
+    public int hashCode() {
+        return Objects.hash(identifier);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(identifier);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final TransactionId other = (TransactionId) obj;
+        return Objects.equals(this.identifier, other.identifier);
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionId{" +
+                "identifier='" + identifier + '\'' +
+                '}';
     }
 }

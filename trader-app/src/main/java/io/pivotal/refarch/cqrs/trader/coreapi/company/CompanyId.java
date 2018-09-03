@@ -1,4 +1,4 @@
-package io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction;
+package io.pivotal.refarch.cqrs.trader.coreapi.company;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -8,18 +8,18 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class TransactionId implements Serializable {
+public class CompanyId implements Serializable {
 
-    private static final long serialVersionUID = -5267104328616955617L;
+    private static final long serialVersionUID = 1284500781431396262L;
 
     private final String identifier;
 
-    public TransactionId() {
+    public CompanyId() {
         this(UUID.randomUUID().toString());
     }
 
     @JsonCreator
-    public TransactionId(String identifier) {
+    public CompanyId(String identifier) {
         Assert.notNull(identifier, "Identifier parameter may not be null");
         this.identifier = identifier;
     }
@@ -42,13 +42,13 @@ public class TransactionId implements Serializable {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final TransactionId other = (TransactionId) obj;
+        final CompanyId other = (CompanyId) obj;
         return Objects.equals(this.identifier, other.identifier);
     }
 
     @Override
     public String toString() {
-        return "TransactionId{" +
+        return "CompanyId{" +
                 "identifier='" + identifier + '\'' +
                 '}';
     }
