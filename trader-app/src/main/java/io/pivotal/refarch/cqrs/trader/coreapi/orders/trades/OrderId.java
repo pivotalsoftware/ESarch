@@ -1,4 +1,4 @@
-package io.pivotal.refarch.cqrs.trader.coreapi.orders;
+package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -48,8 +48,6 @@ public class OrderId implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderId{" +
-                "identifier='" + identifier + '\'' +
-                '}';
+        return getIdentifier();
     }
 }

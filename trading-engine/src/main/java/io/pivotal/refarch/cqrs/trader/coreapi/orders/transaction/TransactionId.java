@@ -48,8 +48,6 @@ public class TransactionId implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionId{" +
-                "identifier='" + identifier + '\'' +
-                '}';
+        return getIdentifier();
     }
 }

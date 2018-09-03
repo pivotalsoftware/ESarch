@@ -1,13 +1,9 @@
 package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades
 
-import com.fasterxml.jackson.annotation.JsonValue
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId
-import org.axonframework.common.IdentifierFactory
 import java.io.Serializable
-
-data class OrderId(@JsonValue val identifier: String = IdentifierFactory.getInstance().generateIdentifier()) : Serializable
 
 abstract class AbstractOrderPlacedEvent(
         open val orderBookId: OrderBookId,

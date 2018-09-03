@@ -48,8 +48,6 @@ public class OrderBookId implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderBookId{" +
-                "identifier='" + identifier + '\'' +
-                '}';
+        return getIdentifier();
     }
 }

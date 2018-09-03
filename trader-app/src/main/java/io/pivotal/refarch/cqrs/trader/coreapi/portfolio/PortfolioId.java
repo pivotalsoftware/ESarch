@@ -48,8 +48,6 @@ public class PortfolioId implements Serializable {
 
     @Override
     public String toString() {
-        return "PortfolioId{" +
-                "identifier='" + identifier + '\'' +
-                '}';
+        return getIdentifier();
     }
 }

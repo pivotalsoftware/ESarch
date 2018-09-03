@@ -17,7 +17,7 @@
 package io.pivotal.refarch.cqrs.trader.tradingengine.order;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateBuyOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;

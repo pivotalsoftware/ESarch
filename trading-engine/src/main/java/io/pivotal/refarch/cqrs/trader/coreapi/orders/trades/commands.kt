@@ -2,7 +2,6 @@ package io.pivotal.refarch.cqrs.trader.coreapi.orders.trades
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderId
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId
 import org.axonframework.commandhandling.TargetAggregateIdentifier

@@ -48,8 +48,6 @@ public class CompanyId implements Serializable {
 
     @Override
     public String toString() {
-        return "CompanyId{" +
-                "identifier='" + identifier + '\'' +
-                '}';
+        return getIdentifier();
     }
 }
