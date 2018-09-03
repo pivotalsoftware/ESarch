@@ -3,6 +3,7 @@ package io.pivotal.refarch.cqrs.trader.app.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.fasterxml.jackson.module.jsonSchema.types.ObjectSchema;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.CreatePortfolioCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
@@ -92,5 +93,21 @@ public class CommandControllerTest {
 
         verify(objectMapper).readValue(testCommandJson, testCmd.getClass());
         verify(commandGateway).send(testCmd);
+    }
+
+    @Test
+    public void testPostCommandPublishesTheCommandForAnEmptyCommandPayloadIfTheCommandAllowsIt() throws Exception {
+        CreateOrderBookCommand testCmd = new CreateOrderBookCommand();
+
+        when(commandGateway.send(any())).thenReturn(CompletableFuture.completedFuture("irrelevant"));
+
+        CompletableFuture<ResponseEntity> futureResult =
+                testSubject.postCommand(testCmd.getClass().getSimpleName(), null);
+
+        assertTrue(futureResult.isDone());
+        assertEquals(HttpStatus.OK, futureResult.get().getStatusCode());
+
+        // The command id will be automatically generated and thus is different every time, hence we do not assert it.
+        verify(commandGateway).send(any(CreateOrderBookCommand.class));
     }
 }

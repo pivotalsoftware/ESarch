@@ -4,12 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateOrderBookCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.UserCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -110,9 +111,29 @@ public class CommandController implements BeanClassLoaderAware {
         return commandClassName.substring(commandClassName.lastIndexOf(".") + 1);
     }
 
+    /**
+     * A POST endpoint which allows you to publish a command in the Trader App.
+     * The {@code commandType} is specified as a path variable of type {@link String}. If the {@code commandType} does
+     * not exist, a {@link org.springframework.http.HttpStatus#NOT_FOUND} will be returned.
+     * The {@code commandPayloadJson} should be a JSON representation of the command to perform, which might be
+     * {@code null} in case the command does not require any input parameters. If the {@code commandPayloadJson} cannot
+     * be serialized, a {@link org.springframework.http.HttpStatus#NOT_FOUND} will be returned.
+     * If the type exist and the payload can be serialized to an actual command object, the command will be published
+     * on to the {@link CommandGateway} to be handled by their dedicated Command Handling functions.
+     * The result of this operation will be a {@link CompletableFuture} of generic type {@link ResponseEntity}.
+     * The ResponseEntity will contain the eventual result of command handling, which typically only contain an actual
+     * result for aggregate creation commands. In that scenario, the aggregate identifier will be returned as a {@link
+     * String}.
+     *
+     * @param commandType        a {@link String} specifying the command type to perform
+     * @param commandPayloadJson a {@link String} JSON representation of the command to perform. Might be {@code null}
+     *                           if the command does not require a payload
+     * @return a {@link CompletableFuture} of generic type {@link ResponseEntity}, containing the optional command
+     * handling result as its body
+     */
     @PostMapping("/{command-type}")
     public CompletableFuture<ResponseEntity> postCommand(@PathVariable("command-type") String commandType,
-                                                         @RequestBody String jsonCommand) {
+                                                         @RequestBody(required = false) String commandPayloadJson) {
         if (commandApi == null) {
             initializeCommandApi();
         }
@@ -128,9 +149,13 @@ public class CommandController implements BeanClassLoaderAware {
 
         Object command;
         try {
-            command = objectMapper.readValue(jsonCommand, classLoader.loadClass(fullCommandClassName));
-        } catch (ClassNotFoundException | IOException e) {
-            logger.error("Failed to instantiate command for [{}] and json [{}]", commandType, jsonCommand, e);
+            Class<?> commandClass = classLoader.loadClass(fullCommandClassName);
+            // If the payload is null, we assume the command does not require any parameters to create.
+            command = commandPayloadJson == null
+                    ? commandClass.newInstance()
+                    : objectMapper.readValue(commandPayloadJson, commandClass);
+        } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
+            logger.error("Failed to instantiate command for [{}] and json [{}]", commandType, commandPayloadJson, e);
             return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
         }
 
@@ -138,7 +163,7 @@ public class CommandController implements BeanClassLoaderAware {
     }
 
     @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
+    public void setBeanClassLoader(@NotNull ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 }
