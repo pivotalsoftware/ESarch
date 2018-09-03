@@ -10,6 +10,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.portfolio.ItemEntry;
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
@@ -52,6 +53,8 @@ public class QueryContractTest {
         final QueryGateway queryGateway = mock(QueryGateway.class);
 
         when(queryGateway.query(any(CompanyByIdQuery.class), any(InstanceResponseType.class)))
+                .thenReturn(CompletableFuture.completedFuture(buildCompanyView()));
+        when(queryGateway.query(any(CompanyByNameQuery.class), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildCompanyView()));
         when(queryGateway.query(any(OrderBookByIdQuery.class), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildOrderBookView()));
