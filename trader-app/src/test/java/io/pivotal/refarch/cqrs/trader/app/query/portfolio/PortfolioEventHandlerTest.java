@@ -18,10 +18,18 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.app.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
+import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
+import io.pivotal.refarch.cqrs.trader.app.query.users.UserViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
@@ -39,13 +47,17 @@ import static org.mockito.Mockito.*;
  * We setup this test with a default portfolio and a default orderBook. The portfolio contains the default amount of
  * items in Reservation. This means that all available items are reserved.
  */
-public class PortfolioItemEventHandlerTest {
+public class PortfolioEventHandlerTest {
 
     private static final int DEFAULT_AMOUNT_ITEMS = 100;
+    private static final int DEFAULT_RESERVED_AMOUNT_OF_MONEY = 1000;
+    private static final int DEFAULT_AMOUNT_OF_MONEY = 10000;
     private static final String USERNAME = "Super Rich User";
+    private static final String USER_NAME = "super_richy";
 
     private final PortfolioViewRepository portfolioViewRepository = mock(PortfolioViewRepository.class);
     private final OrderBookViewRepository orderBookViewRepository = mock(OrderBookViewRepository.class);
+    private final UserViewRepository userViewRepository = mock(UserViewRepository.class);
 
     private final UserId userId = new UserId();
     private final OrderBookId itemId = new OrderBookId();
@@ -55,14 +67,35 @@ public class PortfolioItemEventHandlerTest {
 
     private ArgumentCaptor<PortfolioView> viewCaptor = ArgumentCaptor.forClass(PortfolioView.class);
 
-    private PortfolioItemEventHandler testSubject;
+    private PortfolioEventHandler testSubject;
 
     @Before
     public void setUp() {
         when(orderBookViewRepository.getOne(itemId.getIdentifier())).thenReturn(buildTestOrderBook());
         when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(buildTestPortfolio());
+        when(userViewRepository.getOne(userId.getIdentifier())).thenReturn(buildTestUser());
 
-        testSubject = new PortfolioItemEventHandler(portfolioViewRepository, orderBookViewRepository);
+        testSubject = new PortfolioEventHandler(portfolioViewRepository, orderBookViewRepository, userViewRepository);
+    }
+
+    @Test
+    public void testOnPortfolioCreatedEventAPortfolioViewIsCreated() {
+        when(userViewRepository.findByIdentifier(userId.getIdentifier())).thenReturn(buildTestUser());
+
+        long expectedAmountOfMoney = 0L;
+        long expectedAmountOfReservedMoney = 0L;
+
+        testSubject.on(new PortfolioCreatedEvent(portfolioId, userId));
+
+        verify(userViewRepository).findByIdentifier(userId.getIdentifier());
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USER_NAME, result.getUserName());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
@@ -76,6 +109,58 @@ public class PortfolioItemEventHandlerTest {
         testSubject.on(new ItemsAddedToPortfolioEvent(portfolioId, itemId, 100));
 
         verify(orderBookViewRepository).getOne(itemId.getIdentifier());
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USERNAME, result.getUserName());
+        Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
+        assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
+        assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
+        Map<String, ItemEntry> resultItemsReserved = result.getItemsReserved();
+        assertEquals(expectedNumberOfReservedItems, resultItemsReserved.size());
+        assertEquals(expectedAmountOfReservedItems, resultItemsReserved.get(itemId.getIdentifier()).getAmount());
+    }
+
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    @Test
+    public void testOnItemsReservedEventThatAnItemIsReserved() {
+        int expectedNumberOfPossessedItems = 1;
+        int expectedAmountOfPossessedItems = DEFAULT_AMOUNT_ITEMS;
+        int expectedNumberOfReservedItems = 1;
+        int expectedAmountOfReservedItems = 2 * DEFAULT_AMOUNT_ITEMS;
+
+        testSubject.on(new ItemsReservedEvent(portfolioId, itemId, transactionId, DEFAULT_AMOUNT_ITEMS));
+
+        verify(orderBookViewRepository).getOne(itemId.getIdentifier());
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USERNAME, result.getUserName());
+        Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
+        assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
+        assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
+        Map<String, ItemEntry> resultItemsReserved = result.getItemsReserved();
+        assertEquals(expectedNumberOfReservedItems, resultItemsReserved.size());
+        assertEquals(expectedAmountOfReservedItems, resultItemsReserved.get(itemId.getIdentifier()).getAmount());
+    }
+
+    /**
+     * We are going to confirm 50 of the items in the reservation. Therefore we expect the reservation to become 50
+     * less than the default amount of items.
+     */
+    @Test
+    public void testOnItemReservationConfirmedForPortfolioEventThatPossessedAndReservedItemsIsLowered() {
+        int expectedNumberOfPossessedItems = 1;
+        int expectedAmountOfPossessedItems = DEFAULT_AMOUNT_ITEMS - 50;
+        int expectedNumberOfReservedItems = 1;
+        int expectedAmountOfReservedItems = DEFAULT_AMOUNT_ITEMS - 50;
+
+        testSubject.on(new ItemReservationConfirmedForPortfolioEvent(portfolioId, itemId, transactionId, 50));
+
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();
@@ -116,18 +201,15 @@ public class PortfolioItemEventHandlerTest {
         assertNull(resultItemsReserved.get(itemId.getIdentifier()));
     }
 
-    /**
-     * We are going to confirm 50 of the items in the reservation. Therefore we expect the reservation to become 50
-     * less than the default amount of items.
-     */
+    @SuppressWarnings("UnnecessaryLocalVariable")
     @Test
-    public void testOnItemReservationConfirmedForPortfolioEventThatPossessedAndReserverdItemsIsLowered() {
-        int expectedNumberOfPossessedItems = 1;
-        int expectedAmountOfPossessedItems = DEFAULT_AMOUNT_ITEMS - 50;
-        int expectedNumberOfReservedItems = 1;
-        int expectedAmountOfReservedItems = DEFAULT_AMOUNT_ITEMS - 50;
+    public void testOnCashDepositedEventThatPortfolioAmountIsIncreased() {
+        long testMoneyAddedInCents = 50L;
 
-        testSubject.on(new ItemReservationConfirmedForPortfolioEvent(portfolioId, itemId, transactionId, 50));
+        long expectedAmountOfMoney = DEFAULT_AMOUNT_OF_MONEY + testMoneyAddedInCents;
+        long expectedAmountOfReservedMoney = DEFAULT_RESERVED_AMOUNT_OF_MONEY;
+
+        testSubject.on(new CashDepositedEvent(portfolioId, testMoneyAddedInCents));
 
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
@@ -135,40 +217,91 @@ public class PortfolioItemEventHandlerTest {
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
         assertEquals(USERNAME, result.getUserName());
-        Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
-        assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
-        assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
-        Map<String, ItemEntry> resultItemsReserved = result.getItemsReserved();
-        assertEquals(expectedNumberOfReservedItems, resultItemsReserved.size());
-        assertEquals(expectedAmountOfReservedItems, resultItemsReserved.get(itemId.getIdentifier()).getAmount());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
     @Test
-    public void testOnItemsReservedEventThatAnItemIsReserverd() {
-        int expectedNumberOfPossessedItems = 1;
-        int expectedAmountOfPossessedItems = DEFAULT_AMOUNT_ITEMS;
-        int expectedNumberOfReservedItems = 1;
-        int expectedAmountOfReservedItems = 2 * DEFAULT_AMOUNT_ITEMS;
+    public void testOnCashWithdrawnEventThatPortfolioAmountIsDecreased() {
+        long testAmountPaidInCents = 50L;
 
-        testSubject.on(new ItemsReservedEvent(portfolioId, itemId, transactionId, DEFAULT_AMOUNT_ITEMS));
+        long expectedAmountOfMoney = DEFAULT_AMOUNT_OF_MONEY - testAmountPaidInCents;
+        long expectedAmountOfReservedMoney = DEFAULT_RESERVED_AMOUNT_OF_MONEY;
 
-        verify(orderBookViewRepository).getOne(itemId.getIdentifier());
+        testSubject.on(new CashWithdrawnEvent(portfolioId, testAmountPaidInCents));
+
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
         assertEquals(USERNAME, result.getUserName());
-        Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
-        assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
-        assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
-        Map<String, ItemEntry> resultItemsReserved = result.getItemsReserved();
-        assertEquals(expectedNumberOfReservedItems, resultItemsReserved.size());
-        assertEquals(expectedAmountOfReservedItems, resultItemsReserved.get(itemId.getIdentifier()).getAmount());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
 
-    @SuppressWarnings("Duplicates")
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    @Test
+    public void testOnCashReservedEventThatPortfolioReservedAmountIsIncreased() {
+        long testAmountToReserve = 50L;
+
+        long expectedAmountOfMoney = DEFAULT_AMOUNT_OF_MONEY;
+        long expectedAmountOfReservedMoney = DEFAULT_RESERVED_AMOUNT_OF_MONEY + testAmountToReserve;
+
+        testSubject.on(new CashReservedEvent(portfolioId, transactionId, testAmountToReserve));
+
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USERNAME, result.getUserName());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
+    }
+
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    @Test
+    public void testOnCashReservationCancelledEventThatPortfolioReservedAmountIsDecreased() {
+        long testAmountOfMoneyToCancel = 50L;
+
+        long expectedAmountOfMoney = DEFAULT_AMOUNT_OF_MONEY;
+        long expectedAmountOfReservedMoney = DEFAULT_RESERVED_AMOUNT_OF_MONEY - testAmountOfMoneyToCancel;
+
+        testSubject.on(new CashReservationCancelledEvent(portfolioId, transactionId, testAmountOfMoneyToCancel));
+
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USERNAME, result.getUserName());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
+    }
+
+    @Test
+    public void testOnCashReservationConfirmedEventThatPortfolioReservedAndOverallAmountAreDecreased() {
+        long testAmountOfMoneyConfirmedInCents = 50L;
+        CashReservationConfirmedEvent testEvent =
+                new CashReservationConfirmedEvent(portfolioId, transactionId, testAmountOfMoneyConfirmedInCents);
+
+        long expectedAmountOfMoney = DEFAULT_AMOUNT_OF_MONEY - testAmountOfMoneyConfirmedInCents;
+        long expectedAmountOfReservedMoney = DEFAULT_RESERVED_AMOUNT_OF_MONEY - testAmountOfMoneyConfirmedInCents;
+
+        testSubject.on(testEvent);
+
+        verify(portfolioViewRepository).save(viewCaptor.capture());
+
+        PortfolioView result = viewCaptor.getValue();
+        assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
+        assertEquals(userId.getIdentifier(), result.getUserId());
+        assertEquals(USERNAME, result.getUserName());
+        assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
+        assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
+    }
+
     private PortfolioView buildTestPortfolio() {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(portfolioId.getIdentifier());
@@ -181,7 +314,6 @@ public class PortfolioItemEventHandlerTest {
         return portfolioView;
     }
 
-    @SuppressWarnings("Duplicates")
     private ItemEntry buildTestItem(OrderBookId itemIdentifier, CompanyId companyIdentifier) {
         ItemEntry itemInPossession = new ItemEntry();
         itemInPossession.setIdentifier(itemIdentifier.getIdentifier());
@@ -197,5 +329,14 @@ public class PortfolioItemEventHandlerTest {
         orderBookView.setCompanyIdentifier(companyId.getIdentifier());
         orderBookView.setCompanyName("Test Company");
         return orderBookView;
+    }
+
+    private UserView buildTestUser() {
+        UserView testView = new UserView();
+        testView.setIdentifier(userId.getIdentifier());
+        testView.setName(USER_NAME);
+        testView.setUsername("john.doe");
+        testView.setPassword("54498159823489s9fd84");
+        return testView;
     }
 }
