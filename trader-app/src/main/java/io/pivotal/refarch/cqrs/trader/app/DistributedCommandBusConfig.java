@@ -23,8 +23,12 @@ public class DistributedCommandBusConfig {
 
     private final AtomicReference<ConsistentHash> consistentHash = new AtomicReference<>();
 
+    private final Serializer serializer;
+
     @Autowired
-    private Serializer serializer;
+    public DistributedCommandBusConfig(Serializer serializer) {
+        this.serializer = serializer;
+    }
 
     @ReadOperation
     public String consistentHash() {
