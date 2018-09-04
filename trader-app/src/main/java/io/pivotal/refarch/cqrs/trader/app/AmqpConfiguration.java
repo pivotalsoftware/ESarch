@@ -9,8 +9,10 @@ import org.axonframework.messaging.SubscribableMessageSource;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 public class AmqpConfiguration {
@@ -30,13 +32,15 @@ public class AmqpConfiguration {
 
     @Autowired
     public void config(EventProcessingConfiguration epConfig,
-                       SubscribableMessageSource<EventMessage<?>> tradeEvents) {
+                       @Qualifier("trade-events") SubscribableMessageSource<EventMessage<?>> tradeEvents) {
         epConfig.registerSubscribingEventProcessor("trading", c -> tradeEvents);
     }
 
+    @Qualifier("trade-events")
     @Bean
     public SubscribableMessageSource<EventMessage<?>> tradeEvents(AMQPMessageConverter messageConverter) {
         return new SpringAMQPMessageSource(messageConverter) {
+            @Transactional
             @RabbitListener(queues = "trades")
             @Override
             public void onMessage(Message message, Channel channel) {
