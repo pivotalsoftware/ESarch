@@ -19,7 +19,6 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 import io.pivotal.refarch.cqrs.trader.app.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
-import io.pivotal.refarch.cqrs.trader.app.query.users.UserViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
@@ -27,20 +26,22 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.*;
+import org.mockito.*;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -55,7 +56,6 @@ public class PortfolioEventHandlerTest {
 
     private final PortfolioViewRepository portfolioViewRepository = mock(PortfolioViewRepository.class);
     private final OrderBookViewRepository orderBookViewRepository = mock(OrderBookViewRepository.class);
-    private final UserViewRepository userViewRepository = mock(UserViewRepository.class);
 
     private final UserId userId = new UserId();
     private final OrderBookId itemId = new OrderBookId();
@@ -71,21 +71,17 @@ public class PortfolioEventHandlerTest {
     public void setUp() {
         when(orderBookViewRepository.getOne(itemId.getIdentifier())).thenReturn(buildTestOrderBook());
         when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(buildTestPortfolio());
-        when(userViewRepository.getOne(userId.getIdentifier())).thenReturn(buildTestUser());
 
-        testSubject = new PortfolioEventHandler(portfolioViewRepository, orderBookViewRepository, userViewRepository);
+        testSubject = new PortfolioEventHandler(portfolioViewRepository, orderBookViewRepository);
     }
 
     @Test
     public void testOnPortfolioCreatedEventAPortfolioViewIsCreated() {
-        when(userViewRepository.findByIdentifier(userId.getIdentifier())).thenReturn(buildTestUser());
-
         long expectedAmountOfMoney = 0L;
         long expectedAmountOfReservedMoney = 0L;
 
         testSubject.on(new PortfolioCreatedEvent(portfolioId, userId));
 
-        verify(userViewRepository).findByIdentifier(userId.getIdentifier());
         verify(portfolioViewRepository).save(viewCaptor.capture());
 
         PortfolioView result = viewCaptor.getValue();

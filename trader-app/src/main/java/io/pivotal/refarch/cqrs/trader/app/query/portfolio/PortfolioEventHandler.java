@@ -43,14 +43,11 @@ public class PortfolioEventHandler {
 
     private final PortfolioViewRepository portfolioViewRepository;
     private final OrderBookViewRepository orderBookViewRepository;
-    private final UserViewRepository userViewRepository;
 
     public PortfolioEventHandler(PortfolioViewRepository portfolioViewRepository,
-                                 OrderBookViewRepository orderBookViewRepository,
-                                 UserViewRepository userViewRepository) {
+                                 OrderBookViewRepository orderBookViewRepository) {
         this.portfolioViewRepository = portfolioViewRepository;
         this.orderBookViewRepository = orderBookViewRepository;
-        this.userViewRepository = userViewRepository;
     }
 
     @EventHandler
