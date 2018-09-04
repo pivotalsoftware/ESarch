@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// TODO introduce regular Unit Test for this class i.o. just an intergration test
 @Service
 @ProcessingGroup("trading")
 public class OrderBookEventHandler {
