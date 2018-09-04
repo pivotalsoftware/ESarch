@@ -26,11 +26,9 @@ else
     echo "The API check status is reporting that there are ${API} commands available."
 fi
 
-export RANDOM_COMPANY_ID=`uuidgen`
-echo "The randomly generated Company Id is: ${RANDOM_COMPANY_ID}"
 export RANDOM_COMPANY_NAME=`uuidgen`
 echo "The randomly generated Company Name is: ${RANDOM_COMPANY_NAME}"
-export CREATE_COMPANY_PAYLOAD="{\"companyId\": \"${RANDOM_COMPANY_ID}\", \"userId\": \"1bae0365-949c-467d-a6f5-4a32ddd96dbb\", \"companyName\": \"${RANDOM_COMPANY_NAME}\", \"companyValue\": \"1337\", \"amountOfShares\": \"42\"}"
+export CREATE_COMPANY_PAYLOAD="{\"companyName\": \"${RANDOM_COMPANY_NAME}\", \"companyValue\": \"1337\", \"amountOfShares\": \"42\"}"
 
 export COMPANY_UUID=`curl -X POST -sL -d "${CREATE_COMPANY_PAYLOAD}" -H "Content-Type:application/json" ${URL}/command/CreateCompanyCommand | jq -r ''`
 if [ -z ${COMPANY_UUID} ] || [ "$COMPANY_UUID" = "" ];
@@ -49,7 +47,7 @@ then
     echo -e "\e[31mError. The smoke test has failed, it was unable to find the orderbook for the company with the company-id [$COMPANY_UUID]"
     exit 1
 else
-    echo "The Orderbook for the company-id ${COMPANY_UUID} lists the company's name as: ${COMPANY_NAME}"
+    echo "The OrderBook for the company-id ${COMPANY_UUID} lists the company's name as: ${COMPANY_NAME}"
 fi
 
 echo -e "\e[32mTRADER-APP SMOKE TEST FINISHED - ZERO ERRORS ;D "
