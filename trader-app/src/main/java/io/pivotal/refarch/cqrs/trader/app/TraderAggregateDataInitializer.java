@@ -83,9 +83,9 @@ public class TraderAggregateDataInitializer {
         return userId;
     }
 
-    private void createCompanies(UserId userId) {
-        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), userId, "Pivotal", 500, 5000));
-        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), userId, "AxonIQ", 1000, 10000));
+    private void createCompanies() {
+        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), "Pivotal", 500, 5000));
+        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), "AxonIQ", 1000, 10000));
     }
 
     private void addMoney(UserId userId, long amount) throws ExecutionException, InterruptedException {

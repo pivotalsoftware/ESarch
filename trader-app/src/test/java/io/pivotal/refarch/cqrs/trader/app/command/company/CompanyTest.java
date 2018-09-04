@@ -1,14 +1,10 @@
 package io.pivotal.refarch.cqrs.trader.app.command.company;
 
-import io.pivotal.refarch.cqrs.trader.coreapi.company.AddOrderBookToCompanyCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CompanyTest {
 
@@ -29,7 +25,7 @@ public class CompanyTest {
     @Test
     public void testCreateCompany() {
         fixture.givenNoPriorActivity()
-               .when(new CreateCompanyCommand(companyId, new UserId(), "TestItem", 1000L, 10000L))
+               .when(new CreateCompanyCommand(companyId, "TestItem", 1000L, 10000L))
                .expectEvents(companyCreatedEvent);
     }
 

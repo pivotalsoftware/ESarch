@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,8 +50,7 @@ public class CreateCompanyApiIntegrationTest {
   public void setup(){
     this.uuid = UUID.randomUUID();
     CompanyId companyId = new CompanyId();
-    UserId userId = new UserId();
-    createCompanyCommand = new CreateCompanyCommand(companyId,userId,"COMPANY-"+uuid.toString(),0,0);
+    createCompanyCommand = new CreateCompanyCommand(companyId,"COMPANY-"+uuid.toString(),0,0);
   }
 
   @Test
