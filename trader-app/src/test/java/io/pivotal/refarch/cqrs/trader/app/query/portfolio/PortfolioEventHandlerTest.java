@@ -27,22 +27,20 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
-import org.junit.*;
-import org.mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -54,8 +52,6 @@ public class PortfolioEventHandlerTest {
     private static final int DEFAULT_AMOUNT_ITEMS = 100;
     private static final int DEFAULT_RESERVED_AMOUNT_OF_MONEY = 1000;
     private static final int DEFAULT_AMOUNT_OF_MONEY = 10000;
-    private static final String USERNAME = "Super Rich User";
-    private static final String USER_NAME = "super_richy";
 
     private final PortfolioViewRepository portfolioViewRepository = mock(PortfolioViewRepository.class);
     private final OrderBookViewRepository orderBookViewRepository = mock(OrderBookViewRepository.class);
@@ -95,7 +91,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USER_NAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -116,7 +111,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -141,7 +135,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -168,7 +161,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -194,7 +186,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         Map<String, ItemEntry> resultItemsInPossession = result.getItemsInPossession();
         assertEquals(expectedNumberOfPossessedItems, resultItemsInPossession.size());
         assertEquals(expectedAmountOfPossessedItems, resultItemsInPossession.get(itemId.getIdentifier()).getAmount());
@@ -218,7 +209,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -238,7 +228,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -258,7 +247,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -278,7 +266,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -299,7 +286,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = viewCaptor.getValue();
         assertEquals(portfolioId.getIdentifier(), result.getIdentifier());
         assertEquals(userId.getIdentifier(), result.getUserId());
-        assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
     }
@@ -328,7 +314,6 @@ public class PortfolioEventHandlerTest {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(portfolioId.getIdentifier());
         portfolioView.setUserId(userId.getIdentifier());
-        portfolioView.setUserName(USERNAME);
         portfolioView.setAmountOfMoney(10000);
         portfolioView.setReservedAmountOfMoney(1000);
         portfolioView.addItemInPossession(buildTestItem(itemId, companyId));
@@ -356,7 +341,6 @@ public class PortfolioEventHandlerTest {
     private UserView buildTestUser() {
         UserView testView = new UserView();
         testView.setIdentifier(userId.getIdentifier());
-        testView.setName(USER_NAME);
         testView.setUsername("john.doe");
         testView.setPassword("54498159823489s9fd84");
         return testView;

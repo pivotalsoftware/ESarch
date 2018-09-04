@@ -27,13 +27,14 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.InstanceResponseType;
 import org.axonframework.queryhandling.responsetypes.MultipleInstancesResponseType;
 import org.jetbrains.annotations.NotNull;
-import org.junit.*;
+import org.junit.Before;
 
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class QueryContractTest {
 
@@ -160,7 +161,6 @@ public class QueryContractTest {
         PortfolioView portfolioView = new PortfolioView();
         portfolioView.setIdentifier(PORTFOLIO_ID);
         portfolioView.setUserId(USER_ID);
-        portfolioView.setUserName(USER_NAME);
         portfolioView.setAmountOfMoney(1_000_000L);
         portfolioView.setReservedAmountOfMoney(5000L);
         portfolioView.addItemInPossession(buildItemInPossession());

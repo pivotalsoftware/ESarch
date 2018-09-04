@@ -18,14 +18,9 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 
 @Entity
 public class PortfolioView {
@@ -34,7 +29,6 @@ public class PortfolioView {
     @javax.persistence.Id
     private String identifier;
     private String userId;
-    private String userName;
     private long amountOfMoney;
     private long reservedAmountOfMoney;
 
@@ -125,14 +119,6 @@ public class PortfolioView {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public long getAmountOfMoney() {
         return amountOfMoney;
     }
@@ -193,7 +179,6 @@ public class PortfolioView {
                 "amountOfMoney=" + amountOfMoney +
                 ", identifier='" + identifier + '\'' +
                 ", userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
                 ", reservedAmountOfMoney=" + reservedAmountOfMoney +
                 ", itemsInPossession=" + itemsInPossession +
                 ", itemsReserved=" + itemsReserved +
