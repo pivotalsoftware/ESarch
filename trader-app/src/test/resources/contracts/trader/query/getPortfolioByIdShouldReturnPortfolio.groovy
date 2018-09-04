@@ -17,7 +17,6 @@ Contract.make {
       {
         "identifier" : "f82c481c-a785-11e8-98d0-529269fb1459",
         "userId" : "98684ad8-987e-4d16-8ad8-b620f4320f4c",
-        "userName" : "Pieter Humphrey",
         "amountOfMoney" : 1000000,
         "reservedAmountOfMoney" : 5000,
         "itemsInPossession" : {
