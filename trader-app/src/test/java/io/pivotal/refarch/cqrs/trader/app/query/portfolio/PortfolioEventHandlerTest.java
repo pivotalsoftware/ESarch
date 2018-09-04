@@ -23,6 +23,8 @@ import io.pivotal.refarch.cqrs.trader.app.query.users.UserViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
@@ -300,6 +302,26 @@ public class PortfolioEventHandlerTest {
         assertEquals(USERNAME, result.getUserName());
         assertEquals(expectedAmountOfMoney, result.getAmountOfMoney());
         assertEquals(expectedAmountOfReservedMoney, result.getReservedAmountOfMoney());
+    }
+
+    @Test
+    public void testFindByPortfolioIdReturnsAPortfolioView() {
+        PortfolioView testView = buildTestPortfolio();
+        when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(testView);
+
+        PortfolioView result = testSubject.find(new PortfolioByIdQuery(portfolioId));
+
+        assertEquals(testView, result);
+    }
+
+    @Test
+    public void testFindPortfolioByUserIdReturnsAPortfolioView() {
+        PortfolioView testView = buildTestPortfolio();
+        when(portfolioViewRepository.findByUserId(userId.getIdentifier())).thenReturn(testView);
+
+        PortfolioView result = testSubject.find(new PortfolioByUserIdQuery(userId));
+
+        assertEquals(testView, result);
     }
 
     private PortfolioView buildTestPortfolio() {
