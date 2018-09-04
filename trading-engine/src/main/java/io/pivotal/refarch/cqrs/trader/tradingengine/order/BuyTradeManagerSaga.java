@@ -80,7 +80,6 @@ public class BuyTradeManagerSaga {
                             new CommandCallback<ConfirmTransactionCommand, Void>() {
                                 @Override
                                 public void onSuccess(CommandMessage commandMessage, Void result) {
-                                    // TODO Do we really need this? TODO #28 discuss this with Allard
                                     logger.debug("Confirm transaction is dispatched successfully!");
                                 }
 
