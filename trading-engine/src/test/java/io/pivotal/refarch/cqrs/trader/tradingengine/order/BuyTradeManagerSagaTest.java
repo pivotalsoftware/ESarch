@@ -16,18 +16,31 @@
 
 package io.pivotal.refarch.cqrs.trader.tradingengine.order;
 
-import io.pivotal.refarch.cqrs.trader.tradingengine.order.matchers.CreateBuyOrderCommandMatcher;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateBuyOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.BuyTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ConfirmTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CancelCashReservationCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationRejectedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.ConfirmCashReservationCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.ReserveCashCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.AddItemsToPortfolioCommand;
-import org.axonframework.test.matchers.Matchers;
+import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.test.saga.SagaTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
+import static org.axonframework.test.matchers.Matchers.exactSequenceOf;
+import static org.axonframework.test.matchers.Matchers.matches;
 
 public class BuyTradeManagerSagaTest {
 
@@ -89,9 +102,31 @@ public class BuyTradeManagerSagaTest {
                .whenAggregate(transactionId.toString())
                .publishes(new BuyTransactionConfirmedEvent(transactionId))
                .expectActiveSagas(1)
-               .expectDispatchedCommandsMatching(Matchers.exactSequenceOf(
-                       CreateBuyOrderCommandMatcher.newInstance(portfolioId, orderBookId, TOTAL_ITEMS, PRICE_PER_ITEM)
-               ));
+               .expectDispatchedCommandsMatching(exactSequenceOf(matches(
+                       command -> matchCreateBuyOrderCommand(command,
+                                                             orderBookId,
+                                                             portfolioId,
+                                                             TOTAL_ITEMS,
+                                                             PRICE_PER_ITEM)
+               )));
+    }
+
+    @SuppressWarnings({"unchecked", "SameParameterValue"})
+    private boolean matchCreateBuyOrderCommand(Object resultCommand,
+                                               OrderBookId expectedOrderBookId,
+                                               PortfolioId expectedPortfolioId,
+                                               long expectedTradeCount,
+                                               long expectedItemPrice) {
+        if (!(resultCommand instanceof CommandMessage)) {
+            return false;
+        }
+        CommandMessage<CreateBuyOrderCommand> commandMessage = (CommandMessage<CreateBuyOrderCommand>) resultCommand;
+        CreateBuyOrderCommand commandPayload = commandMessage.getPayload();
+
+        return expectedOrderBookId.equals(commandPayload.getOrderBookId())
+                && expectedPortfolioId.equals(commandPayload.getPortfolioId())
+                && expectedTradeCount == commandPayload.getTradeCount()
+                && expectedItemPrice == commandPayload.getItemPrice();
     }
 
     @Test

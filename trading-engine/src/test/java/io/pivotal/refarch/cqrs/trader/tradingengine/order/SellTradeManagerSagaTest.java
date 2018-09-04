@@ -16,18 +16,31 @@
 
 package io.pivotal.refarch.cqrs.trader.tradingengine.order;
 
-import io.pivotal.refarch.cqrs.trader.tradingengine.order.matchers.CreateSellOrderCommandMatcher;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ConfirmTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTransactionCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.DepositCashCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.*;
-import org.axonframework.test.matchers.Matchers;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.CancelItemReservationForPortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ConfirmItemReservationForPortfolioCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.NotEnoughItemsAvailableToReserveInPortfolioEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ReserveItemsCommand;
+import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.test.saga.SagaTestFixture;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
+import static org.axonframework.test.matchers.Matchers.exactSequenceOf;
+import static org.axonframework.test.matchers.Matchers.matches;
 
 public class SellTradeManagerSagaTest {
 
@@ -76,9 +89,27 @@ public class SellTradeManagerSagaTest {
                .whenAggregate(transactionId.toString())
                .publishes(new SellTransactionConfirmedEvent(transactionId))
                .expectActiveSagas(1)
-               .expectDispatchedCommandsMatching(
-                       Matchers.exactSequenceOf(CreateSellOrderCommandMatcher.newInstance(portfolioId, orderBookId, 100, 10))
-               );
+               .expectDispatchedCommandsMatching(exactSequenceOf(matches(
+                       command -> matchCreateSellOrderCommand(command, orderBookId, portfolioId, 100, 10)
+               )));
+    }
+
+    @SuppressWarnings({"unchecked", "SameParameterValue"})
+    private boolean matchCreateSellOrderCommand(Object resultCommand,
+                                                OrderBookId expectedOrderBookId,
+                                                PortfolioId expectedPortfolioId,
+                                                int expectedTradeCount,
+                                                int expectedItemPrice) {
+        if (!(resultCommand instanceof CommandMessage)) {
+            return false;
+        }
+        CommandMessage<CreateSellOrderCommand> commandMessage = (CommandMessage<CreateSellOrderCommand>) resultCommand;
+        CreateSellOrderCommand commandPayload = commandMessage.getPayload();
+
+        return expectedOrderBookId.equals(commandPayload.getOrderBookId())
+                && expectedPortfolioId.equals(commandPayload.getPortfolioId())
+                && expectedTradeCount == commandPayload.getTradeCount()
+                && expectedItemPrice == commandPayload.getItemPrice();
     }
 
     @Test
