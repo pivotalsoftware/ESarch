@@ -36,7 +36,7 @@ public abstract class DigestUtils {
      * @return the SHA1 Hash
      */
     public static String sha1(String text) {
-        notNull(text);
+        notNull(text, "The provided text should no be null");
         try {
             MessageDigest md = MessageDigest.getInstance("SHA1");
             return hex(md.digest(text.getBytes("UTF-8")));
@@ -60,7 +60,7 @@ public abstract class DigestUtils {
      * @return The hex representation of the hash value
      */
     public static String md5(String text) {
-        notNull(text);
+        notNull(text, "The provided text should no be null");
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             return hex(md.digest(text.getBytes()));
@@ -79,7 +79,7 @@ public abstract class DigestUtils {
      * @return the hex representation of the String
      */
     public static String hex(byte[] data) {
-        notNull(data);
+        notNull(data, "The provided data should no be null");
         return hex(data, 0, data.length);
     }
 
@@ -92,7 +92,7 @@ public abstract class DigestUtils {
      * @return the hex representation of the String
      */
     public static String hex(byte[] data, int offset, int length) {
-        notNull(data);
+        notNull(data, "The provided data should no be null");
         state(offset >= 0, "The offset must be positive");
         state(offset < data.length, "The offset must be lower than the length of the data");
         state(length >= 0, "The requested length must be positive");
