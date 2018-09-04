@@ -23,11 +23,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
@@ -40,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-@ProcessingGroup("queryModel")
+@ProcessingGroup("trading")
 public class PortfolioEventHandler {
 
     private final static Logger logger = LoggerFactory.getLogger(PortfolioEventHandler.class);
