@@ -1,10 +1,16 @@
 package io.pivotal.refarch.cqrs.trader.tradingengine;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
+import org.axonframework.serialization.Serializer;
+import org.axonframework.serialization.json.JacksonSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 
 @EnableDiscoveryClient
 @SpringBootApplication
@@ -21,4 +27,24 @@ public class TradingEngineApplication {
     public static void main(String[] args) {
         SpringApplication.run(TradingEngineApplication.class, args);
     }
+
+    /**
+     * Instantiate an {@link ObjectMapper} for Jackson de-/serialization.
+     * Additionally, a {@link KotlinModule} is registered, as the Commands, Events and Queries are written in Kotlin.
+     *
+     * @return an {@link ObjectMapper} for Jackson de-/serialization
+     */
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new KotlinModule());
+        return objectMapper;
+    }
+
+    @Bean
+    @Qualifier("eventSerializer")
+    public Serializer eventSerializer(ObjectMapper objectMapper) {
+        return new JacksonSerializer(objectMapper);
+    }
+
 }

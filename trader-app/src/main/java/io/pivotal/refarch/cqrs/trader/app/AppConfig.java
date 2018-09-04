@@ -6,6 +6,8 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.distributed.DistributedCommandBus;
 import org.axonframework.messaging.interceptors.LoggingInterceptor;
+import org.axonframework.serialization.Serializer;
+import org.axonframework.serialization.json.JacksonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,11 +30,6 @@ public class AppConfig {
         commandBus.registerHandlerInterceptor(new LoggingInterceptor<>());
     }
 
-    @Autowired
-    public void configure(DistributedCommandBus commandBus) {
-        commandBus.registerHandlerInterceptor((unitOfWork, interceptorChain) -> interceptorChain.proceed());
-    }
-
     /**
      * Instantiate an {@link ObjectMapper} for Jackson de-/serialization.
      * Additionally, a {@link KotlinModule} is registered, as the Commands, Events and Queries are written in Kotlin.
@@ -44,6 +41,12 @@ public class AppConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new KotlinModule());
         return objectMapper;
+    }
+
+    @Bean
+    @Qualifier("eventSerializer")
+    public Serializer eventSerializer(ObjectMapper objectMapper) {
+        return new JacksonSerializer(objectMapper);
     }
 
     @Bean
