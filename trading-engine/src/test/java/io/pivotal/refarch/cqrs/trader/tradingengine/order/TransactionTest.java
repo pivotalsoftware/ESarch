@@ -38,7 +38,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.*;
 
-public class TransactionCommandHandlingTest {
+public class TransactionTest {
 
     private AggregateTestFixture<Transaction> fixture;
 
