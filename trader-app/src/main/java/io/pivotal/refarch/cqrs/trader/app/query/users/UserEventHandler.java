@@ -16,12 +16,18 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.users;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByNameQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @ProcessingGroup("userQueryModel")
@@ -40,7 +46,6 @@ public class UserEventHandler {
         userView.setIdentifier(event.getUserId().getIdentifier());
         userView.setName(event.getName());
         userView.setUsername(event.getUsername());
-        userView.setPassword(event.getPassword());
 
         userRepository.save(userView);
     }
@@ -51,7 +56,8 @@ public class UserEventHandler {
     }
 
     @QueryHandler
-    public UserView find(UserByNameQuery query) {
-        return userRepository.findByUsername(query.getUserName());
+    public List<UserView> findAll(FindAllUsersQuery query) {
+        return userRepository.findAll(PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name")))).getContent();
     }
+
 }

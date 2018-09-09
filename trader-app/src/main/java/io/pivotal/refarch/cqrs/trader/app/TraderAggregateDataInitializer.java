@@ -1,9 +1,7 @@
 package io.pivotal.refarch.cqrs.trader.app;
 
-import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
@@ -79,7 +77,10 @@ public class TraderAggregateDataInitializer {
             return false;
         }
 
-        createCompanies();
+        CompanyId pivotalId = new CompanyId();
+        CompanyId axonIQId = new CompanyId();
+        commandGateway.sendAndWait(new CreateCompanyCommand(pivotalId, "Pivotal", 500, 5000));
+        commandGateway.sendAndWait(new CreateCompanyCommand(axonIQId, "AxonIQ", 1000, 10000));
 
         UserId buyer1 = createUser("Buyer One", "buyer1");
         UserId buyer2 = createUser("Buyer Two", "buyer2");
@@ -89,11 +90,11 @@ public class TraderAggregateDataInitializer {
         UserId buyer6 = createUser("Buyer Six", "buyer6");
 
         addMoney(buyer1, 100000);
-        addItems(buyer2, "Pivotal", 10000L);
+        addItems(buyer2, pivotalId, 10000L);
         addMoney(buyer3, 100000);
-        addItems(buyer4, "Pivotal", 10000L);
+        addItems(buyer4, axonIQId, 10000L);
         addMoney(buyer5, 100000);
-        addItems(buyer6, "AxonIQ", 10000L);
+        addItems(buyer6, axonIQId, 10000L);
 
         return true;
     }
@@ -104,11 +105,6 @@ public class TraderAggregateDataInitializer {
         return userId;
     }
 
-    private void createCompanies() {
-        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), "Pivotal", 500, 5000));
-        commandGateway.sendAndWait(new CreateCompanyCommand(new CompanyId(), "AxonIQ", 1000, 10000));
-    }
-
     private void addMoney(UserId userId, long amount) throws ExecutionException, InterruptedException {
         PortfolioView portfolioView = queryNonNull(new PortfolioByUserIdQuery(userId),
                                                    ResponseTypes.instanceOf(PortfolioView.class));
@@ -116,23 +112,21 @@ public class TraderAggregateDataInitializer {
         commandGateway.sendAndWait(new DepositCashCommand(new PortfolioId(portfolioView.getIdentifier()), amount));
     }
 
-    private void addItems(UserId userId, String companyName, long amount)
+    private void addItems(UserId userId, CompanyId companyId, long amount)
             throws ExecutionException, InterruptedException {
         PortfolioView portfolioView = queryNonNull(new PortfolioByUserIdQuery(userId),
                                                    ResponseTypes.instanceOf(PortfolioView.class));
-        OrderBookView orderBookView = obtainOrderBookByCompanyName(companyName);
+        OrderBookView orderBookView = obtainOrderBookByCompanyId(companyId);
 
         commandGateway.sendAndWait(new AddItemsToPortfolioCommand(new PortfolioId(portfolioView.getIdentifier()),
                                                                   new OrderBookId(orderBookView.getIdentifier()),
                                                                   amount));
     }
 
-    private OrderBookView obtainOrderBookByCompanyName(String companyName)
+    private OrderBookView obtainOrderBookByCompanyId(CompanyId companyId)
             throws ExecutionException, InterruptedException {
-        CompanyView companyView = queryNonNull(new CompanyByNameQuery(companyName),
-                                               ResponseTypes.instanceOf(CompanyView.class));
         OrderBooksByCompanyIdQuery query =
-                new OrderBooksByCompanyIdQuery(new CompanyId(companyView.getIdentifier()));
+                new OrderBooksByCompanyIdQuery(companyId);
         List<OrderBookView> orderBookEntries =
                 queryGateway.query(query, ResponseTypes.multipleInstancesOf(OrderBookView.class)).get();
 

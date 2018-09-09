@@ -7,8 +7,8 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionVi
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
@@ -19,20 +19,22 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByP
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.InstanceResponseType;
 import org.axonframework.queryhandling.responsetypes.MultipleInstancesResponseType;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 // Suppresses unchecked generic on InstanceResponseType and MultipleInstancesResponseType
@@ -65,19 +67,18 @@ public class QueryControllerTest {
     }
 
     @Test
-    public void testGetCompanyByNameReturnsCompany() throws Exception {
+    public void testFindAllCompaniesReturnsListOfCompany() throws Exception {
         CompanyView expectedView = new CompanyView();
 
-        String testCompanyName = "some-company-name";
-        CompanyByNameQuery testQuery = new CompanyByNameQuery(testCompanyName);
-        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
-                .thenReturn(completedFuture(expectedView));
+        FindAllCompaniesQuery testQuery = new FindAllCompaniesQuery(0, 50);
+        when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
+                .thenReturn(completedFuture(singletonList(expectedView)));
 
-        CompletableFuture<CompanyView> result = testSubject.getCompanyByName(testCompanyName);
+        CompletableFuture<List<CompanyView>> result = testSubject.findAllCompanies(0, 50);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
-        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+        assertEquals(expectedView, result.get().get(0));
+        verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class QueryControllerTest {
 
     @Test
     public void testGetOrderBooksByCompanyIdReturnsListOfOrderBook() throws Exception {
-        List<OrderBookView> expectedView = Collections.singletonList(new OrderBookView());
+        List<OrderBookView> expectedView = singletonList(new OrderBookView());
 
         String testCompanyId = "some-company-id";
         OrderBooksByCompanyIdQuery testQuery = new OrderBooksByCompanyIdQuery(new CompanyId(testCompanyId));
@@ -131,7 +132,7 @@ public class QueryControllerTest {
     @Test
     public void testGetTransactionsByPortfolioIdReturnsListOfTransaction()
             throws Exception {
-        List<TransactionView> expectedView = Collections.singletonList(new TransactionView());
+        List<TransactionView> expectedView = singletonList(new TransactionView());
 
         String testPortfolioId = "some-portfolio-id";
         TransactionsByPortfolioIdQuery testQuery = new TransactionsByPortfolioIdQuery(new PortfolioId(testPortfolioId));
@@ -148,7 +149,7 @@ public class QueryControllerTest {
     @Test
     public void testGetExecutedTradesByOrderBookIdReturnsListOfTradeExecuted()
             throws Exception {
-        List<TradeExecutedView> expectedView = Collections.singletonList(new TradeExecutedView());
+        List<TradeExecutedView> expectedView = singletonList(new TradeExecutedView());
 
         String testOrderBookId = "some-order-book-id";
         ExecutedTradesByOrderBookIdQuery testQuery =
@@ -212,18 +213,17 @@ public class QueryControllerTest {
     }
 
     @Test
-    public void testGetUserByNameReturnsUser() throws Exception {
+    public void testFindAllUsersReturnsUserList() throws Exception {
         UserView expectedView = new UserView();
 
-        String testUserName = "some-user-name";
-        UserByNameQuery testQuery = new UserByNameQuery(testUserName);
-        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
-                .thenReturn(completedFuture(expectedView));
+        FindAllUsersQuery testQuery = new FindAllUsersQuery(0, 50);
+        when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
+                .thenReturn(completedFuture(singletonList(expectedView)));
 
-        CompletableFuture<UserView> result = testSubject.getUserByName(testUserName);
+        CompletableFuture<List<UserView>> result = testSubject.findAllUsers(0, 50);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
-        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+        assertEquals(expectedView, result.get().get(0));
+        verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 }

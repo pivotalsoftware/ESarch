@@ -7,8 +7,8 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TransactionVi
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
@@ -19,15 +19,12 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByP
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -48,10 +45,11 @@ public class QueryController {
                                   ResponseTypes.instanceOf(CompanyView.class));
     }
 
-    @GetMapping("/company/by-name/{companyName}")
-    public CompletableFuture<CompanyView> getCompanyByName(@PathVariable String companyName) {
-        return queryGateway.query(new CompanyByNameQuery(companyName),
-                                  ResponseTypes.instanceOf(CompanyView.class));
+    @GetMapping("/company")
+    public CompletableFuture<List<CompanyView>> findAllCompanies(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
+        return queryGateway.query(new FindAllCompaniesQuery(page, pageSize),
+                                  ResponseTypes.multipleInstancesOf(CompanyView.class));
     }
 
     @GetMapping("/order-book/{orderBookId}")
@@ -101,8 +99,10 @@ public class QueryController {
         return queryGateway.query(new UserByIdQuery(new UserId(userId)), ResponseTypes.instanceOf(UserView.class));
     }
 
-    @GetMapping("/user/by-name/{userName}")
-    public CompletableFuture<UserView> getUserByName(@PathVariable String userName) {
-        return queryGateway.query(new UserByNameQuery(userName), ResponseTypes.instanceOf(UserView.class));
+    @GetMapping("/user")
+    public CompletableFuture<List<UserView>> findAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                          @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
+        return queryGateway.query(new FindAllUsersQuery(page, pageSize), ResponseTypes.multipleInstancesOf(UserView.class));
     }
+
 }

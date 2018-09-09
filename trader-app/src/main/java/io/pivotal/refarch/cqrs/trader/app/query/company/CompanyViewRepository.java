@@ -20,5 +20,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompanyViewRepository extends JpaRepository<CompanyView, String> {
 
-    CompanyView findByName(String name);
 }

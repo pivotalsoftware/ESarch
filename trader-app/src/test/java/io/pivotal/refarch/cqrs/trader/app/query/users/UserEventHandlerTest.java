@@ -1,14 +1,21 @@
 package io.pivotal.refarch.cqrs.trader.app.query.users;
 
+import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
-import org.junit.*;
-import org.junit.runner.*;
-import org.mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -58,14 +65,14 @@ public class UserEventHandlerTest {
     }
 
     @Test
-    public void testFindUserByNameQueryReturnsAUserView() {
+    public void testFindAllUserQueryReturnsAListOfUserViews() {
         UserView testView = buildTestView();
 
-        when(userViewRepository.findByUsername(NAME)).thenReturn(testView);
+        when(userViewRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(testView)));
 
-        UserView result = testSubject.find(new UserByNameQuery(NAME));
+        List<UserView> result = testSubject.findAll(new FindAllUsersQuery(0, 50));
 
-        assertEquals(testView, result);
+        assertEquals(testView, result.get(0));
     }
 
     private UserView buildTestView() {
@@ -73,7 +80,6 @@ public class UserEventHandlerTest {
         testView.setIdentifier(testUserId.getIdentifier());
         testView.setName(NAME);
         testView.setUsername(USERNAME);
-        testView.setPassword(PASSWORD);
         return testView;
     }
 }

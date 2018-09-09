@@ -29,7 +29,6 @@ public class UserView implements Serializable {
     private String identifier;
     private String name;
     private String username;
-    private String password;
 
     public String getIdentifier() {
         return identifier;
@@ -65,9 +64,5 @@ public class UserView implements Serializable {
 
     public String getFullName() {
         return this.name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

@@ -17,11 +17,17 @@
 package io.pivotal.refarch.cqrs.trader.app.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 public class CompanyEventHandler {
@@ -50,8 +56,9 @@ public class CompanyEventHandler {
         return companyRepository.getOne(query.getCompanyId().getIdentifier());
     }
 
+
     @QueryHandler
-    public CompanyView find(CompanyByNameQuery query) {
-        return companyRepository.findByName(query.getCompanyName());
+    public List<CompanyView> find(FindAllCompaniesQuery query) {
+        return companyRepository.findAll(PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name")))).getContent();
     }
 }

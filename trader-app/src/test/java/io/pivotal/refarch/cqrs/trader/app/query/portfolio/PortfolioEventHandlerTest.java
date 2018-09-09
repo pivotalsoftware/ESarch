@@ -26,22 +26,20 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
-import org.junit.*;
-import org.mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -338,7 +336,6 @@ public class PortfolioEventHandlerTest {
         UserView testView = new UserView();
         testView.setIdentifier(userId.getIdentifier());
         testView.setUsername("john.doe");
-        testView.setPassword("54498159823489s9fd84");
         return testView;
     }
 }

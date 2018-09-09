@@ -10,7 +10,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.portfolio.ItemEntry;
 import io.pivotal.refarch.cqrs.trader.app.query.portfolio.PortfolioView;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.TransactionType;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
@@ -20,8 +20,8 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionStat
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByNameQuery;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.InstanceResponseType;
@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -55,8 +56,8 @@ public class QueryContractTest {
 
         when(queryGateway.query(any(CompanyByIdQuery.class), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildCompanyView()));
-        when(queryGateway.query(any(CompanyByNameQuery.class), any(InstanceResponseType.class)))
-                .thenReturn(CompletableFuture.completedFuture(buildCompanyView()));
+        when(queryGateway.query(any(FindAllCompaniesQuery.class), any(MultipleInstancesResponseType.class)))
+                .thenReturn(CompletableFuture.completedFuture(buildAllCompaniesView()));
         when(queryGateway.query(any(OrderBookByIdQuery.class), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildOrderBookView()));
         when(queryGateway.query(any(OrderBooksByCompanyIdQuery.class), any(MultipleInstancesResponseType.class)))
@@ -73,8 +74,8 @@ public class QueryContractTest {
                 .thenReturn(CompletableFuture.completedFuture(buildPortfolioView()));
         when(queryGateway.query(any(UserByIdQuery.class), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildUserView()));
-        when(queryGateway.query(any(UserByNameQuery.class), any(InstanceResponseType.class)))
-                .thenReturn(CompletableFuture.completedFuture(buildUserView()));
+        when(queryGateway.query(any(FindAllUsersQuery.class), any(MultipleInstancesResponseType.class)))
+                .thenReturn(CompletableFuture.completedFuture(buildAllUsersView()));
 
         final QueryController queryController = new QueryController(queryGateway);
 
@@ -90,6 +91,10 @@ public class QueryContractTest {
         companyView.setValue(1337L);
         companyView.setTradeStarted(false);
         return companyView;
+    }
+
+    private List<CompanyView> buildAllCompaniesView() {
+        return Collections.singletonList(buildCompanyView());
     }
 
     @NotNull
@@ -197,7 +202,11 @@ public class QueryContractTest {
         userView.setIdentifier(USER_ID);
         userView.setName(USER_NAME);
         userView.setUsername("john.doe");
-        userView.setPassword("something-difficult");
         return userView;
+    }
+
+    @NotNull
+    private List<UserView> buildAllUsersView() {
+        return Collections.singletonList(buildUserView());
     }
 }

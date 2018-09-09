@@ -1,15 +1,22 @@
 package io.pivotal.refarch.cqrs.trader.app.query.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByNameQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
-import org.junit.*;
-import org.junit.runner.*;
-import org.mockito.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -68,7 +75,7 @@ public class CompanyEventHandlerTest {
     }
 
     @Test
-    public void testFindCompanyByNameReturnsACompanyView() {
+    public void testFindAllCompaniesReturnsAllCompanyViews() {
         CompanyView testView = new CompanyView();
         testView.setIdentifier(testCompanyId.getIdentifier());
         testView.setName(COMPANY_NAME);
@@ -76,10 +83,10 @@ public class CompanyEventHandlerTest {
         testView.setAmountOfShares(AMOUNT_OF_SHARES);
         testView.setTradeStarted(false);
 
-        when(companyViewRepository.findByName(COMPANY_NAME)).thenReturn(testView);
+        when(companyViewRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(singletonList(testView)));
 
-        CompanyView result = testSubject.find(new CompanyByNameQuery(COMPANY_NAME));
+        List<CompanyView> result = testSubject.find(new FindAllCompaniesQuery(0, 50));
 
-        assertEquals(testView, result);
+        assertEquals(testView, result.get(0));
     }
 }
