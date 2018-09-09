@@ -1,6 +1,8 @@
 package io.pivotal.refarch.cqrs.trader.app;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import org.axonframework.commandhandling.CommandBus;
@@ -40,6 +42,8 @@ public class AppConfig {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new KotlinModule());
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return objectMapper;
     }
 

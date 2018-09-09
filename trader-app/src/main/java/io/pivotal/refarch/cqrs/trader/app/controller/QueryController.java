@@ -23,9 +23,13 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
+import org.axonframework.queryhandling.SubscriptionQueryResult;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -103,6 +107,27 @@ public class QueryController {
     public CompletableFuture<List<UserView>> findAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                                                           @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
         return queryGateway.query(new FindAllUsersQuery(page, pageSize), ResponseTypes.multipleInstancesOf(UserView.class));
+    }
+
+    @GetMapping("/subscribe/order-book/{orderBookId}")
+    public SseEmitter subscribeToOrderBook(@PathVariable String orderBookId) throws IOException {
+        SseEmitter sseEmitter = new SseEmitter();
+        SubscriptionQueryResult<OrderBookView, OrderBookView> subscription = queryGateway.subscriptionQuery(new OrderBookByIdQuery(new OrderBookId(orderBookId)),
+                                                                                                            ResponseTypes.instanceOf(OrderBookView.class),
+                                                                                                            ResponseTypes.instanceOf(OrderBookView.class));
+        sseEmitter.send(subscription.initialResult().block());
+        subscription.updates().doOnEach(ov -> {
+            try {
+                sseEmitter.send(ov);
+            } catch (IOException e) {
+                sseEmitter.completeWithError(e);
+            }
+        }).subscribe();
+
+        sseEmitter.onTimeout(subscription::close);
+        sseEmitter.onError(e -> subscription.close());
+        sseEmitter.onCompletion(subscription::close);
+        return sseEmitter;
     }
 
 }
