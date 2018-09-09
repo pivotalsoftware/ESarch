@@ -23,8 +23,11 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.FindAllUsersQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.SubscriptionQueryResult;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -47,7 +50,7 @@ public class QueryController {
 
     @GetMapping("/company")
     public CompletableFuture<List<CompanyView>> findAllCompanies(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                               @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
+                                                                 @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
         return queryGateway.query(new FindAllCompaniesQuery(page, pageSize),
                                   ResponseTypes.multipleInstancesOf(CompanyView.class));
     }
@@ -103,6 +106,15 @@ public class QueryController {
     public CompletableFuture<List<UserView>> findAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                                                           @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
         return queryGateway.query(new FindAllUsersQuery(page, pageSize), ResponseTypes.multipleInstancesOf(UserView.class));
+    }
+
+    @GetMapping("/subscribe/order-book/{orderBookId}")
+    public Flux<ServerSentEvent<OrderBookView>> subscribeToOrderBook(@PathVariable String orderBookId) {
+        SubscriptionQueryResult<OrderBookView, OrderBookView> subscription = queryGateway.subscriptionQuery(new OrderBookByIdQuery(new OrderBookId(orderBookId)),
+                                                                                                            ResponseTypes.instanceOf(OrderBookView.class),
+                                                                                                            ResponseTypes.instanceOf(OrderBookView.class));
+        return subscription.initialResult().concatWith(subscription.updates())
+                           .map(ob -> ServerSentEvent.builder(ob).build());
     }
 
 }
