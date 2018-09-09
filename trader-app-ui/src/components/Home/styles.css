@@ -1,0 +1,93 @@
+.axon-homepage {
+  background-image: url("img/fondo.jpg");
+  background-position: center center;
+  background-repeat:  no-repeat;
+  background-size:  cover;
+  background-color: #999;
+}
+
+.table-credentials {
+  background-color: #ffffff;
+  border-bottom: 8px solid  #01ade5;
+  border-top: none;
+  border-radius: 5px;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+}
+
+.table-credentials th {
+  background-color: #f6f6f6;
+  border-top: none;
+  border-radius: 5px;
+}
+
+.homepage-heading {
+  font-size: 64px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  color: #ffffff;
+}
+
+.homepage-title {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  color: #ffffff;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.text-info-axon {
+  color: #01ade5;
+}
+
+.text-info-homepage {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  color: #01ade5;
+}
+
+.banner-info {
+  font-size: 16px;
+  line-height: 1.63;
+}
+
+.header-info {
+  font-size: 24px;
+  line-height: 1.08;
+}
+
+.text-homepage {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.63;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+.btn-dashboard {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  color: #350076;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: solid 1px #ffffff;
+}

@@ -1,0 +1,22 @@
+/* customize navbar form controls */
+.navbar-input{
+    background-color: #53208C;
+    border: none;
+    color: #ffffff;
+}
+
+/* Firefox */
+.navbar-input::placeholder {
+    color:#D3D3D3;
+    opacity: 1; /* Firefox */
+}
+
+ /* Internet Explorer 10-11 */
+.navbar-input:-ms-input-placeholder {
+    color:#D3D3D3;
+}
+
+/* Microsoft Edge */
+.navbar-input::-ms-input-placeholder{
+    color:#D3D3D3;
+}

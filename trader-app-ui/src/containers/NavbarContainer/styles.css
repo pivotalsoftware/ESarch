@@ -1,0 +1,46 @@
+/* customized bootstrap navbar */
+
+.bg-axon {
+  background-color: #340976;
+}
+
+/* customize the navbar link */
+.bg-axon .nav-item,
+.bg-axon .navbar-nav .nav-link {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  color: #ffffff;
+  border-bottom: 2px solid #340976;
+}
+
+.bg-axon .nav-item {
+  color: #01ade5;
+  font-size: 18px;
+}
+
+/* customize active or hovered navbar links */
+.bg-axon .nav-item .nav-link.active,
+.bg-axon .nav-item:hover .nav-link {
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff; 
+}
+
+/* customize the brand */
+.bg-axon .navbar-brand,
+.bg-axon .navbar-text {
+  font-weight: bold;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0px;
+  color: #ffffff;
+
+}
