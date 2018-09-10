@@ -9,8 +9,6 @@ import NavbarContainer from '../NavbarContainer';
 import LoginContainer from '../LoginContainer';
 import Home from '../../components/Home';
 import DashboardContainer from '../DashboardContainer';
-import PortfolioContainer from '../PortfolioContainer';
-import Portfolios from '../../components/Portfolios/Portfolios';
 import Companies from '../CompanyListContainer';
 import PrivateRoute from '../PrivateRoute';
 import CompanyContainer from '../CompanyContainer';
@@ -38,8 +36,6 @@ export default class App extends Component {
               <PrivateRoute exact path="/dashboard" component={DashboardContainer} />
               <PrivateRoute exact path='/companies' component={Companies} />
               <PrivateRoute exact path='/companies/:id' component={CompanyContainer} />
-              <PrivateRoute exact path='/portfolios' component={Portfolios} />
-              <PrivateRoute exact path='/portfolios/:id' component={PortfolioContainer} />
             </Switch>
           </div>
         </ConnectedRouter >
