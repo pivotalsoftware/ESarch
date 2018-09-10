@@ -8,7 +8,7 @@ import './styles.css';
 
 class NavbarContainer extends Component {
   render() {
-    const { isAuthenticated, user } = this.props;
+    const { isAuthenticated, impersonatedUser } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-axon py-4">
         <div className="container">
@@ -28,10 +28,16 @@ class NavbarContainer extends Component {
             </li>
           </ul>
             {
-              isAuthenticated ?
+              impersonatedUser ? 
                 <span className="nav-item">
-                {user.firstName} {user.lastName} &nbsp;
-                </span> : null
+                {impersonatedUser.fullName} &nbsp;
+                </span>
+               : null
+            }
+            {
+              impersonatedUser ? 
+                <Link className="btn btn btn-outline-danger my-2 my-sm-0" to="/#credentials">Switch User</Link>
+               : null
             }
 
         </div>  
@@ -43,7 +49,7 @@ class NavbarContainer extends Component {
 function matchStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
+    impersonatedUser: state.home.impersonatedUser
   };
 }
 

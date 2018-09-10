@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 export default class NavbarAuth extends Component {
@@ -33,11 +34,12 @@ export default class NavbarAuth extends Component {
           <span className="nav-item text-light">
             {user.fullName} &nbsp;
           </span>
-          <button
+          <Link className="btn btn btn-outline-danger my-2 my-sm-0" to="/">Switch User</Link>
+          {/* <button
             onClick={performLogout}
-            className="btn btn btn-outline-danger my-2 my-sm-0">
-            Logout
-          </button>
+            className="">
+            Switch User
+          </button> */}
         </div>
       )
     }

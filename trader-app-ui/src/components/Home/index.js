@@ -2,13 +2,23 @@ import React, { Component } from 'react';
 import CredentialsTable from './CredentialsTable';
 import credentials from './credentials';
 import './styles.css';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import SideBar from './SideBar';
 import Banner from './Banner';
 import Header from './Header';
+// import { getUsers } from '../../actions/home';
+import * as homeActionCreators from '../../actions/home'
 
 class Home extends Component {
 
+  componentDidMount() {
+    this.props.homeActions.getUsers();
+  }
+
   render() {
+    const { users } = this.props;
+
     return (
       <div className="axon-homepage">
         <div className="container">
@@ -20,7 +30,7 @@ class Home extends Component {
           <div className="row">
             <div className="col-md-6">
               <Header />
-              <CredentialsTable credentials={credentials} />
+              <CredentialsTable id="credentials" credentials={users} onSetImpersonatedUser={this.setImpersonatedUser}/>
             </div>
             <div className="col-md-6 text-right pt-5">
               <SideBar />
@@ -30,6 +40,23 @@ class Home extends Component {
       </div>
     )
   }
+
+  setImpersonatedUser = (user) => {
+      this.props.homeActions.setImpersonatedUser(user);
+      this.props.history.push('/dashboard');
+  }
 }
 
-export default Home;
+const mapDispatchToProps = (dispatch) => {
+    return {
+      homeActions: bindActionCreators(homeActionCreators, dispatch)
+    }
+  }
+  
+  const mapStateToProps = state => {
+    return {
+      users: state.home.users
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Home);

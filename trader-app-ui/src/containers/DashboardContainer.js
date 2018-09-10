@@ -7,7 +7,7 @@ import * as dashboardActionCreators from '../actions/dashboard'
 class DashboardContainer extends Component {
 
   componentDidMount() {
-    this.props.dashboardActions.getPortfolioByUserId(this.props.user.userId);
+    this.props.dashboardActions.getPortfolioByUserId(this.props.impersonatedUser.userId);
   }
 
   render() {
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = state => {
   return {
     dashboard: state.dashboard,
-    user: state.auth.user
+    impersonatedUser: state.home.impersonatedUser
   }
 }
 
