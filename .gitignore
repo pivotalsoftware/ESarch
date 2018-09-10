@@ -9,6 +9,9 @@
 **/.settings
 **/out
 
+# Node
+**/node_modules
+
 # Package Files #
 **/target/
 **/bin
