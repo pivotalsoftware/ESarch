@@ -2,10 +2,14 @@ import {
   FETCH_COMPANY_LIST_REQUEST,
   FETCH_COMPANY_LIST_SUCCESS,
   FETCH_COMPANY_LIST_FAILURE,
-  FETCH_COMPANY_REQUEST,
-  FETCH_COMPANY_SUCCESS,
-  FETCH_COMPANY_FAILURE
+  FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
+  FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
+  FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
+  SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
+import { status, json } from '../utils/fetch';
+
+const API_ROOT = process.env.REACT_APP_API_ROOT;
 
 const fetchCompanyListRequest = () => (
   {
@@ -39,61 +43,58 @@ const fetchCompanyListFailure = error => (
 export const fetchCompanyList = () =>
   (dispatch) => {
     dispatch(fetchCompanyListRequest());
-
-    // make the ajax request here
-    // GET /companies
-    // for now, mock the process
-
-    const fakeResponseBody = {
-      data: [
-        {
-          id: '001',
-          name: 'Bp',
-          value: '15000',
-          shares: '100000'
+    const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          id: '002',
-          name: 'Philips',
-          value: '1000',
-          shares: '10000'
-        },
-        {
-          id: '003',
-          name: 'Shell',
-          value: '500',
-          shares: '5000'
-        }
-      ]
     };
+  
+    return fetch(`${API_ROOT}/query/company`, options)
+    .then(status)
+    .then(json)
+    .then((data) => {
+      // got a successfull response from the server
+      dispatch(fetchCompanyListSuccess(data));
+    })
+    .catch((error) => {
+      // bad response
+      console.log("Get Company List Failure", error);
+      dispatch(fetchCompanyListFailure(error));
+    });  
+}
 
-    setTimeout(
-      () => dispatch(fetchCompanyListSuccess(fakeResponseBody.data)
-      ), 800);
+export function setActiveCompany(company) {
+    // todo redirect to logout page
+    return {
+      type: SET_ACTIVE_COMPANY,
+      payload: {
+        activeCompany: company
+      }
+    }
+}
 
-  }
-
-const fetchCompanyRequest = () => (
+const fetchOrderBooksByCompanyIdRequest = () => (
   {
-    type: FETCH_COMPANY_REQUEST,
+    type: FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
     payload: {
       isFetching: true
     }
   }
 )
 
-const fetchCompanySuccess = data => (
+const fetchOrderBooksByCompanyIdSuccess = data => (
   {
-    type: FETCH_COMPANY_SUCCESS,
+    type: FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
     payload: {
       isFetching: false,
       data
     }
   }
 )
-const fetchCompanyFailure = error => (
+const fetchOrderBooksByCompanyIdFailure = error => (
   {
-    type: FETCH_COMPANY_FAILURE,
+    type: FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
     payload: {
       isFetching: false,
       error
@@ -101,45 +102,27 @@ const fetchCompanyFailure = error => (
   }
 )
 
-export const fetchCompany = (id) =>
+export const fetchOrderBooksByCompanyId = (id) =>
   (dispatch) => {
-    dispatch(fetchCompanyRequest());
-
-    // make the ajax request here
-    // GET companies/{id}
-    // for now, mock the process
-
-    const fakeResponseBody = {
-      data: {
-        id: id,
-        name: "Bp",
-        value: "15000",
-        shares: "100000",
-        sellOrders: [
-          {
-            count: "10",
-            price: "200",
-            remaining: "45"
-          }
-        ],
-        buyOrders: [
-          {
-            count: "20",
-            price: "199",
-            remaining: "20"
-          }
-        ],
-        executedTrades: [
-          {
-            count: "20",
-            price: "198"
-          }
-        ]
-      }
+    dispatch(fetchOrderBooksByCompanyIdRequest());
+    const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
     };
-
-    setTimeout(
-      () => dispatch(fetchCompanySuccess(fakeResponseBody.data)
-      ), 800);
+  
+    return fetch(`${API_ROOT}/query/order-book/by-company/{id}}`, options)
+    .then(status)
+    .then(json)
+    .then((data) => {
+      // got a successfull response from the server
+      dispatch(fetchOrderBooksByCompanyIdSuccess(data));
+    })
+    .catch((error) => {
+      // bad response
+      console.log("Get order book by company failure:", error);
+      dispatch(fetchOrderBooksByCompanyIdFailure(error));
+    });  
 
   }

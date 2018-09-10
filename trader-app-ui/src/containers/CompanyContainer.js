@@ -9,17 +9,24 @@ class CompanyContainer extends Component {
   componentDidMount() {
     // get the id for the company from the url
     const id = this.props.match.params.id;
-    this.props.companyActions.fetchCompany(id);
+    this.props.companyActions.fetchOrderBooksByCompanyId(id);
   }
 
   render() {
     const { companies } = this.props;
     return (
       <div className="container">
-        <Company company={companies.activeCompany} />
+        <Company company={companies.companyOrderBook} onCompanyDetails={this.setActiveCompany}/>
       </div>
     );
   }
+
+  setActiveCompany(company) {
+    console.log('Set active comapny....');
+    console.log(company);
+    this.props.companyActions.setActiveCompany(company);
+  }
+
 }
 
 const mapDispatchToProps = (dispatch) => {

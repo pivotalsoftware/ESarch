@@ -2,18 +2,21 @@ import {
   FETCH_COMPANY_LIST_REQUEST,
   FETCH_COMPANY_LIST_SUCCESS,
   FETCH_COMPANY_LIST_FAILURE,
-  FETCH_COMPANY_REQUEST,
-  FETCH_COMPANY_SUCCESS,
-  FETCH_COMPANY_FAILURE
+  FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
+  FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
+  FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
+  SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
 
 const initialState = {
   companyList: {
     items: []
   },
-  activeCompany: {
-    isFetching: true,
-    data: {}
+  activeCompany: {},
+  companyOrderBook: {
+      isFetching: true,
+      data: {},
+      error: null
   }
 }
 
@@ -41,27 +44,31 @@ function companyReducer(state = initialState, action) {
           error: action.payload.error
         }
       })
-    case FETCH_COMPANY_REQUEST:
+    case FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST:
       return Object.assign({}, state, {
-        activeCompany: {
+        companyOrderBook: {
           isFetching: action.payload.isFetching,
           error: null
         }
       })
-    case FETCH_COMPANY_SUCCESS:
+    case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS:
       return Object.assign({}, state, {
-        activeCompany: {
+        companyOrderBook: {
           isFetching: action.payload.isFetching,
           data: action.payload.data,
           error: null
         }
       })
-    case FETCH_COMPANY_FAILURE:
+    case FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE:
       return Object.assign({}, state, {
-        activeCompany: {
+        companyOrderBook: {
           isFetching: action.payload.isFetching,
           error: action.payload.error
         }
+      })
+    case SET_ACTIVE_COMPANY:
+      return Object.assign({}, state, {
+        activeCompany: action.payload.activeCompany
       })
     default:
       return state

@@ -130,12 +130,12 @@ class CompanyList extends Component {
           {
             items.map((company) => {
               return (
-                <tr key={company.id}>
+                <tr key={company.identifier}>
                   <td>{company.name}</td>
                   <td>{company.value}</td>
-                  <td>{company.shares}</td>
+                  <td>{company.amountOfShares}</td>
                   <td>
-                      <Link to={`companies/${company.id}`}>details</Link>
+                      <Link to={`companies/${company.identifier}`}>details</Link>
                   </td>
                 </tr>
               )
