@@ -8,6 +8,9 @@ import {
   FETCH_EXECUTED_TRADES_REQUEST,
   FETCH_EXECUTED_TRADES_SUCCESS,
   FETCH_EXECUTED_TRADES_FAILURE,
+  PLACE_BUY_ORDER_REQUEST,
+  PLACE_BUY_ORDER_SUCCESS,
+  PLACE_BUY_ORDER_FAILURE,
   SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
 
@@ -29,6 +32,10 @@ const initialState = {
       error: null,
       trades: []
     }
+  },
+  buyOrder: {
+    isFetching: false,
+    error: null
   }
 }
 
@@ -68,6 +75,8 @@ function companyReducer(state = initialState, action) {
         }
       }
     case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS:
+      const orderBook = action.payload.data && action.payload.data.length > 0 && action.payload.data[0]
+
       return {
         ...state,
         activeCompany: {
@@ -75,9 +84,9 @@ function companyReducer(state = initialState, action) {
           orderBook: {
             isFetching: false,
             error: null,
-            identifier: action.payload.data.identifier,
-            buy: action.payload.data.buyOrders,
-            sell: action.payload.data.sellOrders
+            identifier: orderBook.identifier || null,
+            buy: orderBook.buyOrders || [],
+            sell: orderBook.sellOrders || []
           }
         }
       }
@@ -129,6 +138,30 @@ function companyReducer(state = initialState, action) {
             error: action.payload.error,
             trades: []
           }
+        }
+      }
+    case PLACE_BUY_ORDER_REQUEST:
+      return {
+        ...state,
+        buyOrder: {
+          isFetching: true,
+          error: null
+        }
+      }
+    case PLACE_BUY_ORDER_SUCCESS:
+      return {
+        ...state,
+        buyOrder: {
+          isFetching: false,
+          error: null
+        }
+      }
+    case PLACE_BUY_ORDER_FAILURE:
+      return {
+        ...state,
+        buyOrder: {
+          isFetching: false,
+          error: action.payload.error
         }
       }
     case SET_ACTIVE_COMPANY:

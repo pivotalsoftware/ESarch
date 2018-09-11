@@ -1,7 +1,7 @@
 import React from 'react';
 
 const dataTable = (props) => {
-  if(props.data.length === 0) {
+  if(!props.data || props.data.length === 0) {
     return null;
   }
 

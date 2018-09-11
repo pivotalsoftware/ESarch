@@ -8,6 +8,9 @@ import {
   FETCH_EXECUTED_TRADES_REQUEST,
   FETCH_EXECUTED_TRADES_SUCCESS,
   FETCH_EXECUTED_TRADES_FAILURE,
+  PLACE_BUY_ORDER_REQUEST,
+  PLACE_BUY_ORDER_SUCCESS,
+  PLACE_BUY_ORDER_FAILURE,
   SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
 import { status, json } from '../utils/fetch';
@@ -132,6 +135,30 @@ const fetchExecutedTradesFailure = (error) => {
   }
 }
 
+const placeBuyOrderRequest = () => {
+  return {
+    type: PLACE_BUY_ORDER_REQUEST
+  }
+}
+
+const placeBuyOrderSuccess = (transactionId) => {
+  return {
+    type: PLACE_BUY_ORDER_SUCCESS,
+    payload: {
+      transactionId
+    }
+  }
+}
+
+const placeBuyOrderFailure = (error) => {
+  return {
+    type: PLACE_BUY_ORDER_FAILURE,
+    payload: {
+      error
+    }
+  }
+}
+
 export const fetchOrderBooksByCompanyId = (id) =>
   (dispatch) => {
     dispatch(fetchOrderBooksByCompanyIdRequest());
@@ -142,12 +169,12 @@ export const fetchOrderBooksByCompanyId = (id) =>
         },
     };
   
-    return fetch(`${API_ROOT}/query/order-book/by-company/{id}}`, options)
+    return fetch(`${API_ROOT}/query/order-book/by-company/${id}`, options)
     .then(status)
     .then(json)
     .then((data) => {
       // got a successfull response from the server
-      const mockData = {
+      const mockData = [{
         identifier: '38209d',
         sellOrders: [{
           tradeCount: 5,
@@ -159,9 +186,9 @@ export const fetchOrderBooksByCompanyId = (id) =>
           itemPrice: 50,
           itemsRemaining: 35
         }]
-      }
+      }]
 
-      dispatch(fetchOrderBooksByCompanyIdSuccess(mockData));
+      dispatch(fetchOrderBooksByCompanyIdSuccess(data));
     })
     .catch((error) => {
       // bad response
@@ -195,11 +222,43 @@ export const fetchOrderBooksByCompanyId = (id) =>
             }
           ]
           dispatch(fetchExecutedTradesSuccess(mockData))
-          console.log('success')
         })
         .catch(error => {
           dispatch(fetchExecutedTradesFailure(error))
           console.log('error')
+        })
+    }
+  }
+
+  export const placeBuyOrder = (orderBookId, portfolioId, price, amount) => {
+    return (dispatch) => {
+      dispatch(placeBuyOrderRequest());
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderBookId,
+	        portfolioId,
+	        tradeCount: amount,
+	        pricePerItem: price
+        })
+      };
+
+      console.log(options.body)
+
+      return fetch(`${API_ROOT}/command/StartBuyTransactionCommand`, options)
+        .then(status)
+        .then(json)
+        .then(transactionId => {
+          console.log('success: ' + transactionId)
+          dispatch(placeBuyOrderSuccess(transactionId))
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error, null, 4))
+          dispatch(placeBuyOrderFailure(error))
         })
     }
   }
