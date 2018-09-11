@@ -13,6 +13,7 @@ import Companies from '../CompanyListContainer';
 import SecureRoute from '../SecureRoute';
 import CompanyContainer from '../CompanyContainer';
 import BuyContainer from '../BuyContainer';
+import SellContainer from '../SellContainer';
 import rootReducer from '../../reducers';
 
 const history = createHistory();
@@ -38,6 +39,7 @@ export default class App extends Component {
               <SecureRoute exact path='/companies' component={Companies} />
               <SecureRoute exact path='/companies/:id' component={CompanyContainer} />
               <SecureRoute exact path='/companies/:id/buy' component={BuyContainer} />
+              <SecureRoute exact path='/companies/:id/sell' component={SellContainer} />
             </Switch>
           </div>
         </ConnectedRouter >

@@ -32,7 +32,11 @@ class Company extends Component {
             </Link>
           </div>
           <div className="col-md-2">
-            <button className="btn btn-primary btn-block" type="submit">Sell</button>
+            <Link
+              className="btn btn-primary btn-block"
+              to={`/companies/${company.identifier}/sell`}>
+                Sell
+            </Link>
           </div>
         </div>
         <div className="row">
