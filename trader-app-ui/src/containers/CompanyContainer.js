@@ -9,24 +9,26 @@ class CompanyContainer extends Component {
   componentDidMount() {
     // get the id for the company from the url
     const id = this.props.match.params.id;
+    this.props.companyActions.setActiveCompany(id);
     this.props.companyActions.fetchOrderBooksByCompanyId(id);
   }
 
+  componentDidUpdate(oldProps, oldState) {
+    if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
+        && !this.props.tradeDetails.orderBook.error) {
+          const orderBookId = this.props.tradeDetails.orderBook.identifier
+          this.props.companyActions.fetchExecutedTradesByOrderBookId(orderBookId)
+        }
+  }
+
   render() {
-    const { companies } = this.props;
+    const { company, tradeDetails } = this.props;
     return (
       <div className="container">
-        <Company company={companies.companyOrderBook} onCompanyDetails={this.setActiveCompany}/>
+        <Company company={company} tradeDetails={tradeDetails} />
       </div>
     );
   }
-
-  setActiveCompany(company) {
-    console.log('Set active comapny....');
-    console.log(company);
-    this.props.companyActions.setActiveCompany(company);
-  }
-
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -37,7 +39,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => {
   return {
-    companies: state.companies
+    company: state.companies.companyList.items[
+      state.companies.activeCompany.index
+    ],
+    tradeDetails: state.companies.activeCompany
   }
 }
 

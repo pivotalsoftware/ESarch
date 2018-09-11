@@ -5,6 +5,9 @@ import {
   FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
   FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
   FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
+  FETCH_EXECUTED_TRADES_REQUEST,
+  FETCH_EXECUTED_TRADES_SUCCESS,
+  FETCH_EXECUTED_TRADES_FAILURE,
   SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
 
@@ -12,11 +15,20 @@ const initialState = {
   companyList: {
     items: []
   },
-  activeCompany: {},
-  companyOrderBook: {
-      isFetching: true,
-      data: {},
-      error: null
+  activeCompany: {
+    index: null,
+    orderBook: {
+      isFetching: false,
+      error: null,
+      identifier: null,
+      buy: [],
+      sell: []
+    },
+    executedTrades: {
+      isFetching: false,
+      error: null,
+      trades: []
+    }
   }
 }
 
@@ -45,31 +57,88 @@ function companyReducer(state = initialState, action) {
         }
       })
     case FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST:
-      return Object.assign({}, state, {
-        companyOrderBook: {
-          isFetching: action.payload.isFetching,
-          error: null
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          orderBook: {
+            ...state.activeCompany.orderBook,
+            isFetching: true
+          }
         }
-      })
+      }
     case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS:
-      return Object.assign({}, state, {
-        companyOrderBook: {
-          isFetching: action.payload.isFetching,
-          data: action.payload.data,
-          error: null
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          orderBook: {
+            isFetching: false,
+            error: null,
+            identifier: action.payload.data.identifier,
+            buy: action.payload.data.buyOrders,
+            sell: action.payload.data.sellOrders
+          }
         }
-      })
+      }
     case FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE:
-      return Object.assign({}, state, {
-        companyOrderBook: {
-          isFetching: action.payload.isFetching,
-          error: action.payload.error
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          orderBook: {
+            isFetching: false,
+            error: action.payload.error,
+            identifier: null,
+            buy: [],
+            sell: []
+          }
         }
-      })
+      }
+    case FETCH_EXECUTED_TRADES_REQUEST:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          executedTrades: {
+            isFetching: true,
+            error: null,
+            ...state.activeCompany.executedTrades
+          }
+        }
+      }
+    case FETCH_EXECUTED_TRADES_SUCCESS:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          executedTrades: {
+            isFetching: false,
+            error: null,
+            trades: action.payload.data
+          }
+        }
+      }
+    case FETCH_EXECUTED_TRADES_FAILURE:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          executedTrades: {
+            isFetching: false,
+            error: action.payload.error,
+            trades: []
+          }
+        }
+      }
     case SET_ACTIVE_COMPANY:
-      return Object.assign({}, state, {
-        activeCompany: action.payload.activeCompany
-      })
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          index: action.payload.index
+        }
+      }
     default:
       return state
   }
@@ -108,36 +177,24 @@ staeOfTheCompanyReducer = {
     },
 
     activeCompany: {
-      isFetching: boolean
-      error: {
-          message: string,
-          statusCode: number
-      }
-      data: {
-        id: id,
-        name: "Bp",
-        value: "15000",
-        shares: "100000",
-        sellOrders: [
-          {
-            count: "10",
-            price: "200",
-            remaining: "45"
-          }
-        ],
-        buyOrders: [
-          {
-            count: "20",
-            price: "199",
-            remaining: "20"
-          }
-        ],
-        executedTrades: [
-          {
-            count: "20",
-            price: "198"
-          }
-        ]
+      id: 'sbajd
+      orders: {
+          isFetching: true,
+          error: {}
+        buy: [{
+          count: "10",
+          price: "200",
+          remaining: "45"
+        }],
+        sell: []
+      },
+      executedTrades: {
+        isFetching: true,
+        error: {},
+        trades: [{
+          count: 33,
+          price: 3333
+        }]
       }
     }
 

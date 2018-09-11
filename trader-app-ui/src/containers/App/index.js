@@ -12,6 +12,7 @@ import DashboardContainer from '../DashboardContainer';
 import Companies from '../CompanyListContainer';
 import PrivateRoute from '../PrivateRoute';
 import CompanyContainer from '../CompanyContainer';
+import BuyContainer from '../BuyContainer';
 import rootReducer from '../../reducers';
 
 const history = createHistory();
@@ -36,6 +37,7 @@ export default class App extends Component {
               <PrivateRoute exact path="/dashboard" component={DashboardContainer} />
               <PrivateRoute exact path='/companies' component={Companies} />
               <PrivateRoute exact path='/companies/:id' component={CompanyContainer} />
+              <PrivateRoute exact path='/companies/:id/buy' component={BuyContainer} />
             </Switch>
           </div>
         </ConnectedRouter >

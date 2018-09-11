@@ -1,6 +1,10 @@
 import React from 'react';
 
 const dataTable = (props) => {
+  if(props.data.length === 0) {
+    return null;
+  }
+
   return (
     <table className="table">
       <thead>
@@ -15,12 +19,14 @@ const dataTable = (props) => {
       <tbody>
         {
           props.data.map((item, i) => {
+            const price = item.itemPrice ? item.itemPrice : item.tradePrice
+
             return (
-              <tr key={`${i}-${item.count}-${item.price}`}>
-                <td>{item.count}</td>
-                <td>{item.price}</td>
+              <tr key={`${i}-${item.tradeCount}-${price}`}>
+                <td>{item.tradeCount}</td>
+                <td>{price}</td>
                 {
-                  item.remaining ? <td>{item.remaining}</td> : null
+                  item.itemsRemaining ? <td>{item.itemsRemaining}</td> : null
                 }
               </tr>
             )

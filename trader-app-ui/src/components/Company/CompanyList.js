@@ -135,7 +135,7 @@ class CompanyList extends Component {
                   <td>{company.value}</td>
                   <td>{company.amountOfShares}</td>
                   <td>
-                      <Link to={`companies/${company.identifier}`}>details</Link>
+                      <Link to={`/companies/${company.identifier}`}>details</Link>
                   </td>
                 </tr>
               )

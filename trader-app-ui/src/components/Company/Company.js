@@ -5,36 +5,31 @@ import DataTable from './DataTable';
 class Company extends Component {
 
   render() {
+    const { company, tradeDetails } = this.props;
 
-    const { isFetching, error, data } = this.props.company;
-
-    if (error) {
-      return <h1 className="mt-5">Error loading page! {error.message}</h1>
-    }
-
-    if (isFetching) {
-      return <h1 className="mt-5">Loading...</h1>
-    }
-
-    if (!this.props.company) {
+    if (!company) {
       return null;
     }
 
     return (
       <div>
         <h1 className="mt-5">
-          {data.name} <small>Value: {data.value} # Shares: {data.shares}</small>
+          {company.name} <small>Value: {company.value} # Shares: {company.amountOfShares}</small>
         </h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item"><Link to="/">Home</Link></li>
             <li className="breadcrumb-item"><Link to="/companies">Companies</Link></li>
-            <li className="breadcrumb-item active">{data.name}</li>
+            <li className="breadcrumb-item active">{company.name}</li>
           </ol>
         </nav>
         <div className="row">
           <div className="col-md-2">
-            <button className="btn btn-primary btn-block" type="submit">Buy</button>
+            <Link
+              className="btn btn-primary btn-block"
+              to={`/companies/${company.identifier}/buy`}>
+                Buy
+            </Link>
           </div>
           <div className="col-md-2">
             <button className="btn btn-primary btn-block" type="submit">Sell</button>
@@ -43,15 +38,15 @@ class Company extends Component {
         <div className="row">
           <div className="col-md-4">
             <h2>Sell Orders</h2>
-            <DataTable data={data.sellOrders} />
+            <DataTable data={tradeDetails.orderBook.sell} />
           </div>
           <div className="col-md-4">
             <h2>Buy Orders</h2>
-            <DataTable data={data.buyOrders} />
+            <DataTable data={tradeDetails.orderBook.buy} />
           </div>
           <div className="col-md-4">
             <h2>Executed Trades</h2>
-            <DataTable data={data.executedTrades} />
+            <DataTable data={tradeDetails.executedTrades.trades} />
           </div>
         </div>
 
