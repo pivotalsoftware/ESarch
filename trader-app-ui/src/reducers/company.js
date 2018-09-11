@@ -11,6 +11,9 @@ import {
   PLACE_BUY_ORDER_REQUEST,
   PLACE_BUY_ORDER_SUCCESS,
   PLACE_BUY_ORDER_FAILURE,
+  PLACE_SELL_ORDER_REQUEST,
+  PLACE_SELL_ORDER_SUCCESS,
+  PLACE_SELL_ORDER_FAILURE,
   SET_ACTIVE_COMPANY
 } from '../constants/companyActions';
 
@@ -34,6 +37,10 @@ const initialState = {
     }
   },
   buyOrder: {
+    isFetching: false,
+    error: null
+  },
+  sellOrder: {
     isFetching: false,
     error: null
   }
@@ -160,6 +167,30 @@ function companyReducer(state = initialState, action) {
       return {
         ...state,
         buyOrder: {
+          isFetching: false,
+          error: action.payload.error
+        }
+      }
+    case PLACE_SELL_ORDER_REQUEST:
+      return {
+        ...state,
+        sellOrder: {
+          isFetching: true,
+          error: null
+        }
+      }
+    case PLACE_SELL_ORDER_SUCCESS:
+      return {
+        ...state,
+        sellOrder: {
+          isFetching: false,
+          error: null
+        }
+      }
+    case PLACE_SELL_ORDER_FAILURE:
+      return {
+        ...state,
+        sellOrder: {
           isFetching: false,
           error: action.payload.error
         }
