@@ -32,6 +32,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/query")
 public class QueryController {

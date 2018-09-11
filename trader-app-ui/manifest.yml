@@ -1,0 +1,6 @@
+---
+applications:
+- name: esrefarch-demo-trader-ui
+  timeout: 120
+  instances: 1
+  buildpack: nodejs_buildpack

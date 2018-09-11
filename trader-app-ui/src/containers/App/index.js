@@ -10,7 +10,7 @@ import LoginContainer from '../LoginContainer';
 import Home from '../../components/Home';
 import DashboardContainer from '../DashboardContainer';
 import Companies from '../CompanyListContainer';
-import PrivateRoute from '../PrivateRoute';
+import SecureRoute from '../SecureRoute';
 import CompanyContainer from '../CompanyContainer';
 import BuyContainer from '../BuyContainer';
 import rootReducer from '../../reducers';
@@ -34,10 +34,10 @@ export default class App extends Component {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/login' component={LoginContainer} />
-              <PrivateRoute exact path="/dashboard" component={DashboardContainer} />
-              <PrivateRoute exact path='/companies' component={Companies} />
-              <PrivateRoute exact path='/companies/:id' component={CompanyContainer} />
-              <PrivateRoute exact path='/companies/:id/buy' component={BuyContainer} />
+              <SecureRoute exact path="/dashboard" component={DashboardContainer} />
+              <SecureRoute exact path='/companies' component={Companies} />
+              <SecureRoute exact path='/companies/:id' component={CompanyContainer} />
+              <SecureRoute exact path='/companies/:id/buy' component={BuyContainer} />
             </Switch>
           </div>
         </ConnectedRouter >
