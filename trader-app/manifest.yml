@@ -2,12 +2,11 @@
 applications:
 - name: esrefarch-demo-trader-app
   path: target/trader-app.jar
-  route: esrefarch-demo-trader-app.cfapps.io
   timeout: 120
   instances: 1
-  buildpack: java_buildpack
+  buildpacks: 
+    - java_buildpack
   health-check-type: port
-#  health-check-http-endpoint: /actuator/health
   services:
     - appdb
     - rabbit
