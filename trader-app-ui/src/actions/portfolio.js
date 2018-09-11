@@ -1,24 +1,24 @@
 import {
-  FETCH_DASHBOARD_REQUEST,
-  FETCH_DASHBOARD_SUCCESS,
-  FETCH_DASHBOARD_FAILURE,
-} from '../constants/dashboardActions';
+  FETCH_PORTFOLIO_REQUEST,
+  FETCH_PORTFOLIO_SUCCESS,
+  FETCH_PORTFOLIO_FAILURE,
+} from '../constants/portfolioActions';
 import { status, json } from '../utils/fetch';
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 
-const fetchDashboardRequest = () => (
+const fetchPortfolioRequest = () => (
   {
-    type: FETCH_DASHBOARD_REQUEST,
+    type: FETCH_PORTFOLIO_REQUEST,
     payload: {
       isFetching: true
     }
   }
 )
 
-const fetchDashboardSuccess = (data) => (
+const fetchPortfolioSuccess = (data) => (
   {
-    type: FETCH_DASHBOARD_SUCCESS,
+    type: FETCH_PORTFOLIO_SUCCESS,
     payload: {
       isFetching: false,
       data
@@ -26,9 +26,9 @@ const fetchDashboardSuccess = (data) => (
   }
 )
 
-const fetchDashboardFailure = (error) => (
+const fetchPortfolioFailure = (error) => (
   {
-    type: FETCH_DASHBOARD_FAILURE,
+    type: FETCH_PORTFOLIO_FAILURE,
     payload: {
       isFetching: false,
       error
@@ -39,7 +39,7 @@ const fetchDashboardFailure = (error) => (
 export const getPortfolioByUserId = (userId) =>
   (dispatch) => {
 
-    dispatch(fetchDashboardRequest);
+    dispatch(fetchPortfolioRequest());
 
     const options = {
       method: 'GET',
@@ -53,11 +53,12 @@ export const getPortfolioByUserId = (userId) =>
     .then(json)
     .then((data) => {
       // got a successfull response from the server
-      dispatch(fetchDashboardSuccess(data));
+      dispatch(fetchPortfolioSuccess(data));
     })
     .catch((error) => {
       // bad response
       console.log("Get Portfolio By User Id Error", error);
-      dispatch(fetchDashboardFailure(error));
+      dispatch(fetchPortfolioFailure(error));
     });
   }
+  

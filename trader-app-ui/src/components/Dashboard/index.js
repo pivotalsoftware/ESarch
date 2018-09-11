@@ -7,7 +7,13 @@ import Transactions from './Transactions';
 
 export default class Dashboard extends Component {
   render() {
-    const { data } = this.props.dashboard;
+    const { data, isFetching, error } = this.props.portfolio;
+    if(error) {
+      return <h1>{error.message}</h1>
+    }
+    if(isFetching) {
+      return<h1>Loading...</h1>
+    }
     return (
       <div className="pt-4">
         <div className="row">

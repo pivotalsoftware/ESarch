@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Dashboard from '../components/Dashboard';
-import * as dashboardActionCreators from '../actions/dashboard'
+import * as portfolioActionCreators from '../actions/portfolio'
 
 class DashboardContainer extends Component {
 
   componentDidMount() {
-    this.props.dashboardActions.getPortfolioByUserId(this.props.impersonatedUser.userId);
+    this.props.portfolioActions.getPortfolioByUserId(this.props.impersonatedUser.userId);
   }
 
   render() {
-    const { dashboard } = this.props;
+    const { portfolio } = this.props;
     return (
       <div className="container">
-        <Dashboard dashboard={dashboard} />
+        {portfolio.data && <Dashboard portfolio={portfolio} />}
       </div>
     );
   }
@@ -22,13 +22,13 @@ class DashboardContainer extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dashboardActions: bindActionCreators(dashboardActionCreators, dispatch)
+    portfolioActions: bindActionCreators(portfolioActionCreators, dispatch)
   }
 }
 
 const mapStateToProps = state => {
   return {
-    dashboard: state.dashboard,
+    portfolio: state.portfolio,
     impersonatedUser: state.home.impersonatedUser
   }
 }
