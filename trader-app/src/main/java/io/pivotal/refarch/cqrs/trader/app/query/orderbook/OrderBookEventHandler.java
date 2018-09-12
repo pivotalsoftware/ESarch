@@ -24,13 +24,7 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecuted
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTradesByOrderBookIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
@@ -149,16 +143,29 @@ public class OrderBookEventHandler {
 
     @QueryHandler
     public OrderBookView find(OrderBookByIdQuery query) {
-        return orderBookRepository.getOne(query.getOrderBookId().getIdentifier());
+        return eagerInit(orderBookRepository.getOne(query.getOrderBookId().getIdentifier()));
     }
 
     @QueryHandler
     public List<OrderBookView> find(OrderBooksByCompanyIdQuery query) {
-        return orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier());
+        return eagerInit(orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier()));
     }
 
     @QueryHandler
     public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
         return tradeExecutedRepository.findByOrderBookId(query.getOrderBookId().getIdentifier());
+    }
+
+    private List<OrderBookView> eagerInit(List<OrderBookView> byOrderBookId) {
+        for (OrderBookView tradeExecutedView : byOrderBookId) {
+            eagerInit(tradeExecutedView);
+        }
+        return byOrderBookId;
+    }
+
+    private OrderBookView eagerInit(OrderBookView one) {
+        one.getBuyOrders().size();
+        one.getSellOrders().size();
+        return one;
     }
 }
