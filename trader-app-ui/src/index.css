@@ -3,3 +3,7 @@ body {
   padding: 0;
   font-family: Roboto, Arial, sans-serif;
 }
+
+.text-centering {
+  text-align: center;
+}
