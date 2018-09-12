@@ -1,0 +1,60 @@
+.company-table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.company-list-header {
+    cursor: pointer;
+}
+
+.company-list-row-gray {
+    background-color: #f6f6f6;
+}
+
+.company-list-row-white {
+    background-color: white;
+}
+
+.company-list-cell-text {
+    font-family: Montserrat;
+    font-size: 16px;
+    color: rgba(0, 37, 62, 0.95);
+}
+
+.company-list-cell-text-semibold {
+    font-weight: 600;
+}
+
+.company-list-details-link {
+    font-family: Montserrat;
+    font-size: 16px;
+    color: #01ade5;
+}
+
+.sort-indicator-ascending {
+    display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 3px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #00253E;
+}
+
+.sort-indicator-descending {
+    display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 3px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #00253E;
+}
+
+.buyOrderMoneyAvailableContainer {
+    background-color: #f4f4f4;
+    opacity: 0.56;
+    height: 50px;
+}

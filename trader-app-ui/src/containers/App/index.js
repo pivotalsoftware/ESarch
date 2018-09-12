@@ -9,7 +9,7 @@ import NavbarContainer from '../NavbarContainer';
 import LoginContainer from '../LoginContainer';
 import Home from '../../components/Home';
 import DashboardContainer from '../DashboardContainer';
-import Companies from '../CompanyListContainer';
+import Companies from '../CompanyListContainer/CompanyListContainer';
 import SecureRoute from '../SecureRoute';
 import CompanyContainer from '../CompanyContainer';
 import BuyContainer from '../BuyContainer';
