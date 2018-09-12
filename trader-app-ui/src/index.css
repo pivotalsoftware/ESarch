@@ -7,3 +7,12 @@ body {
 .text-centering {
   text-align: center;
 }
+
+.btn-primary.axon-button {
+  background-color: #01ade5;
+  border-color: #01ade5;
+  color: white;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 600;
+}

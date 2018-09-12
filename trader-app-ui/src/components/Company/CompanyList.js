@@ -102,7 +102,7 @@ class CompanyList extends Component {
     return (
       <table className="table table-bordered company-table">
         <thead>
-          <tr className="company-list-row-gray">
+          <tr className="list-row-gray">
             <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
               <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
               {this.state.sortedBy === 'name' && <div className={sortArrowClassName}/>}
@@ -121,7 +121,7 @@ class CompanyList extends Component {
         <tbody>
           {
             items.map((company, index) => {
-              const className = index % 2 == 0 ? "company-list-row-white" : "company-list-row-gray"
+              const className = index % 2 == 0 ? "list-row-white" : "list-row-gray"
 
               return (
                 <tr key={company.identifier} className={className}>
