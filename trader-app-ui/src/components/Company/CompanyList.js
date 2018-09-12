@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import classes from './styles.scss';
+import "./styles.css";
 
 class CompanyList extends Component {
   constructor(props){
@@ -9,7 +9,7 @@ class CompanyList extends Component {
     this.sortItems = this.sortItems.bind(this);
     this.state = {
       sortedBy: 'name',
-      sortOrderAsc: false
+      sortOrderAsc: true
     }
   }
 
@@ -55,11 +55,11 @@ class CompanyList extends Component {
     else if(column === 'shares') {
       if(asc) {
         return items.sort(function (a, b) {
-          return a.shares - b.shares;
+          return a.amountOfShares - b.amountOfShares;
         });
       } else {
         return items.sort(function (a, b) {
-          return b.shares - a.shares;
+          return b.amountOfShares - a.amountOfShares;
         });
       }
     }
@@ -84,7 +84,6 @@ class CompanyList extends Component {
     }
   }
 
-
   render() {
 
     const { isFetching, error } = this.props.companies;
@@ -98,41 +97,39 @@ class CompanyList extends Component {
       return <h1>Loading...</h1>;
     }
 
+    const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"
+
     return (
-      <table className="table companyTable">
+      <table className="table table-bordered company-table">
         <thead>
-          <tr>
-            <th>
-              Name
-              <button className="btn btn-default" onClick={() => this.sortClickHandler('name')} >
-                Toggle
-              </button>
+          <tr className="company-list-row-gray">
+            <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
+              {this.state.sortedBy === 'name' && <div className={sortArrowClassName}/>}
             </th>
-            <th>
-              Value
-              <button className="btn btn-default"  onClick={() => this.sortClickHandler('value')}>
-                Toggle
-              </button>
+            <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
+              {this.state.sortedBy === 'value' && <div className={sortArrowClassName}/>}
             </th>
-            <th>
-              # Shares
-              <button className="btn btn-default"  onClick={() => this.sortClickHandler('shares')}>
-                Toggle
-              </button>
+            <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
+              {this.state.sortedBy === 'shares' && <div className={sortArrowClassName}/>}
             </th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {
-            items.map((company) => {
+            items.map((company, index) => {
+              const className = index % 2 == 0 ? "company-list-row-white" : "company-list-row-gray"
+
               return (
-                <tr key={company.identifier}>
-                  <td>{company.name}</td>
-                  <td>{company.value}</td>
-                  <td>{company.amountOfShares}</td>
-                  <td>
-                      <Link to={`/companies/${company.identifier}`}>details</Link>
+                <tr key={company.identifier} className={className}>
+                  <td className="company-list-cell-text">{company.name}</td>
+                  <td className="company-list-cell-text">{company.value}</td>
+                  <td className="company-list-cell-text">{company.amountOfShares}</td>
+                  <td style={{ textAlign: 'center' }}>
+                      <Link className="company-list-details-link" to={`/companies/${company.identifier}`}>Details</Link>
                   </td>
                 </tr>
               )
