@@ -49,7 +49,6 @@ const fetchTransactionsByPortfolioIdSuccess = (data) => (
   {
     type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_SUCCESS,
     payload: {
-      isFetching: false,
       data
     }
   }
@@ -59,7 +58,6 @@ const fetchTransactionsByPortfolioIdFailure = (error) => (
   {
     type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE,
     payload: {
-      isFetching: false,
       error
     }
   }
