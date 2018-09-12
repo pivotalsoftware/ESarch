@@ -29,6 +29,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTradesB
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,13 +45,16 @@ public class OrderBookEventHandler {
     private final OrderBookViewRepository orderBookRepository;
     private final CompanyViewRepository companyRepository;
     private final TradeExecutedQueryRepository tradeExecutedRepository;
+    private final QueryUpdateEmitter queryUpdateEmitter;
 
     public OrderBookEventHandler(OrderBookViewRepository orderBookRepository,
                                  CompanyViewRepository companyRepository,
-                                 TradeExecutedQueryRepository tradeExecutedRepository) {
+                                 TradeExecutedQueryRepository tradeExecutedRepository,
+                                 QueryUpdateEmitter queryUpdateEmitter) {
         this.orderBookRepository = orderBookRepository;
         this.companyRepository = companyRepository;
         this.tradeExecutedRepository = tradeExecutedRepository;
+        this.queryUpdateEmitter = queryUpdateEmitter;
     }
 
     @EventHandler
@@ -73,6 +77,11 @@ public class OrderBookEventHandler {
         orderBook.buyOrders().add(buyOrder);
 
         orderBookRepository.save(orderBook);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
+                                orderBook);
+
     }
 
     @EventHandler
@@ -83,6 +92,11 @@ public class OrderBookEventHandler {
         orderBook.sellOrders().add(sellOrder);
 
         orderBookRepository.save(orderBook);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
+                                orderBook);
+
     }
 
     @EventHandler
@@ -126,6 +140,10 @@ public class OrderBookEventHandler {
             orderBookView.sellOrders().remove(foundSellOrder);
         }
         orderBookRepository.save(orderBookView);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBookView.getIdentifier()),
+                                orderBookView);
     }
 
     private OrderView createPlacedOrder(AbstractOrderPlacedEvent event, String type) {
