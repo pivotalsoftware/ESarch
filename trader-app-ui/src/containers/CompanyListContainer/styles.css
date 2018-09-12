@@ -1,0 +1,36 @@
+.company-list-title {
+    margin-top: 66px;
+    font-size: 50px;
+    color: #00253E;
+    font-family: Roboto;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.company-list-subtitle {
+    margin-top: 22px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.08;
+    color: #01ADE5;
+}
+
+.small-divider {
+    background-color: #212121;
+    height: 3px;
+    width: 22px;
+    margin-bottom: 15px;
+}
+
+.company-list-sort-text {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.63;
+    letter-spacing: normal;
+    color: #00253e;
+    margin-bottom: 30px;
+}

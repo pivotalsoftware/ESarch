@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import classes from './styles.scss';
+import classes from './styles.scss';
 
 class CompanyList extends Component {
   constructor(props){
@@ -13,9 +13,8 @@ class CompanyList extends Component {
     }
   }
 
-  sortItems(items, column, asc){
+  sortItems(items, column, asc) {
     if(column === 'name') {
-
       if(asc) {
         return items.sort((a, b) => {
           var nameA = a.name.toUpperCase();
@@ -42,35 +41,33 @@ class CompanyList extends Component {
         });
       }
     }
-
-  if(column === 'value') {
-    if(asc) {
-      return items.sort(function (a, b) {
-        return a.value - b.value;
-      });
-    } else {
-      return items.sort(function (a, b) {
-        return b.value - a.value;
-      });
+    else if(column === 'value') {
+      if(asc) {
+        return items.sort(function (a, b) {
+          return a.value - b.value;
+        });
+      } else {
+        return items.sort(function (a, b) {
+          return b.value - a.value;
+        });
+      }
+    }
+    else if(column === 'shares') {
+      if(asc) {
+        return items.sort(function (a, b) {
+          return a.shares - b.shares;
+        });
+      } else {
+        return items.sort(function (a, b) {
+          return b.shares - a.shares;
+        });
+      }
     }
   }
-  else if(column === 'shares') {
-    if(asc) {
-      return items.sort(function (a, b) {
-        return a.shares - b.shares;
-      });
-    } else {
-      return items.sort(function (a, b) {
-        return b.shares - a.shares;
-      });
-    }
-  }
-
-}
 
   sortClickHandler(sortColumn) {
     const { sortedBy } = this.state;
-    
+
     this.setState((prevState) => {
       const asc = sortedBy === sortColumn ? !prevState.sortOrderAsc : true
       return {
@@ -99,10 +96,10 @@ class CompanyList extends Component {
 
     if (isFetching) {
       return <h1>Loading...</h1>;
-    }  
+    }
 
     return (
-      <table className="table">
+      <table className="table companyTable">
         <thead>
           <tr>
             <th>
