@@ -7,7 +7,7 @@ import Transactions from './Transactions';
 
 export default class Dashboard extends Component {
   render() {
-    const { data, isFetching, error } = this.props.portfolio;
+    const { data, isFetching, error, transactions } = this.props.portfolio;
     if(error) {
       return <h1>{error.message}</h1>
     }
@@ -24,37 +24,46 @@ export default class Dashboard extends Component {
                 <p>Your overview of everything you have and want to know</p>
               </div>
               <div className="col-md-12">
-                <Portfolio
-                  title="Portfolio"
-                  description="Here you see what you have and what is reserved."
-                  moneyAvailable={data.amountOfMoney}
-                  reserved={data.reservedAmountOfMoney}
-                />
+                {
+                  data &&
+                  <Portfolio
+                    title="Portfolio"
+                    description="Here you see what you have and what is reserved."
+                    moneyAvailable={data.amountOfMoney}
+                    reserved={data.reservedAmountOfMoney}
+                  />
+                }
               </div>
             </div>
           </div>
           <div className="col-md-6">
-            <TradeItemsContainer>
-              <TradeItemsTable
-                items={data.itemsInPossession}
-                tableName="Trade items"
-              />
-              <TradeItemsTable
-                items={data.itemsReserved}
-                tableName="Trade items reserved"
-              />
-            </TradeItemsContainer>
+            {
+              data &&
+              <TradeItemsContainer>
+                <TradeItemsTable
+                  items={data.itemsInPossession}
+                  tableName="Trade items"
+                />
+                <TradeItemsTable
+                  items={data.itemsReserved}
+                  tableName="Trade items reserved"
+                />
+              </TradeItemsContainer>
+            }
           </div>
         </div>
-        {/* <div className="row">
+        <div className="row">
           <div className="col-md-12">
-            <Transactions
-              transactions={data.transactions}
-              title="Transactions"
-              description="Here you see what you have and what is reserved"
-            />
+            { 
+              transactions.data &&
+              <Transactions
+                transactions={transactions.data}
+                title="Transactions"
+                description="Here you see what you have and what is reserved"
+              />
+            }
           </div>
-        </div> */}
+        </div>
       </div>
     )
   }
