@@ -6,27 +6,28 @@ const dataTable = (props) => {
   }
 
   return (
-    <table className="table">
+    <table className="table table-bordered company-table">
       <thead>
-        <tr>
-          <th>Count</th>
-          <th>Price</th>
+        <tr className="list-row-gray">
+          <th className="company-list-cell-text company-list-cell-text-semibold">Count</th>
+          <th className="company-list-cell-text company-list-cell-text-semibold">Price</th>
           {
-            Object.keys(props.data[0]).length === 3 ? <th>Remaining</th> : null
+            props.data[0].itemsRemaining !== undefined ? <th className="company-list-cell-text company-list-cell-text-semibold">Remaining</th> : null
           }
         </tr>
       </thead>
       <tbody>
         {
-          props.data.map((item, i) => {
+          props.data.map((item, index) => {
+            const className = index % 2 == 0 ? "list-row-white" : "list-row-gray"
             const price = item.itemPrice ? item.itemPrice : item.tradePrice
 
             return (
-              <tr key={`${i}-${item.tradeCount}-${price}`}>
-                <td>{item.tradeCount}</td>
-                <td>{price}</td>
+              <tr className={className} key={`${index}-${item.tradeCount}-${price}`}>
+                <td className="company-list-cell-text">{item.tradeCount}</td>
+                <td className="company-list-cell-text">{price}</td>
                 {
-                  item.itemsRemaining ? <td>{item.itemsRemaining}</td> : null
+                  item.itemsRemaining ? <td className="company-list-cell-text">{item.itemsRemaining}</td> : null
                 }
               </tr>
             )
@@ -37,4 +38,4 @@ const dataTable = (props) => {
   );
 }
 
-export default dataTable; 
+export default dataTable;
