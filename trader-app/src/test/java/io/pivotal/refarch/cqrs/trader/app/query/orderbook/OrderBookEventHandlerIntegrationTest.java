@@ -32,7 +32,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import org.axonframework.queryhandling.QueryUpdateEmitter;
+import org.axonframework.queryhandling.SimpleQueryBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,8 +62,6 @@ public class OrderBookEventHandlerIntegrationTest {
     private TradeExecutedQueryRepository tradeExecutedRepository;
     @Autowired
     private CompanyViewRepository companyRepository;
-    @Autowired
-    private QueryUpdateEmitter queryUpdateEmitter;
 
     @Before
     public void setUp() {
@@ -77,7 +75,7 @@ public class OrderBookEventHandlerIntegrationTest {
         orderBookEventHandler = new OrderBookEventHandler(orderBookRepository,
                                                           companyRepository,
                                                           tradeExecutedRepository,
-                                                          queryUpdateEmitter);
+                                                          new SimpleQueryBus());
     }
 
     @Test

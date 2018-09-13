@@ -161,17 +161,30 @@ public class OrderBookEventHandler {
 
     @QueryHandler
     public OrderBookView find(OrderBookByIdQuery query) {
-        return orderBookRepository.getOne(query.getOrderBookId().getIdentifier());
+        return eagerInit(orderBookRepository.getOne(query.getOrderBookId().getIdentifier()));
     }
 
     @QueryHandler
     public List<OrderBookView> find(OrderBooksByCompanyIdQuery query) {
-        return orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier());
+        return eagerInit(orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier()));
     }
 
     @QueryHandler
     public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
         return tradeExecutedRepository.findByOrderBookId(query.getOrderBookId().getIdentifier());
+    }
+
+    private OrderBookView eagerInit(OrderBookView orderBookView) {
+        orderBookView.getBuyOrders().size();
+        orderBookView.getSellOrders().size();
+        return orderBookView;
+    }
+
+    private List<OrderBookView> eagerInit(List<OrderBookView> orderBookViews) {
+        for (OrderBookView orderBookView : orderBookViews) {
+            eagerInit(orderBookView);
+        }
+        return orderBookViews;
     }
 
 }
