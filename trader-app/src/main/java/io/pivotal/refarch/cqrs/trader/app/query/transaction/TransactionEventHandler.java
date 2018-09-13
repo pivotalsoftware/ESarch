@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@ProcessingGroup("queryModel")
+@ProcessingGroup("trading")
 public class TransactionEventHandler {
 
     private final OrderBookViewRepository orderBookViewRepository;
