@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import classes from './styles.scss';
+import "./styles.css";
 
 class CompanyList extends Component {
   constructor(props){
@@ -9,13 +9,12 @@ class CompanyList extends Component {
     this.sortItems = this.sortItems.bind(this);
     this.state = {
       sortedBy: 'name',
-      sortOrderAsc: false
+      sortOrderAsc: true
     }
   }
 
-  sortItems(items, column, asc){
+  sortItems(items, column, asc) {
     if(column === 'name') {
-
       if(asc) {
         return items.sort((a, b) => {
           var nameA = a.name.toUpperCase();
@@ -42,35 +41,33 @@ class CompanyList extends Component {
         });
       }
     }
-
-  if(column === 'value') {
-    if(asc) {
-      return items.sort(function (a, b) {
-        return a.value - b.value;
-      });
-    } else {
-      return items.sort(function (a, b) {
-        return b.value - a.value;
-      });
+    else if(column === 'value') {
+      if(asc) {
+        return items.sort(function (a, b) {
+          return a.value - b.value;
+        });
+      } else {
+        return items.sort(function (a, b) {
+          return b.value - a.value;
+        });
+      }
+    }
+    else if(column === 'shares') {
+      if(asc) {
+        return items.sort(function (a, b) {
+          return a.amountOfShares - b.amountOfShares;
+        });
+      } else {
+        return items.sort(function (a, b) {
+          return b.amountOfShares - a.amountOfShares;
+        });
+      }
     }
   }
-  else if(column === 'shares') {
-    if(asc) {
-      return items.sort(function (a, b) {
-        return a.shares - b.shares;
-      });
-    } else {
-      return items.sort(function (a, b) {
-        return b.shares - a.shares;
-      });
-    }
-  }
-
-}
 
   sortClickHandler(sortColumn) {
     const { sortedBy } = this.state;
-    
+
     this.setState((prevState) => {
       const asc = sortedBy === sortColumn ? !prevState.sortOrderAsc : true
       return {
@@ -87,7 +84,6 @@ class CompanyList extends Component {
     }
   }
 
-
   render() {
 
     const { isFetching, error } = this.props.companies;
@@ -99,43 +95,41 @@ class CompanyList extends Component {
 
     if (isFetching) {
       return <h1>Loading...</h1>;
-    }  
+    }
+
+    const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"
 
     return (
-      <table className="table">
+      <table className="table table-bordered company-table">
         <thead>
-          <tr>
-            <th>
-              Name
-              <button className="btn btn-default" onClick={() => this.sortClickHandler('name')} >
-                Toggle
-              </button>
+          <tr className="list-row-gray">
+            <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
+              {this.state.sortedBy === 'name' && <div className={sortArrowClassName}/>}
             </th>
-            <th>
-              Value
-              <button className="btn btn-default"  onClick={() => this.sortClickHandler('value')}>
-                Toggle
-              </button>
+            <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
+              {this.state.sortedBy === 'value' && <div className={sortArrowClassName}/>}
             </th>
-            <th>
-              # Shares
-              <button className="btn btn-default"  onClick={() => this.sortClickHandler('shares')}>
-                Toggle
-              </button>
+            <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
+              <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
+              {this.state.sortedBy === 'shares' && <div className={sortArrowClassName}/>}
             </th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {
-            items.map((company) => {
+            items.map((company, index) => {
+              const className = index % 2 == 0 ? "list-row-white" : "list-row-gray"
+
               return (
-                <tr key={company.identifier}>
-                  <td>{company.name}</td>
-                  <td>{company.value}</td>
-                  <td>{company.amountOfShares}</td>
-                  <td>
-                      <Link to={`/companies/${company.identifier}`}>details</Link>
+                <tr key={company.identifier} className={className}>
+                  <td className="company-list-cell-text">{company.name}</td>
+                  <td className="company-list-cell-text">{company.value}</td>
+                  <td className="company-list-cell-text">{company.amountOfShares}</td>
+                  <td className="text-centering">
+                      <Link className="company-list-details-link" to={`/companies/${company.identifier}`}>Details</Link>
                   </td>
                 </tr>
               )

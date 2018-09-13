@@ -3,9 +3,9 @@ import React from 'react';
 const TradeItemsTable = ({ items, tableName }) => {
   return (
     <div>
-      <h4 className="mt-5 text-white">{tableName}</h4>
-      <table className="table table-bordered">
-        <thead className="thead-light">
+      <h4 className="mt-4 trade-items-title">{tableName}</h4>
+      <table className="table table-bordered dashboard-trades-table">
+        <thead>
           <tr>
             <th>Name</th>
             <th>Amount</th>

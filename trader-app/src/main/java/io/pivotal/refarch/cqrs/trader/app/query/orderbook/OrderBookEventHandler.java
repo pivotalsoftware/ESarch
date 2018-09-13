@@ -24,17 +24,12 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecuted
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTradesByOrderBookIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,13 +45,16 @@ public class OrderBookEventHandler {
     private final OrderBookViewRepository orderBookRepository;
     private final CompanyViewRepository companyRepository;
     private final TradeExecutedQueryRepository tradeExecutedRepository;
+    private final QueryUpdateEmitter queryUpdateEmitter;
 
     public OrderBookEventHandler(OrderBookViewRepository orderBookRepository,
                                  CompanyViewRepository companyRepository,
-                                 TradeExecutedQueryRepository tradeExecutedRepository) {
+                                 TradeExecutedQueryRepository tradeExecutedRepository,
+                                 QueryUpdateEmitter queryUpdateEmitter) {
         this.orderBookRepository = orderBookRepository;
         this.companyRepository = companyRepository;
         this.tradeExecutedRepository = tradeExecutedRepository;
+        this.queryUpdateEmitter = queryUpdateEmitter;
     }
 
     @EventHandler
@@ -79,6 +77,11 @@ public class OrderBookEventHandler {
         orderBook.buyOrders().add(buyOrder);
 
         orderBookRepository.save(orderBook);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
+                                orderBook);
+
     }
 
     @EventHandler
@@ -89,6 +92,11 @@ public class OrderBookEventHandler {
         orderBook.sellOrders().add(sellOrder);
 
         orderBookRepository.save(orderBook);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
+                                orderBook);
+
     }
 
     @EventHandler
@@ -132,6 +140,10 @@ public class OrderBookEventHandler {
             orderBookView.sellOrders().remove(foundSellOrder);
         }
         orderBookRepository.save(orderBookView);
+
+        queryUpdateEmitter.emit(OrderBookByIdQuery.class,
+                                q -> q.getOrderBookId().getIdentifier().equals(orderBookView.getIdentifier()),
+                                orderBookView);
     }
 
     private OrderView createPlacedOrder(AbstractOrderPlacedEvent event, String type) {
@@ -161,4 +173,5 @@ public class OrderBookEventHandler {
     public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
         return tradeExecutedRepository.findByOrderBookId(query.getOrderBookId().getIdentifier());
     }
+
 }

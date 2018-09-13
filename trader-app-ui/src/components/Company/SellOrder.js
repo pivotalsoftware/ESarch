@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles.scss'
+import './styles.css'
 
 export default class SellOrder extends Component {
 

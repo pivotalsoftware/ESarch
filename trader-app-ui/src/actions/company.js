@@ -201,20 +201,6 @@ export const fetchOrderBooksByCompanyId = (id) =>
     .then(json)
     .then((data) => {
       // got a successfull response from the server
-      const mockData = [{
-        identifier: '38209d',
-        sellOrders: [{
-          tradeCount: 5,
-          itemPrice: 50,
-          itemsRemaining: 35
-        }],
-        buyOrders: [{
-          tradeCount: 5,
-          itemPrice: 50,
-          itemsRemaining: 35
-        }]
-      }]
-
       dispatch(fetchOrderBooksByCompanyIdSuccess(data));
     })
     .catch((error) => {
@@ -238,21 +224,11 @@ export const fetchExecutedTradesByOrderBookId = (id) => {
       .then(status)
       .then(json)
       .then(data => {
-        const mockData = [
-          {
-            tradeCount: 30,
-            tradePrice: 35
-          },
-          {
-            tradeCount: 42,
-            tradePrice: 500
-          }
-        ]
-        dispatch(fetchExecutedTradesSuccess(mockData))
+        dispatch(fetchExecutedTradesSuccess(data))
       })
       .catch(error => {
+        console.log('Get executed trades by order book failure: ', error);
         dispatch(fetchExecutedTradesFailure(error))
-        console.log('error')
       })
   }
 }
@@ -274,17 +250,15 @@ export const placeBuyOrder = (orderBookId, portfolioId, price, amount) => {
       })
     };
 
-    console.log(options.body)
-
     return fetch(`${API_ROOT}/command/StartBuyTransactionCommand`, options)
       .then(status)
       .then(json)
       .then(transactionId => {
-        console.log('success: ' + transactionId)
+        console.log('place buy order success: ' + transactionId)
         dispatch(placeBuyOrderSuccess(transactionId))
       })
       .catch(error => {
-        console.log(JSON.stringify(error, null, 4))
+        console.log('place buy order error', JSON.stringify(error, null, 4))
         dispatch(placeBuyOrderFailure(error))
       })
   }
@@ -311,10 +285,11 @@ export const placeSellOrder = (orderBookId, portfolioId, price, amount) => {
       .then(status)
       .then(json)
       .then(transactionId => {
-        console.log('success: ' + transactionId)
+        console.log('place sell order success: ' + transactionId)
         dispatch(placeSellOrderSuccess(transactionId))
       })
       .catch(error => {
+        console.log('place sell order error', JSON.stringify(error, null, 4))
         dispatch(placeSellOrderFailure(error))
       })
   }

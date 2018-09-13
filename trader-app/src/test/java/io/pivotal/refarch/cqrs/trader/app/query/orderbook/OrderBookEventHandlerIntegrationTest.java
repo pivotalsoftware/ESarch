@@ -16,15 +16,15 @@
 
 package io.pivotal.refarch.cqrs.trader.app.query.orderbook;
 
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyEventHandler;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyView;
 import io.pivotal.refarch.cqrs.trader.app.query.company.CompanyViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedQueryRepository;
+import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
@@ -32,6 +32,7 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,6 +62,8 @@ public class OrderBookEventHandlerIntegrationTest {
     private TradeExecutedQueryRepository tradeExecutedRepository;
     @Autowired
     private CompanyViewRepository companyRepository;
+    @Autowired
+    private QueryUpdateEmitter queryUpdateEmitter;
 
     @Before
     public void setUp() {
@@ -73,7 +76,8 @@ public class OrderBookEventHandlerIntegrationTest {
 
         orderBookEventHandler = new OrderBookEventHandler(orderBookRepository,
                                                           companyRepository,
-                                                          tradeExecutedRepository);
+                                                          tradeExecutedRepository,
+                                                          queryUpdateEmitter);
     }
 
     @Test
