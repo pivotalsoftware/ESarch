@@ -3,9 +3,10 @@ import React from 'react';
 const Transactions = ({ transactions, title, description }) => {
   return (
     <div>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <table className="table table-bordered">
+      <h3 className="portfolio-title mt-4">{title}</h3>
+      <div className="dashboard-divider"/>
+      <p className="portfolio-subtitle">{description}</p>
+      <table className="table table-bordered dashboard-table">
         <thead className="thead-light">
           <tr>
             <th>Name</th>

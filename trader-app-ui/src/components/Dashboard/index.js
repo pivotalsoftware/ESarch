@@ -20,8 +20,10 @@ export default class Dashboard extends Component {
           <div className="col-md-6">
             <div className="row">
               <div className="col-md-12">
-                <h1 className="mt-5">Dashboard</h1>
-                <p>Your overview of everything you have and want to know</p>
+                <h1 className="mt-5 dashboard-header">Dashboard</h1>
+                <p className="mb-5 dashboard-subheader">
+                  Your overview of everything you have and want to know
+                </p>
               </div>
               <div className="col-md-12">
                 {
