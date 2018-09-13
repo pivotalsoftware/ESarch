@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import './styles.css'
 
 export default class BuyOrder extends Component {
@@ -39,29 +38,49 @@ export default class BuyOrder extends Component {
     const { company, portfolio, cancelHandler } = this.props;
 
     return (
-      <div>
-        <h1 className="mt-5">
-          Buy order for: {company.name}
-        </h1>
-        {portfolio.data && <div className="mt-3 mb-5 buyOrderMoneyAvailableContainer">
-          <p>{portfolio.data.amountOfMoney} cents available of which {portfolio.data.reservedAmountOfMoney} cents reserved</p>
-        </div>}
-        <h4 className="mb-1">Enter items to buy and for how much</h4>
-        <form onSubmit={this.formSubmitHandler}>
-          <div className="form-group">
-            <label>Price to trade:</label>
-            <input type="number" placeholder="0" onChange={this.priceChangeHandler}/>
+      <div className="modal fade show modal-transaction">
+        <div className="modal-dialog modal-lg modal-dialog-centered">
+          <div className="modal-content">
+            <form onSubmit={this.formSubmitHandler}>
+              <div className="modal-header">
+                <h1 className="modal-title company-transaction-header mt-5">
+                  Buy order for: <span className="company-name">{company.name}</span>
+                </h1>
+                <button type="button" onClick={cancelHandler} className="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                {portfolio.data && <div className="money-available-container mb-4">
+                  <p className="money-available-text">
+                    {portfolio.data.amountOfMoney} cents available of which {portfolio.data.reservedAmountOfMoney} cents reserved
+                  </p>
+                </div>}
+
+                <h4 className="company-transaction-title my-3">Enter items to buy and for how much</h4>
+                <div className="form-group row">
+                  <label className="col-sm-6 col-form-label transaction-form-lable">Price to trade:</label>
+                  <div className="col-sm-6">
+                    <input className="form-control transaction-form-control" type="number" placeholder="0" onChange={this.priceChangeHandler} />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <label className="col-sm-6 col-form-label transaction-form-lable">Amount of items to trade:</label>
+                  <div className="col-sm-6">
+                    <input className="form-control transaction-form-control" type="number" placeholder="0" onChange={this.amountChangeHandler} />
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <div>
+                  <button className="btn btn-transaction-primary" type="submit">PLACE ORDER</button>
+                  <button className="btn btn-transaction-default" type="reset">RESET</button>
+                  <button className="btn btn-transaction-default" type="button" onClick={cancelHandler}>CANCEL</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <div className="form-group">
-            <label>Amount of items to trade:</label>
-            <input type="number" placeholder="0" onChange={this.amountChangeHandler}/>
-          </div>
-          <div style={{flexDirection: 'row'}}>
-            <button type="submit">PLACE ORDER</button>
-            <button type="reset">RESET</button>
-            <button type="button" onClick={cancelHandler}>CANCEL</button>
-          </div>
-        </form>
+        </div>
       </div>
     );
   }

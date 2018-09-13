@@ -1,11 +1,51 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import DataTable from './DataTable';
+import SellOrder from './SellOrder';
+import BuyOrder from './BuyOrder';
 
 class Company extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      buyModalOPen: false,
+      sellModalOpen: false
+    }
+
+    this.openBuyModal = this.openBuyModal.bind(this);
+    this.openSellModal = this.openSellModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  componentDidUpdate(oldProps, oldState) {
+    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)|| 
+    (oldProps.sellOrder.isFetching && !this.props.sellOrder.isFetching && !this.props.sellOrder.error)) {
+      // close modal after successfully making a request
+      this.closeModal();
+    }
+  }
+
+  openBuyModal() {
+    this.setState({
+      buyModalOpen: true
+    })
+  }
+  openSellModal() {
+    this.setState({
+      sellModalOpen: true
+    })
+  }
+
+  closeModal() {
+    this.setState({
+      buyModalOpen: false,
+      sellModalOpen: false
+    })
+  }
 
   render() {
-    const { company, tradeDetails } = this.props;
+    const { company, tradeDetails, portfolio, sellOrderHandler, buyOrderHandler } = this.props;
+    const { sellModalOpen, buyModalOpen } = this.state;
 
     if (!company) {
       return null;
@@ -19,20 +59,38 @@ class Company extends Component {
             <span className="company-details-title">{company.name}</span>
           </div>
           <div className="col-sm-2">
-            <Link
+            <button
               className="btn btn-primary btn-block axon-button"
-              to={`/companies/${company.identifier}/sell`}>
-                SELL
-            </Link>
+              onClick={this.openSellModal}>
+              SELL
+            </button>
           </div>
           <div className="col-sm-2">
-            <Link
+            <button
               className="btn btn-primary btn-block axon-button"
-              to={`/companies/${company.identifier}/buy`}>
-                BUY
-            </Link>
+              onClick={this.openBuyModal}>
+              BUY
+            </button>
           </div>
         </div>
+
+        {
+          sellModalOpen &&
+          <SellOrder
+            sellOrderHandler={sellOrderHandler}
+            cancelHandler={this.closeModal}
+            company={company}
+            portfolio={portfolio}
+          />
+        }
+        {buyModalOpen &&
+          <BuyOrder
+            buyOrderHandler={buyOrderHandler}
+            cancelHandler={this.closeModal}
+            company={company}
+            portfolio={portfolio}
+          />
+        }
 
         <div className="row mb-5">
           <div className="col-12">

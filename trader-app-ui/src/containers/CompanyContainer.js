@@ -5,6 +5,12 @@ import Company from '../components/Company/Company';
 import * as companyActionCreators from '../actions/company'
 
 class CompanyContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.sellOrderHandler = this.sellOrderHandler.bind(this);
+    this.buyOrderHandler = this.buyOrderHandler.bind(this);
+  }
 
   componentDidMount() {
     // get the id for the company from the url
@@ -21,11 +27,46 @@ class CompanyContainer extends Component {
         }
   }
 
+  sellOrderHandler(price, amount) {
+    this.props.companyActions.placeSellOrder(
+      this.props.orderBook.identifier,
+      this.props.portfolio.data.identifier,
+      price,
+      amount
+    )
+  }
+
+  buyOrderHandler(price, amount) {
+    this.props.companyActions.placeBuyOrder(
+      this.props.orderBook.identifier,
+      this.props.portfolio.data.identifier,
+      price,
+      amount
+    )
+  }
+
   render() {
-    const { company, tradeDetails } = this.props;
+    const { 
+        company,
+        tradeDetails,
+        portfolio,
+        sellOrder,
+        buyOrder,
+        companyActions
+    } = this.props;
+
     return (
       <div className="container mt-5">
-        <Company company={company} tradeDetails={tradeDetails} />
+        <Company
+          company={company}
+          tradeDetails={tradeDetails}
+          portfolio={portfolio}
+          sellOrderHandler={this.sellOrderHandler}
+          buyOrderHandler={this.buyOrderHandler}
+          sellOrder={sellOrder}
+          buyOrder={buyOrder}
+          fetchCompanyListAction={companyActions.fetchCompanyList}
+          />
       </div>
     );
   }
@@ -42,7 +83,11 @@ const mapStateToProps = state => {
     company: state.companies.companyList.items[
       state.companies.activeCompany.index
     ],
-    tradeDetails: state.companies.activeCompany
+    tradeDetails: state.companies.activeCompany,
+    portfolio: state.portfolio,
+    orderBook: state.companies.activeCompany.orderBook,
+    sellOrder: state.companies.sellOrder,
+    buyOrder: state.companies.buyOrder
   }
 }
 
