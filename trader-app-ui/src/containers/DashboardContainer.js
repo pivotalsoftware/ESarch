@@ -7,14 +7,14 @@ import * as portfolioActionCreators from '../actions/portfolio'
 class DashboardContainer extends Component {
 
   componentDidMount() {
-    this.props.portfolioActions.getPortfolioByUserId(this.props.impersonatedUser.userId);
+    this.props.portfolioActions.getPortfolioAndItsTransactions(this.props.impersonatedUser.userId);
   }
 
   render() {
     const { portfolio } = this.props;
     return (
       <div className="container">
-        {portfolio.data && <Dashboard portfolio={portfolio} />}
+        <Dashboard portfolio={portfolio} />
       </div>
     );
   }
