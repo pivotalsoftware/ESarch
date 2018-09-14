@@ -27,3 +27,13 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.login-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  color: #212121;
+}

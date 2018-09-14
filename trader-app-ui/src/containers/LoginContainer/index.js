@@ -14,7 +14,7 @@ class LoginContainer extends Component {
 
     return (
       <div className="container text-center">
-        To use this tab please impersonate a user from <Link to="/">Home</Link>.
+        <h2 className="login-title mt-5">To use this tab please impersonate a user from <Link to="/">Home</Link></h2>
       </div>
     )
   }
