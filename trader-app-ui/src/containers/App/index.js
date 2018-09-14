@@ -13,9 +13,20 @@ import Companies from '../CompanyListContainer/CompanyListContainer';
 import SecureRoute from '../SecureRoute';
 import CompanyContainer from '../CompanyContainer';
 import rootReducer from '../../reducers';
+import { scrollToAnimated } from '../../utils/animation'
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
+
+history.listen(location => {
+  if(location.pathname === '/' && location.hash === '#credentials') {
+    setTimeout(() => {
+      scrollToAnimated(document.body.scrollHeight, 300)
+    }, 50)
+  } else {
+    window.scrollTo(0, 0)
+  }
+})
 
 const store = createStore(
   rootReducer,
