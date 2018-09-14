@@ -129,7 +129,7 @@ class CompanyList extends Component {
                   <td className="company-list-cell-text">{company.value}</td>
                   <td className="company-list-cell-text">{company.amountOfShares}</td>
                   <td className="text-centering">
-                      <Link className="company-list-details-link" to={`/companies/${company.identifier}`}>Details</Link>
+                      <Link className="company-list-details-link" to={`/shares/${company.identifier}`}>Details</Link>
                   </td>
                 </tr>
               )

@@ -10,6 +10,8 @@
   background-color: #ffffff;
   border-bottom: 8px solid  #01ade5;
   border-top: none;
+  border-left: none;
+  border-right: none;
   border-radius: 5px;
   font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -23,7 +25,27 @@
 .table-credentials th {
   background-color: #f6f6f6;
   border-top: none;
+  border-left: none;
+  border-right-color: transparent;
   border-radius: 5px;
+}
+
+.table-credentials td {
+  vertical-align: middle;
+}
+
+.impersonate-user-button {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: Montserrat;
+  font-size: 16px;
+  color: #01ade5;
+}
+
+.impersonate-user-button:hover {
+  opacity: 0.5;
 }
 
 .homepage-heading {

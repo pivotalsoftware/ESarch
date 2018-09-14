@@ -5,7 +5,7 @@ const data = [
   {
     header: 'Check the stocks',
     description: 'If you have logged in, you can go to the companies',
-    linkTo: '/companies',
+    linkTo: '/shares',
     linkName: 'To the items'
   },
   {
@@ -22,7 +22,7 @@ const SideBar = () =>
       data.map(item => {
         return(
           <SideBarItem
-            key={item.header} 
+            key={item.header}
             header={item.header}
             description={item.description}
             linkTo={item.linkTo}
