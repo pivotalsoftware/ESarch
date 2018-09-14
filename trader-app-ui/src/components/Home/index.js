@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import CredentialsTable from './CredentialsTable';
-import credentials from './credentials';
 import './styles.css';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import SideBar from './SideBar';
 import Banner from './Banner';
 import Header from './Header';
-// import { getUsers } from '../../actions/home';
 import * as homeActionCreators from '../../actions/home'
 
 class Home extends Component {
