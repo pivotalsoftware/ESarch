@@ -3,7 +3,7 @@ import React from 'react';
 const CredentialsTable = ({ credentials, onSetImpersonatedUser }) =>
   <div>
     <h4 className="homepage-title">Available Credentials</h4>
-    <table className="table table-striped table-credentials">
+    <table className="table table-bordered table-striped table-credentials">
       <thead>
         <tr>
           <th>Username</th>
@@ -20,7 +20,11 @@ const CredentialsTable = ({ credentials, onSetImpersonatedUser }) =>
                   <tr key={user.userName}>
                     <td className="text-info-axon">{user.userName}</td>
                     <td>{user.fullName}</td>
-                    <td><button onClick={() => onSetImpersonatedUser(user)}>Impersonate User</button></td>
+                    <td>
+                      <button
+                        className="impersonate-user-button"
+                        onClick={() => onSetImpersonatedUser(user)}>Impersonate User</button>
+                    </td>
                   </tr>
                 )
             })

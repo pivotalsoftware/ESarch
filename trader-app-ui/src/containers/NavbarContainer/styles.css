@@ -4,10 +4,24 @@
   background-color: #340976;
 }
 
+.navbar-item-list {
+  margin-left: 100px;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 42px;
+}
+
+.current-username {
+  font-family: Montserrat;
+  font-size: 16px;
+  color: white;
+  margin: 0 20px;
+}
+
 /* customize the navbar link */
-.bg-axon .nav-item,
 .bg-axon .navbar-nav .nav-link {
-  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-family: Montserrat;
   font-size: 12px;
   font-weight: 600;
   font-style: normal;
@@ -15,19 +29,18 @@
   line-height: normal;
   letter-spacing: 0px;
   color: #ffffff;
-  border-bottom: 2px solid #340976;
-}
-
-.bg-axon .nav-item {
-  color: #01ade5;
-  font-size: 18px;
 }
 
 /* customize active or hovered navbar links */
 .bg-axon .nav-item .nav-link.active,
-.bg-axon .nav-item:hover .nav-link {
+.bg-axon .nav-item:hover .nav-link.active {
   color: #ffffff;
-  border-bottom: 2px solid #ffffff; 
+  border-bottom: 2px solid #ffffff;
+  opacity: 1.0;
+}
+
+.bg-axon .nav-item:hover .nav-link {
+  opacity: 0.5;
 }
 
 /* customize the brand */

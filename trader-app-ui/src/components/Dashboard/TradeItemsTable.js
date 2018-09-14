@@ -13,10 +13,10 @@ const TradeItemsTable = ({ items, tableName }) => {
         </thead>
         <tbody>
         {
-            Object.keys(items).map((key, index) => ( 
+            Object.keys(items).map((key, index) => (
                 <tr key={key}>
                   <td> {items[key].companyName}</td>
-                  <td> {items[key].amount}</td>
+                  <td> {items[key].amount.toLocaleString('en')}</td>
                 </tr>
             ))
         }

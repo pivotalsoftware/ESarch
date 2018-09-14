@@ -25,7 +25,7 @@ class Home extends Component {
               <Banner />
             </div>
           </div>
-          <div className="row">
+          <div className="row pb-5">
             <div className="col-md-6">
               <Header />
               <CredentialsTable id="credentials" credentials={users} onSetImpersonatedUser={this.setImpersonatedUser}/>
@@ -50,11 +50,11 @@ const mapDispatchToProps = (dispatch) => {
       homeActions: bindActionCreators(homeActionCreators, dispatch)
     }
   }
-  
+
   const mapStateToProps = state => {
     return {
       users: state.home.users
     }
   }
-  
+
   export default connect(mapStateToProps, mapDispatchToProps)(Home);

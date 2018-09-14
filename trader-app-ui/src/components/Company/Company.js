@@ -18,7 +18,7 @@ class Company extends Component {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)|| 
+    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)||
     (oldProps.sellOrder.isFetching && !this.props.sellOrder.isFetching && !this.props.sellOrder.error)) {
       // close modal after successfully making a request
       this.closeModal();
@@ -95,7 +95,9 @@ class Company extends Component {
         <div className="row mb-5">
           <div className="col-12">
             <div className="company-details-share-info-container">
-              <p className="company-details-share-info-text">VALUE  {company.value.toLocaleString('en')}  /  SHARES  {company.amountOfShares.toLocaleString('en')}</p>
+              <p className="company-details-share-info-text">
+                VALUE {(company.value / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })} /  SHARES {company.amountOfShares.toLocaleString('en')}
+              </p>
             </div>
           </div>
         </div>
