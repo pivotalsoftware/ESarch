@@ -121,7 +121,7 @@ class CompanyList extends Component {
         <tbody>
           {
             items.map((company, index) => {
-              const className = index % 2 == 0 ? "list-row-white" : "list-row-gray"
+              const className = index % 2 === 0 ? "list-row-white" : "list-row-gray"
 
               return (
                 <tr key={company.identifier} className={className}>
