@@ -19,7 +19,7 @@ const dataTable = (props) => {
       <tbody>
         {
           props.data.map((item, index) => {
-            const className = index % 2 == 0 ? "list-row-white" : "list-row-gray"
+            const className = index % 2 === 0 ? "list-row-white" : "list-row-gray"
             const price = item.itemPrice ? item.itemPrice : item.tradePrice
 
             return (

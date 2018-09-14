@@ -21,12 +21,12 @@ const Transactions = ({ transactions, title, description }) => {
           {
             transactions.map(transaction => {
               return (
-                <tr key={transaction.company}>
-                  <td>{transaction.company}</td>
+                <tr key={transaction.identifier}>
+                  <td>{transaction.companyName}</td>
                   <td>{transaction.type}</td>
-                  <td>{transaction.itemsCount}</td>
-                  <td>{transaction.price}</td>
-                  <td>{transaction.executedCount}</td>
+                  <td>{transaction.amountOfItems}</td>
+                  <td>{transaction.pricePerItem}</td>
+                  <td>{transaction.amountOfExecutedItems}</td>
                   <td>{transaction.state}</td>
                 </tr>
               );

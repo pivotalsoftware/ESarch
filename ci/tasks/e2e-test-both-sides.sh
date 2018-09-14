@@ -40,7 +40,7 @@ else
     echo "The health check status is reporting that ${appURL} is ${APP_HEALTH_STATUS}"
 fi
 
-# Make sure the homepage shows...
+# Make sure the info page shows...
 
 if curl -sL -w %{http_code} "$engineURL/actuator/info" -o /dev/null | grep "200"
 then
@@ -56,6 +56,23 @@ then
 else
     echo -e "\e[31mError. Trader-app is unresponsive. Failed to show '200 OK' on [$appURL/info]"
     exit 1
+fi
+
+if curl -sL -w %{http_code} "$uiURL" -o /dev/null | grep "200"
+then
+    echo "[$uiURL] (Trader-UI) shows 'HTTP/1.1 200 OK' (Expected)."
+else
+    echo -e "\e[31mError. Trader-UI is unresponsive. Failed to show '200 OK' on [$uiURL]"
+    exit 1
+fi
+
+export DATA=`curl -sL -X POST ${appURL}/actuator/data-initializer`
+if [ -z ${DATA} ] || [[ ${DATA} != true ]]
+then
+    echo -e "\e[31mError. The e2e test has failed, the application's data could not be initialised!"
+    exit 1
+else
+    echo -e "The DATA initializer is reporting data initialisation = $DATA."
 fi
 
 # Begin the Integration-testing...

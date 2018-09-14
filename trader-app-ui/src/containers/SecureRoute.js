@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Route, Redirect, Link } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 const SecureRoute = ({component: ComposedComponent, ...rest}) => {
 
