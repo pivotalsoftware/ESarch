@@ -147,6 +147,7 @@ jobs:
     params:
       engineURL: ((cf-trading-engine-url))
       appURL: ((cf-trader-app-url))
+      uiURL: ((cf-trader-ui-url))
     on_success:
       put: slack-alert
       params:
