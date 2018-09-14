@@ -33,27 +33,23 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.axonframework.queryhandling.SimpleQueryBus;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.*;
+import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
-/**
- * @author Jettro Coenradie
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
 public class OrderBookEventHandlerIntegrationTest {
 
-    OrderId orderId = new OrderId();
-    PortfolioId portfolioId = new PortfolioId();
-    TransactionId transactionId = new TransactionId();
-    OrderBookId orderBookId = new OrderBookId();
-    CompanyId companyId = new CompanyId();
+    private OrderId orderId = new OrderId();
+    private PortfolioId portfolioId = new PortfolioId();
+    private TransactionId transactionId = new TransactionId();
+    private OrderBookId orderBookId = new OrderBookId();
+    private CompanyId companyId = new CompanyId();
     private OrderBookEventHandler orderBookEventHandler;
 
     @Autowired
