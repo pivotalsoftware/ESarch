@@ -138,10 +138,10 @@ jobs:
   plan:
   - get: manualtrigger
     trigger: true
-    passed: [smoke-test-trading-engine, smoke-test-trader-app]
+    passed: [smoke-test-trading-engine, smoke-test-trader-app, build-trader-ui]
   - get: source-code
     trigger: true
-    passed: [smoke-test-trading-engine, smoke-test-trader-app]
+    passed: [smoke-test-trading-engine, smoke-test-trader-app, build-trader-ui]
   - task: integration-test-both-sides
     file: source-code/ci/tasks/e2e-test-both-sides.yml
     params:
