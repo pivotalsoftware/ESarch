@@ -25,7 +25,7 @@ const Transactions = ({ transactions, title, description }) => {
                   <td>{transaction.companyName}</td>
                   <td>{transaction.type}</td>
                   <td>{transaction.amountOfItems.toLocaleString('en')}</td>
-                  <td>{(transaction.pricePerItem / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
+                  <td>{(transaction.pricePerItem).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
                   <td>{transaction.amountOfExecutedItems.toLocaleString('en')}</td>
                   <td>{transaction.state}</td>
                 </tr>

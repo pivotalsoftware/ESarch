@@ -126,7 +126,7 @@ class CompanyList extends Component {
               return (
                 <tr key={company.identifier} className={className}>
                   <td className="company-list-cell-text">{company.name}</td>
-                  <td className="company-list-cell-text">{(company.value / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
+                  <td className="company-list-cell-text">{(company.value).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
                   <td className="company-list-cell-text">{company.amountOfShares.toLocaleString('en')}</td>
                   <td className="text-centering">
                     <Link className="company-list-details-link" to={`/orderbooks/${company.identifier}`}>Details</Link>

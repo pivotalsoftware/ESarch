@@ -18,11 +18,11 @@ const Portfolio = (props) => {
         <tbody>
           <tr>
             <td>Available</td>
-            <td>{(props.moneyAvailable / 100).toLocaleString('en', moneyFormatOptions)}</td>
+            <td>{(props.moneyAvailable).toLocaleString('en', moneyFormatOptions)}</td>
           </tr>
           <tr>
             <td>Reserved</td>
-            <td>{(props.reserved / 100).toLocaleString('en', moneyFormatOptions)}</td>
+            <td>{(props.reserved).toLocaleString('en', moneyFormatOptions)}</td>
           </tr>
         </tbody>
       </table>

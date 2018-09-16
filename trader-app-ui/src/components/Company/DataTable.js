@@ -22,7 +22,7 @@ const dataTable = (props) => {
             return (
               <tr className={className} key={`${index}-${item.itemsRemaining}-${price}`}>
                 <td className="company-list-cell-text">{item.itemsRemaining.toLocaleString('en')}</td>
-                <td className="company-list-cell-text">{(price / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
+                <td className="company-list-cell-text">{(price).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
               </tr>
             )
           })
