@@ -5,14 +5,8 @@ const data = [
   {
     header: 'Check the stocks',
     description: 'If you have logged in, you can go to the companies',
-    linkTo: '/shares',
+    linkTo: '/orderbooks',
     linkName: 'To the items'
-  },
-  {
-    header: 'Executed trades',
-    description: 'Trace all executed trades using the sockjs connection.',
-    linkTo: '/orderbook',
-    linkName: 'Executed trades'
   }
 ]
 

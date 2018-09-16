@@ -53,8 +53,8 @@ export default class App extends Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/login' component={LoginContainer} />
               <SecureRoute exact path="/dashboard" component={DashboardContainer} />
-              <SecureRoute exact path='/shares' component={Companies} />
-              <SecureRoute exact path='/shares/:id' component={CompanyContainer} />
+              <SecureRoute exact path='/orderbooks' component={Companies} />
+              <SecureRoute exact path='/orderbooks/:id' component={CompanyContainer} />
             </Switch>
           </div>
         </ConnectedRouter>

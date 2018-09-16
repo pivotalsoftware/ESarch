@@ -129,7 +129,7 @@ class CompanyList extends Component {
                   <td className="company-list-cell-text">{(company.value / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
                   <td className="company-list-cell-text">{company.amountOfShares.toLocaleString('en')}</td>
                   <td className="text-centering">
-                      <Link className="company-list-details-link" to={`/shares/${company.identifier}`}>Details</Link>
+                    <Link className="company-list-details-link" to={`/orderbooks/${company.identifier}`}>Details</Link>
                   </td>
                 </tr>
               )
