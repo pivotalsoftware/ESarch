@@ -11,9 +11,6 @@ const dataTable = (props) => {
         <tr className="list-row-gray">
           <th className="company-list-cell-text company-list-cell-text-semibold">Count</th>
           <th className="company-list-cell-text company-list-cell-text-semibold">Price</th>
-          {
-            props.data[0].itemsRemaining !== undefined ? <th className="company-list-cell-text company-list-cell-text-semibold">Remaining</th> : null
-          }
         </tr>
       </thead>
       <tbody>
@@ -23,12 +20,9 @@ const dataTable = (props) => {
             const price = item.itemPrice ? item.itemPrice : item.tradePrice
 
             return (
-              <tr className={className} key={`${index}-${item.tradeCount}-${price}`}>
-                <td className="company-list-cell-text">{item.tradeCount.toLocaleString('en')}</td>
+              <tr className={className} key={`${index}-${item.itemsRemaining}-${price}`}>
+                <td className="company-list-cell-text">{item.itemsRemaining.toLocaleString('en')}</td>
                 <td className="company-list-cell-text">{(price / 100).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
-                {
-                  item.itemsRemaining ? <td className="company-list-cell-text">{item.itemsRemaining.toLocaleString('en')}</td> : null
-                }
               </tr>
             )
           })
