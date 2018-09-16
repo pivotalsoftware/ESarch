@@ -38,7 +38,9 @@ class CompanyContainer extends Component {
           this.state.eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
           this.state.eventSource.onmessage = (event) => {
             if(event.data) {
-              this.props.companyActions.setSSEOrderBookData(JSON.parse(event.data));
+              let jsonData = JSON.parse(event.data);
+              console.log('event json data', jsonData);
+              this.props.companyActions.setSSEOrderBookData(jsonData);
             }
           }
         }
