@@ -103,17 +103,13 @@ class Company extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Sell Orders</h5>
             <DataTable data={tradeDetails.orderBook.sell} />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Buy Orders</h5>
             <DataTable data={tradeDetails.orderBook.buy} />
-          </div>
-          <div className="col-md-4">
-            <h5 className="company-orders-tables-header mb-3">Executed Trades</h5>
-            <DataTable data={tradeDetails.executedTrades.trades} />
           </div>
         </div>
 

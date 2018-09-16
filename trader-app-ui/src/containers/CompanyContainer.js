@@ -19,14 +19,6 @@ class CompanyContainer extends Component {
     this.props.companyActions.fetchOrderBooksByCompanyId(id);
   }
 
-  componentDidUpdate(oldProps, oldState) {
-    if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
-        && !this.props.tradeDetails.orderBook.error) {
-          const orderBookId = this.props.tradeDetails.orderBook.identifier
-          this.props.companyActions.fetchExecutedTradesByOrderBookId(orderBookId)
-        }
-  }
-
   sellOrderHandler(price, amount) {
     this.props.companyActions.placeSellOrder(
       this.props.orderBook.identifier,

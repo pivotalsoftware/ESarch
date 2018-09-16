@@ -5,9 +5,6 @@ import {
   FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
   FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
   FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
-  FETCH_EXECUTED_TRADES_REQUEST,
-  FETCH_EXECUTED_TRADES_SUCCESS,
-  FETCH_EXECUTED_TRADES_FAILURE,
   PLACE_BUY_ORDER_REQUEST,
   PLACE_BUY_ORDER_SUCCESS,
   PLACE_BUY_ORDER_FAILURE,
@@ -29,11 +26,6 @@ const initialState = {
       identifier: null,
       buy: [],
       sell: []
-    },
-    executedTrades: {
-      isFetching: false,
-      error: null,
-      trades: []
     }
   },
   buyOrder: {
@@ -108,42 +100,6 @@ function companyReducer(state = initialState, action) {
             identifier: null,
             buy: [],
             sell: []
-          }
-        }
-      }
-    case FETCH_EXECUTED_TRADES_REQUEST:
-      return {
-        ...state,
-        activeCompany: {
-          ...state.activeCompany,
-          executedTrades: {
-            isFetching: true,
-            error: null,
-            ...state.activeCompany.executedTrades
-          }
-        }
-      }
-    case FETCH_EXECUTED_TRADES_SUCCESS:
-      return {
-        ...state,
-        activeCompany: {
-          ...state.activeCompany,
-          executedTrades: {
-            isFetching: false,
-            error: null,
-            trades: action.payload.data
-          }
-        }
-      }
-    case FETCH_EXECUTED_TRADES_FAILURE:
-      return {
-        ...state,
-        activeCompany: {
-          ...state.activeCompany,
-          executedTrades: {
-            isFetching: false,
-            error: action.payload.error,
-            trades: []
           }
         }
       }
