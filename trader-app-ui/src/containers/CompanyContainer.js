@@ -4,9 +4,15 @@ import { connect } from 'react-redux'
 import Company from '../components/Company/Company';
 import * as companyActionCreators from '../actions/company'
 
+const API_ROOT = process.env.REACT_APP_API_ROOT;
+
 class CompanyContainer extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+        eventSource: null
+    }
 
     this.sellOrderHandler = this.sellOrderHandler.bind(this);
     this.buyOrderHandler = this.buyOrderHandler.bind(this);
@@ -17,6 +23,27 @@ class CompanyContainer extends Component {
     const id = this.props.match.params.id;
     this.props.companyActions.setActiveCompany(id);
     this.props.companyActions.fetchOrderBooksByCompanyId(id);
+  }
+
+  componentWillUnmount() {
+      if(this.state.eventSource) {
+        this.state.eventSource.close();
+      }
+  }
+
+  componentDidUpdate(oldProps, oldState) {
+    if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
+        && !this.props.tradeDetails.orderBook.error) {
+          const orderBookId = this.props.tradeDetails.orderBook.identifier;
+          this.state.eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
+          this.state.eventSource.onmessage = (event) => {
+            console.log('On Message', event);
+            // if(event.data) {
+            //   console.log('On Message', event.data);
+            //   this.props.companyActions.setSSEOrderBookData(event.data);
+            // }
+          }
+        }
   }
 
   sellOrderHandler(price, amount) {

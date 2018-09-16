@@ -159,6 +159,11 @@ const placeSellOrderFailure = (error) => {
   }
 }
 
+export const setSSEOrderBookData = (data) => 
+  (dispatch) => {
+    dispatch(fetchOrderBooksByCompanyIdSuccess(data));
+  }
+
 export const fetchOrderBooksByCompanyId = (id) =>
   (dispatch) => {
     dispatch(fetchOrderBooksByCompanyIdRequest());
