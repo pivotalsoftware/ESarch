@@ -14,7 +14,7 @@ import SecureRoute from '../SecureRoute';
 import CompanyContainer from '../CompanyContainer';
 import rootReducer from '../../reducers';
 import { scrollToAnimated } from '../../utils/animation'
-import { loadState, saveState } from './localStorage';
+import { loadState, saveState } from './sessionStorage';
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
