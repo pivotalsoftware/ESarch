@@ -35,14 +35,19 @@ class CompanyContainer extends Component {
     if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
         && !this.props.tradeDetails.orderBook.error) {
         const orderBookId = this.props.tradeDetails.orderBook.identifier;
-        this.state.eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
-        this.state.eventSource.onmessage = (event) => {
+
+        let eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
+        eventSource.onmessage = (event) => {
           if(event.data) {
             let jsonData = JSON.parse(event.data);
             console.log('event json data', jsonData);
             this.props.companyActions.setSSEOrderBookData(jsonData);
           }
         }
+
+        this.setState({
+          eventSource: eventSource
+        })
     }
   }
 
