@@ -5,15 +5,9 @@ const data = [
   {
     header: 'Check the stocks',
     description: 'If you have logged in, you can go to the companies',
-    linkTo: '/companies',
+    linkTo: '/orderbooks',
     linkName: 'To the items'
-  },
-  // {
-  //   header: 'Executed trades',
-  //   description: 'Trace all executed trades using the sockjs connection.',
-  //   linkTo: '/orderbook',
-  //   linkName: 'Executed trades'
-  // }
+  }
 ]
 
 const SideBar = () =>
@@ -22,7 +16,7 @@ const SideBar = () =>
       data.map(item => {
         return(
           <SideBarItem
-            key={item.header} 
+            key={item.header}
             header={item.header}
             description={item.description}
             linkTo={item.linkTo}

@@ -1,5 +1,6 @@
 body {
-  margin: 0;
+  height: 100vh;
+  margin: 80px 0 0 0;
   padding: 0;
   font-family: Roboto, Arial, sans-serif;
 }
@@ -15,4 +16,17 @@ body {
   font-family: Montserrat;
   font-size: 12px;
   font-weight: 600;
+}
+
+.btn-light.axon-button {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+  font-family: Montserrat;
+  font-size: 12px;
+}
+
+.btn-light.axon-button:hover {
+  background-color: white;
+  color: #01ade5;
 }

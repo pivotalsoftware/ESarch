@@ -80,7 +80,7 @@ public class OrderBookEventHandler {
 
         queryUpdateEmitter.emit(OrderBookByIdQuery.class,
                                 q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
-                                orderBook);
+                                eagerInit(orderBook));
 
     }
 
@@ -95,7 +95,7 @@ public class OrderBookEventHandler {
 
         queryUpdateEmitter.emit(OrderBookByIdQuery.class,
                                 q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
-                                orderBook);
+                                eagerInit(orderBook));
 
     }
 
@@ -143,7 +143,7 @@ public class OrderBookEventHandler {
 
         queryUpdateEmitter.emit(OrderBookByIdQuery.class,
                                 q -> q.getOrderBookId().getIdentifier().equals(orderBookView.getIdentifier()),
-                                orderBookView);
+                                eagerInit(orderBookView));
     }
 
     private OrderView createPlacedOrder(AbstractOrderPlacedEvent event, String type) {

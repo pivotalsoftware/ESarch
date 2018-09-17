@@ -1,6 +1,8 @@
 import React from 'react';
 
 const Portfolio = (props) => {
+  const moneyFormatOptions = { style: 'currency', currency: 'USD' }
+
   return (
     <div>
       <h4 className="portfolio-title">{props.title}</h4>
@@ -16,11 +18,11 @@ const Portfolio = (props) => {
         <tbody>
           <tr>
             <td>Available</td>
-            <td>{props.moneyAvailable}</td>
+            <td>{(props.moneyAvailable).toLocaleString('en', moneyFormatOptions)}</td>
           </tr>
           <tr>
             <td>Reserved</td>
-            <td>{props.reserved}</td>
+            <td>{(props.reserved).toLocaleString('en', moneyFormatOptions)}</td>
           </tr>
         </tbody>
       </table>

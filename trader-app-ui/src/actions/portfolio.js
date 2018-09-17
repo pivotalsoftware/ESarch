@@ -120,8 +120,10 @@ export const getTransactionsByPortfolioId = (portfolioId) =>
 export const getPortfolioAndItsTransactions = (userId) => {
   return (dispatch, getState) => {
     return dispatch(getPortfolioByUserId(userId)).then(() => {
-      const fetchedPortfolioId = getState().portfolio.data.identifier
-      return dispatch(getTransactionsByPortfolioId(fetchedPortfolioId))
+      if (getState().portfolio.data) {
+        const fetchedPortfolioId = getState().portfolio.data.identifier;
+        return dispatch(getTransactionsByPortfolioId(fetchedPortfolioId))
+      }
     })
   }
 }

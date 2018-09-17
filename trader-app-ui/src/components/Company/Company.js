@@ -18,7 +18,7 @@ class Company extends Component {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)|| 
+    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)||
     (oldProps.sellOrder.isFetching && !this.props.sellOrder.isFetching && !this.props.sellOrder.error)) {
       // close modal after successfully making a request
       this.closeModal();
@@ -95,23 +95,21 @@ class Company extends Component {
         <div className="row mb-5">
           <div className="col-12">
             <div className="company-details-share-info-container">
-              <p className="company-details-share-info-text">VALUE  {company.value.toLocaleString('en')}  /  SHARES  {company.amountOfShares.toLocaleString('en')}</p>
+              <p className="company-details-share-info-text">
+                VALUE {(company.value).toLocaleString('en', { style: 'currency', currency: 'USD' })} /  SHARES {company.amountOfShares.toLocaleString('en')}
+              </p>
             </div>
           </div>
         </div>
 
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Sell Orders</h5>
             <DataTable data={tradeDetails.orderBook.sell} />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Buy Orders</h5>
             <DataTable data={tradeDetails.orderBook.buy} />
-          </div>
-          <div className="col-md-4">
-            <h5 className="company-orders-tables-header mb-3">Executed Trades</h5>
-            <DataTable data={tradeDetails.executedTrades.trades} />
           </div>
         </div>
 

@@ -5,9 +5,6 @@ import {
   FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
   FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
   FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
-  FETCH_EXECUTED_TRADES_REQUEST,
-  FETCH_EXECUTED_TRADES_SUCCESS,
-  FETCH_EXECUTED_TRADES_FAILURE,
   PLACE_BUY_ORDER_REQUEST,
   PLACE_BUY_ORDER_SUCCESS,
   PLACE_BUY_ORDER_FAILURE,
@@ -114,30 +111,6 @@ const fetchOrderBooksByCompanyIdFailure = error => (
   }
 )
 
-const fetchExecutedTradesRequest = () => {
-  return {
-    type: FETCH_EXECUTED_TRADES_REQUEST
-  }
-}
-
-const fetchExecutedTradesSuccess = (data) => {
-  return {
-    type: FETCH_EXECUTED_TRADES_SUCCESS,
-    payload: {
-      data
-    }
-  }
-}
-
-const fetchExecutedTradesFailure = (error) => {
-  return {
-    type: FETCH_EXECUTED_TRADES_FAILURE,
-    payload: {
-      error
-    }
-  }
-}
-
 const placeBuyOrderRequest = () => {
   return {
     type: PLACE_BUY_ORDER_REQUEST
@@ -186,6 +159,11 @@ const placeSellOrderFailure = (error) => {
   }
 }
 
+export const setSSEOrderBookData = (data) => 
+  (dispatch) => {
+    dispatch(fetchOrderBooksByCompanyIdSuccess(data));
+  }
+
 export const fetchOrderBooksByCompanyId = (id) =>
   (dispatch) => {
     dispatch(fetchOrderBooksByCompanyIdRequest());
@@ -209,29 +187,6 @@ export const fetchOrderBooksByCompanyId = (id) =>
       dispatch(fetchOrderBooksByCompanyIdFailure(error));
     });  
   }
-
-export const fetchExecutedTradesByOrderBookId = (id) => {
-  return (dispatch) => {
-    dispatch(fetchExecutedTradesRequest());
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return fetch(`${API_ROOT}/query/executed-trades/${id}`, options)
-      .then(status)
-      .then(json)
-      .then(data => {
-        dispatch(fetchExecutedTradesSuccess(data))
-      })
-      .catch(error => {
-        console.log('Get executed trades by order book failure: ', error);
-        dispatch(fetchExecutedTradesFailure(error))
-      })
-  }
-}
 
 export const placeBuyOrder = (orderBookId, portfolioId, price, amount) => {
   return (dispatch) => {

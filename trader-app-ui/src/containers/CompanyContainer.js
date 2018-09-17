@@ -4,9 +4,15 @@ import { connect } from 'react-redux'
 import Company from '../components/Company/Company';
 import * as companyActionCreators from '../actions/company'
 
+const API_ROOT = process.env.REACT_APP_API_ROOT;
+
 class CompanyContainer extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+        eventSource: null
+    }
 
     this.sellOrderHandler = this.sellOrderHandler.bind(this);
     this.buyOrderHandler = this.buyOrderHandler.bind(this);
@@ -19,13 +25,26 @@ class CompanyContainer extends Component {
     this.props.companyActions.fetchOrderBooksByCompanyId(id);
   }
 
-  componentDidUpdate(oldProps, oldState) {
-    if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
-        && !this.props.tradeDetails.orderBook.error) {
-          const orderBookId = this.props.tradeDetails.orderBook.identifier
-          this.props.companyActions.fetchExecutedTradesByOrderBookId(orderBookId)
-        }
+  componentWillUnmount() {
+      if(this.state.eventSource) {
+        this.state.eventSource.close();
+      }
   }
+
+//   componentDidUpdate(oldProps, oldState) {
+//     if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
+//         && !this.props.tradeDetails.orderBook.error) {
+//           const orderBookId = this.props.tradeDetails.orderBook.identifier;
+//           this.state.eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
+//           this.state.eventSource.onmessage = (event) => {
+//             if(event.data) {
+//               let jsonData = JSON.parse(event.data);
+//               console.log('event json data', jsonData);
+//               this.props.companyActions.setSSEOrderBookData(jsonData);
+//             }
+//         //   }
+//         }
+//   }
 
   sellOrderHandler(price, amount) {
     this.props.companyActions.placeSellOrder(
@@ -46,7 +65,7 @@ class CompanyContainer extends Component {
   }
 
   render() {
-    const { 
+    const {
         company,
         tradeDetails,
         portfolio,
@@ -56,7 +75,7 @@ class CompanyContainer extends Component {
     } = this.props;
 
     return (
-      <div className="container mt-5">
+      <div className="container pt-5">
         <Company
           company={company}
           tradeDetails={tradeDetails}

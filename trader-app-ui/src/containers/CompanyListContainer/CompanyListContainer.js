@@ -13,7 +13,7 @@ class CompanyListContainer extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container pt-3">
         <p className="company-list-title">All stock items</p>
         <p className="company-list-subtitle">Choose the stock to start trading with</p>
         <div className="small-divider"/>

@@ -17,7 +17,7 @@ export default class Dashboard extends Component {
     return (
       <div className="pt-4">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6 pr-5">
             <div className="row">
               <div className="col-md-12">
                 <h1 className="mt-5 dashboard-header">Dashboard</h1>
@@ -38,7 +38,7 @@ export default class Dashboard extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 align-self-end mb-3">
             {
               data &&
               <TradeItemsContainer>
@@ -56,7 +56,7 @@ export default class Dashboard extends Component {
         </div>
         <div className="row">
           <div className="col-md-12">
-            { 
+            {
               transactions.data &&
               <Transactions
                 transactions={transactions.data}

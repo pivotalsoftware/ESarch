@@ -53,7 +53,7 @@ export default class SellOrder extends Component {
               <div className="modal-body">
                 {portfolio.data && <div className="money-available-container mb-4">
                   <p className="money-available-text">
-                    {portfolio.data.amountOfMoney} cents available of which {portfolio.data.reservedAmountOfMoney} cents reserved
+                    {portfolio.data.amountOfMoney} dollars available of which {portfolio.data.reservedAmountOfMoney} dollars reserved
                   </p>
                 </div>}
 
