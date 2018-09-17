@@ -9,6 +9,13 @@ body {
   text-align: center;
 }
 
+.small-divider-white {
+  background-color: #FFFFFF;
+  height: 3px;
+  width: 22px;
+  margin-bottom: 15px;
+}
+
 .btn-primary.axon-button {
   background-color: #01ade5;
   border-color: #01ade5;

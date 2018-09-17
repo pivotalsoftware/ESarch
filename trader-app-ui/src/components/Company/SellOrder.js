@@ -6,14 +6,24 @@ export default class SellOrder extends Component {
   constructor(props) {
     super(props)
 
+    this.formResetHandler = this.onFormReset.bind(this);
     this.formSubmitHandler = this.onFormSubmit.bind(this);
     this.priceChangeHandler = this.onPriceChanged.bind(this);
     this.amountChangeHandler = this.onAmountChanged.bind(this);
 
     this.state = {
-      priceToTrade: 0,
-      amountToTrade: 0
+      priceToTrade: null,
+      amountToTrade: null
     }
+  }
+
+  onFormReset(event) {
+    event.preventDefault();
+
+    this.setState({
+      priceToTrade: null,
+      amountToTrade: null
+    })
   }
 
   onFormSubmit(event) {
@@ -24,18 +34,21 @@ export default class SellOrder extends Component {
 
   onPriceChanged(event) {
     this.setState({
-      priceToTrade: event.target.value
+      priceToTrade: parseInt(event.target.value.replace(',', ''), 10)
     })
   }
 
   onAmountChanged(event) {
     this.setState({
-      amountToTrade: event.target.value
+      amountToTrade: parseInt(event.target.value.replace(',', ''), 10)
     })
   }
 
   render() {
     const { company, portfolio, cancelHandler } = this.props;
+    const currencyStyle = { style: 'currency', currency: 'USD' }
+    const price = this.state.priceToTrade ? this.state.priceToTrade.toLocaleString('en') : ''
+    const amount = this.state.amountToTrade ? this.state.amountToTrade.toLocaleString('en') : ''
 
     return (
       <div className="modal fade show modal-transaction">
@@ -53,7 +66,7 @@ export default class SellOrder extends Component {
               <div className="modal-body">
                 {portfolio.data && <div className="money-available-container mb-4">
                   <p className="money-available-text">
-                    {portfolio.data.amountOfMoney} dollars available of which {portfolio.data.reservedAmountOfMoney} dollars reserved
+                    {portfolio.data.amountOfMoney.toLocaleString('en', currencyStyle)} dollars available of which {portfolio.data.reservedAmountOfMoney.toLocaleString('en', currencyStyle)} dollars reserved
                   </p>
                 </div>}
 
@@ -61,20 +74,20 @@ export default class SellOrder extends Component {
                 <div className="form-group row">
                   <label className="col-sm-6 col-form-label transaction-form-lable">Price to trade:</label>
                   <div className="col-sm-6">
-                    <input className="form-control transaction-form-control" type="number" placeholder="0" onChange={this.priceChangeHandler} />
+                    <input className="form-control transaction-form-control" value={price} type="text" min="0" placeholder="0" onChange={this.priceChangeHandler} />
                   </div>
                 </div>
                 <div className="form-group row">
                   <label className="col-sm-6 col-form-label transaction-form-lable">Amount of items to trade:</label>
                   <div className="col-sm-6">
-                    <input className="form-control transaction-form-control" type="number" placeholder="0" onChange={this.amountChangeHandler} />
+                    <input className="form-control transaction-form-control" value={amount} type="text" min="0" placeholder="0" onChange={this.amountChangeHandler} />
                   </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <div>
                   <button className="btn btn-transaction-primary" type="submit">PLACE ORDER</button>
-                  <button className="btn btn-transaction-default" type="reset">RESET</button>
+                  <button className="btn btn-transaction-default" type="reset" onClick={this.formResetHandler}>RESET</button>
                   <button className="btn btn-transaction-default" type="button" onClick={cancelHandler}>CANCEL</button>
                 </div>
               </div>
