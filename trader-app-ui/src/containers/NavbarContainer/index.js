@@ -30,7 +30,7 @@ class NavbarContainer extends Component {
               <NavLink
                 className='nav-link'
                 activeClassName='nav-link active'
-                to="/orderbooks">OrderBooks</NavLink>
+                to="/orderbooks">ORDERBOOKS</NavLink>
             </li>
           </ul>
             {
