@@ -8,12 +8,12 @@ const data = [
     linkTo: '/companies',
     linkName: 'To the items'
   },
-  {
-    header: 'Executed trades',
-    description: 'Trace all executed trades using the sockjs connection.',
-    linkTo: '/orderbook',
-    linkName: 'Executed trades'
-  }
+  // {
+  //   header: 'Executed trades',
+  //   description: 'Trace all executed trades using the sockjs connection.',
+  //   linkTo: '/orderbook',
+  //   linkName: 'Executed trades'
+  // }
 ]
 
 const SideBar = () =>
