@@ -9,6 +9,14 @@ body {
   text-align: center;
 }
 
+.centered-loader {
+  position: absolute;
+  margin: 0 auto;
+  left: 50%;
+  top: 50%;
+  margin-left: -80px;
+}
+
 .small-divider-white {
   background-color: #FFFFFF;
   height: 3px;

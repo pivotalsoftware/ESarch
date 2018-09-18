@@ -1,5 +1,5 @@
 .axon-loader {
-  border: 16px solid #f3f3f3;
+  border: 16px solid transparent;
   border-radius: 50%;
   border-top: 16px solid #01ade5;
   width: 120px;

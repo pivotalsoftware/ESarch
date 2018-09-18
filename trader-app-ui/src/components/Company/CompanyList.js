@@ -95,7 +95,7 @@ class CompanyList extends Component {
     }
 
     if (isFetching) {
-      return <Loader />;
+      return <Loader className="centered-loader"/>;
     }
 
     const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"

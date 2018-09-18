@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatTransactionState } from '../../utils/transactions'
 
 const Transactions = ({ transactions, title, description }) => {
   return (
@@ -27,7 +28,7 @@ const Transactions = ({ transactions, title, description }) => {
                   <td>{transaction.amountOfItems.toLocaleString('en')}</td>
                   <td>{(transaction.pricePerItem).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
                   <td>{transaction.amountOfExecutedItems.toLocaleString('en')}</td>
-                  <td>{transaction.state}</td>
+                  <td>{formatTransactionState(transaction.state)}</td>
                 </tr>
               );
             })

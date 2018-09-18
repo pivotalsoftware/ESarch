@@ -12,6 +12,7 @@ export default class Dashboard extends Component {
 
     this.renderHeader = this.renderHeader.bind(this);
   }
+
   renderHeader() {
     return (
       <div>
@@ -22,6 +23,7 @@ export default class Dashboard extends Component {
       </div>
     );
   }
+
   render() {
     const { data, isFetching, error, transactions } = this.props.portfolio;
 
@@ -37,8 +39,12 @@ export default class Dashboard extends Component {
     if (isFetching) {
       return (
         <div className="pt-4">
-          {this.renderHeader()}
-          <Loader />
+          <div className="row">
+            <div className="col-sm-6 pr-5">
+              {this.renderHeader()}
+            </div>
+          </div>
+          <Loader className="centered-loader"/>
         </div>
       );
     }
@@ -51,12 +57,14 @@ export default class Dashboard extends Component {
               <div className="col-md-12">
                 {this.renderHeader()}
               </div>
+            </div>
+            <div className="row">
               <div className="col-md-12">
                 {
                   data &&
                   <Portfolio
                     title="Portfolio"
-                    description="Here you see what you have and what is reserved."
+                    description="Here you see what you have and what is reserved"
                     moneyAvailable={data.amountOfMoney}
                     reserved={data.reservedAmountOfMoney}
                   />
@@ -80,14 +88,14 @@ export default class Dashboard extends Component {
             }
           </div>
         </div>
-        <div className="row">
+        <div className="row mb-5">
           <div className="col-md-12">
             {
               transactions.data &&
               <Transactions
                 transactions={transactions.data}
                 title="Transactions"
-                description="Here you see what you have and what is reserved"
+                description="Here you see your current transactions"
               />
             }
           </div>
