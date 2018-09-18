@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DataTable from './DataTable';
 import SellOrder from './SellOrder';
 import BuyOrder from './BuyOrder';
+import Loader from '../Loader';
 
 class Company extends Component {
   constructor(props) {
@@ -44,11 +45,15 @@ class Company extends Component {
   }
 
   render() {
-    const { company, tradeDetails, portfolio, sellOrderHandler, buyOrderHandler } = this.props;
+    const { activeCompany, portfolio, sellOrderHandler, buyOrderHandler } = this.props;
     const { sellModalOpen, buyModalOpen } = this.state;
 
-    if (!company) {
-      return null;
+    if (activeCompany.orderBook.error) {
+      return <h1 className="axon-error">Error loading orderbook! {activeCompany.orderBook.error.message}</h1>
+    }
+
+    if (activeCompany.orderBook.isFetching) {
+      return <Loader />;
     }
 
     return (
@@ -56,7 +61,7 @@ class Company extends Component {
 
         <div className="row h-75 align-items-center mb-2">
           <div className="col-sm-8">
-            <span className="company-details-title">{company.name}</span>
+            <span className="company-details-title">{activeCompany.companyDetail.name}</span>
           </div>
           <div className="col-sm-2">
             <button
@@ -79,7 +84,7 @@ class Company extends Component {
           <SellOrder
             sellOrderHandler={sellOrderHandler}
             cancelHandler={this.closeModal}
-            company={company}
+            company={activeCompany.companyDetail}
             portfolio={portfolio}
           />
         }
@@ -87,7 +92,7 @@ class Company extends Component {
           <BuyOrder
             buyOrderHandler={buyOrderHandler}
             cancelHandler={this.closeModal}
-            company={company}
+            company={activeCompany.companyDetail}
             portfolio={portfolio}
           />
         }
@@ -96,7 +101,7 @@ class Company extends Component {
           <div className="col-12">
             <div className="company-details-share-info-container">
               <p className="company-details-share-info-text">
-                VALUE {(company.value).toLocaleString('en', { style: 'currency', currency: 'USD' })} /  SHARES {company.amountOfShares.toLocaleString('en')}
+                VALUE {activeCompany.companyDetail.value && (activeCompany.companyDetail.value).toLocaleString('en', { style: 'currency', currency: 'USD' })} /  SHARES {activeCompany.companyDetail.amountOfShares && activeCompany.companyDetail.amountOfShares.toLocaleString('en')}
               </p>
             </div>
           </div>
@@ -105,11 +110,11 @@ class Company extends Component {
         <div className="row">
           <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Sell Orders</h5>
-            <DataTable data={tradeDetails.orderBook.sell} />
+            <DataTable data={activeCompany.orderBook.sell} />
           </div>
           <div className="col-md-6">
             <h5 className="company-orders-tables-header mb-3">Buy Orders</h5>
-            <DataTable data={tradeDetails.orderBook.buy} />
+            <DataTable data={activeCompany.orderBook.buy} />
           </div>
         </div>
 

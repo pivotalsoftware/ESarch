@@ -1,4 +1,7 @@
 import {
+  FETCH_COMPANY_REQUEST,
+  FETCH_COMPANY_SUCCESS,
+  FETCH_COMPANY_FAILURE,
   FETCH_COMPANY_LIST_REQUEST,
   FETCH_COMPANY_LIST_SUCCESS,
   FETCH_COMPANY_LIST_FAILURE,
@@ -10,12 +13,78 @@ import {
   PLACE_BUY_ORDER_FAILURE,
   PLACE_SELL_ORDER_REQUEST,
   PLACE_SELL_ORDER_SUCCESS,
-  PLACE_SELL_ORDER_FAILURE,
-  SET_ACTIVE_COMPANY
+  PLACE_SELL_ORDER_FAILURE
 } from '../constants/companyActions';
 import { status, json } from '../utils/fetch';
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
+
+const fetchCompanyByIdRequest = () => (
+  {
+    type: FETCH_COMPANY_REQUEST
+  }
+)
+
+const fetchCompanyByIdSuccess = (data) => (
+  {
+    type: FETCH_COMPANY_SUCCESS,
+    payload: {
+      data
+    }
+  }
+)
+
+const fetchCompanyByIdFailure = (error) => (
+  {
+    type: FETCH_COMPANY_FAILURE,
+    error
+  }
+)
+
+const getCompanyFromCompanyList = (id, companyList) => {
+  for(let company of companyList) {
+    if(company.identifier === id) {
+      return company;
+    }
+  }
+  return null;
+}
+
+export const fetchCompanyById = (id) => 
+  (dispatch, getState) => {
+    const appState = getState();
+    const companies = appState.companies.companyList
+    let activeCompany;
+    if(companies.items) {
+      activeCompany = getCompanyFromCompanyList(id, companies.items)
+    }
+
+    // if company already present in the state, return that
+    if(activeCompany) {
+      return dispatch(fetchCompanyByIdSuccess(activeCompany))
+    } else {
+      dispatch(fetchCompanyByIdRequest());
+      const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+      };
+  
+      return fetch(`${API_ROOT}/query/company/${id}`, options)
+      .then(status)
+      .then(json)
+      .then((data) => {
+        // got a successfull response from the server
+        dispatch(fetchCompanyByIdSuccess(data));
+      })
+      .catch((error) => {
+        // bad response
+        console.log("Get Company Failure", error);
+        dispatch(fetchCompanyByIdFailure(error));
+      })
+    }
+  }
 
 const fetchCompanyListRequest = () => (
   {
@@ -69,22 +138,6 @@ export const fetchCompanyList = () =>
       dispatch(fetchCompanyListFailure(error));
     });  
 }
-
-export const setActiveCompany = (id) => 
-  (dispatch, getState) => {
-    const state = getState();
-    const index = state.companies.companyList.items.findIndex(element => {
-      if(element.identifier ===id) {
-        return true;
-      }
-      return false;
-    })
-    dispatch({
-      type: SET_ACTIVE_COMPANY,
-      payload: {
-        index
-      }})
-  }
 
 const fetchOrderBooksByCompanyIdRequest = () => (
   {

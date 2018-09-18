@@ -1,4 +1,7 @@
 import {
+  FETCH_COMPANY_REQUEST,
+  FETCH_COMPANY_SUCCESS,
+  FETCH_COMPANY_FAILURE,
   FETCH_COMPANY_LIST_REQUEST,
   FETCH_COMPANY_LIST_SUCCESS,
   FETCH_COMPANY_LIST_FAILURE,
@@ -10,8 +13,7 @@ import {
   PLACE_BUY_ORDER_FAILURE,
   PLACE_SELL_ORDER_REQUEST,
   PLACE_SELL_ORDER_SUCCESS,
-  PLACE_SELL_ORDER_FAILURE,
-  SET_ACTIVE_COMPANY
+  PLACE_SELL_ORDER_FAILURE
 } from '../constants/companyActions';
 
 const initialState = {
@@ -19,7 +21,13 @@ const initialState = {
     items: []
   },
   activeCompany: {
-    index: null,
+    companyDetail: {
+      isFetching: false,
+      error: null,
+      name: null,
+      value: null,
+      amountOfShares: null
+    },
     orderBook: {
       isFetching: false,
       error: null,
@@ -40,6 +48,43 @@ const initialState = {
 
 function companyReducer(state = initialState, action) {
   switch (action.type) {
+    case FETCH_COMPANY_REQUEST:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          companyDetail: {
+            isFetching: true,
+            error: null,
+          }
+        }
+      }
+    case FETCH_COMPANY_SUCCESS:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          companyDetail: {
+            isFetching: false,
+            error: null,
+            identifier: action.payload.data.identifier,
+            name: action.payload.data.name,
+            value: action.payload.data.value,
+            amountOfShares: action.payload.data.amountOfShares
+          }
+        }
+      }
+    case FETCH_COMPANY_FAILURE:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          companyDetail: {
+            isFetching: false,
+            error: action.error,
+          }
+        }
+      }
     case FETCH_COMPANY_LIST_REQUEST:
       return Object.assign({}, state, {
         companyList: {
@@ -149,14 +194,6 @@ function companyReducer(state = initialState, action) {
         sellOrder: {
           isFetching: false,
           error: action.payload.error
-        }
-      }
-    case SET_ACTIVE_COMPANY:
-      return {
-        ...state,
-        activeCompany: {
-          ...state.activeCompany,
-          index: action.payload.index
         }
       }
     default:

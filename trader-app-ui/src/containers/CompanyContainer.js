@@ -21,7 +21,8 @@ class CompanyContainer extends Component {
   componentDidMount() {
     // get the id for the company from the url
     const id = this.props.match.params.id;
-    this.props.companyActions.setActiveCompany(id);
+
+    this.props.companyActions.fetchCompanyById(id);
     this.props.companyActions.fetchOrderBooksByCompanyId(id);
   }
 
@@ -32,9 +33,9 @@ class CompanyContainer extends Component {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if(oldProps.tradeDetails.orderBook.isFetching && !this.props.tradeDetails.orderBook.isFetching
-        && !this.props.tradeDetails.orderBook.error) {
-        const orderBookId = this.props.tradeDetails.orderBook.identifier;
+    if(oldProps.activeCompany.orderBook.isFetching && !this.props.activeCompany.orderBook.isFetching
+        && !this.props.activeCompany.orderBook.error) {
+        const orderBookId = this.props.activeCompany.orderBook.identifier;
 
         let eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
         eventSource.onmessage = (event) => {
@@ -71,25 +72,21 @@ class CompanyContainer extends Component {
 
   render() {
     const {
-        company,
-        tradeDetails,
-        portfolio,
-        sellOrder,
-        buyOrder,
-        companyActions
+      activeCompany,
+      portfolio,
+      sellOrder,
+      buyOrder,
     } = this.props;
 
     return (
       <div className="container pt-5">
         <Company
-          company={company}
-          tradeDetails={tradeDetails}
+          activeCompany={activeCompany}
           portfolio={portfolio}
           sellOrderHandler={this.sellOrderHandler}
           buyOrderHandler={this.buyOrderHandler}
           sellOrder={sellOrder}
           buyOrder={buyOrder}
-          fetchCompanyListAction={companyActions.fetchCompanyList}
           />
       </div>
     );
@@ -104,10 +101,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => {
   return {
-    company: state.companies.companyList.items[
-      state.companies.activeCompany.index
-    ],
-    tradeDetails: state.companies.activeCompany,
+    activeCompany: state.companies.activeCompany,
     portfolio: state.portfolio,
     orderBook: state.companies.activeCompany.orderBook,
     sellOrder: state.companies.sellOrder,
