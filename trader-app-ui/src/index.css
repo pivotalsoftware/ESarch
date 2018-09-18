@@ -37,3 +37,14 @@ body {
   background-color: white;
   color: #01ade5;
 }
+
+.axon-error {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  color: #e74c3c;
+}

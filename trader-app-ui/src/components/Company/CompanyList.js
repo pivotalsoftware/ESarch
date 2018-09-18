@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 import "./styles.css";
 
 class CompanyList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.sortClickHandler = this.sortClickHandler.bind(this);
     this.sortItems = this.sortItems.bind(this);
@@ -14,8 +15,8 @@ class CompanyList extends Component {
   }
 
   sortItems(items, column, asc) {
-    if(column === 'name') {
-      if(asc) {
+    if (column === 'name') {
+      if (asc) {
         return items.sort((a, b) => {
           var nameA = a.name.toUpperCase();
           var nameB = b.name.toUpperCase();
@@ -41,8 +42,8 @@ class CompanyList extends Component {
         });
       }
     }
-    else if(column === 'value') {
-      if(asc) {
+    else if (column === 'value') {
+      if (asc) {
         return items.sort(function (a, b) {
           return a.value - b.value;
         });
@@ -52,8 +53,8 @@ class CompanyList extends Component {
         });
       }
     }
-    else if(column === 'shares') {
-      if(asc) {
+    else if (column === 'shares') {
+      if (asc) {
         return items.sort(function (a, b) {
           return a.amountOfShares - b.amountOfShares;
         });
@@ -90,11 +91,11 @@ class CompanyList extends Component {
     const { items } = this.state;
 
     if (error) {
-      return <h1>Error loading page! {error.message}</h1>;
+      return <h1 className="axon-error">Error loading page! {error.message}</h1>;
     }
 
     if (isFetching) {
-      return <h1>Loading...</h1>;
+      return <Loader />;
     }
 
     const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"
@@ -105,15 +106,15 @@ class CompanyList extends Component {
           <tr className="list-row-gray">
             <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
               <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
-              {this.state.sortedBy === 'name' && <div className={sortArrowClassName}/>}
+              {this.state.sortedBy === 'name' && <div className={sortArrowClassName} />}
             </th>
             <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
               <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
-              {this.state.sortedBy === 'value' && <div className={sortArrowClassName}/>}
+              {this.state.sortedBy === 'value' && <div className={sortArrowClassName} />}
             </th>
             <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
               <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
-              {this.state.sortedBy === 'shares' && <div className={sortArrowClassName}/>}
+              {this.state.sortedBy === 'shares' && <div className={sortArrowClassName} />}
             </th>
             <th>&nbsp;</th>
           </tr>

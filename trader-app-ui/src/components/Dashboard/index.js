@@ -4,26 +4,52 @@ import TradeItemsContainer from './TradeItemsContainer';
 import TradeItemsTable from './TradeItemsTable';
 import Portfolio from './Portfolio';
 import Transactions from './Transactions';
+import Loader from '../Loader';
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.renderHeader = this.renderHeader.bind(this);
+  }
+  renderHeader() {
+    return (
+      <div>
+        <h1 className="mt-5 dashboard-header">Dashboard</h1>
+        <p className="mb-5 dashboard-subheader">
+          Your overview of everything you have and want to know
+        </p>
+      </div>
+    );
+  }
   render() {
     const { data, isFetching, error, transactions } = this.props.portfolio;
-    if(error) {
-      return <h1>{error.message}</h1>
+
+    if (error) {
+      return (
+        <div className="pt-4">
+          {this.renderHeader()}
+          <h1 className="axon-error">{error.message}</h1>
+        </div>
+      );
     }
-    if(isFetching) {
-      return<h1>Loading...</h1>
+
+    if (isFetching) {
+      return (
+        <div className="pt-4">
+          {this.renderHeader()}
+          <Loader />
+        </div>
+      );
     }
+
     return (
       <div className="pt-4">
         <div className="row">
           <div className="col-md-6 pr-5">
             <div className="row">
               <div className="col-md-12">
-                <h1 className="mt-5 dashboard-header">Dashboard</h1>
-                <p className="mb-5 dashboard-subheader">
-                  Your overview of everything you have and want to know
-                </p>
+                {this.renderHeader()}
               </div>
               <div className="col-md-12">
                 {
