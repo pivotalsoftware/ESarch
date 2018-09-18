@@ -20,8 +20,12 @@ class Home extends Component {
     return (
       <div className="axon-homepage">
         <div className="container">
-          <div className="row">
-            <div className="offset-md-6 col-md-6 mt-5 pt-5 text-right">
+          <div className="row align-items-center">
+            <div className="col-sm-6 px-0">
+              <img src={require('../../assets/home-foreground-image.png')}
+                   style={{width: '100%', height: '100%'}}/>
+            </div>
+            <div className="col-sm-6 mt-2 pt-5 text-right">
               <Banner />
             </div>
           </div>

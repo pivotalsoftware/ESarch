@@ -80,7 +80,7 @@ export default class Dashboard extends Component {
             }
           </div>
         </div>
-        <div className="row">
+        <div className="row mb-5">
           <div className="col-md-12">
             {
               transactions.data &&
