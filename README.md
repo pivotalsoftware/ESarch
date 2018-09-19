@@ -15,8 +15,8 @@ This demo will *only* run in a compatible [Pivotal Application Service (PCF)][11
 In order to follow along with this tutorial...
 
 - You must have the [cf-cli][8] installed (test by calling `cf version`).
-- You must have access to a Pivotal Application Service instance with the required marketplace services.
-- You must have the `bash` terminal or similar to run the scripts.
+- You must have access to a [Pivotal Application Service][11] instance with the required marketplace services (like [PWS][6]).
+- You must have a `bash` terminal to run the provided scripts.
 
 # Building and Running the Axon Trader
 
