@@ -3,8 +3,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Company from '../components/Company/Company';
 import * as companyActionCreators from '../actions/company'
+import { ApiConfig } from '../utils/config';
 
-const API_ROOT = process.env.REACT_APP_API_ROOT;
+const API_ROOT = ApiConfig();
 
 class CompanyContainer extends Component {
   constructor(props) {

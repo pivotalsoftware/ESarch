@@ -5,9 +5,10 @@ import {
     SET_IMPERSONATED_USER,
     LOGOUT_USER
   } from '../constants/homeActions';
-  import { status, json } from '../utils/fetch';
+import { status, json } from '../utils/fetch';
+import { ApiConfig } from '../utils/config';
   
-  const API_ROOT = process.env.REACT_APP_API_ROOT;
+  const API_ROOT = ApiConfig();
   
   const fetchUsersRequest = () => (
     {
