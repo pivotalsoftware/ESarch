@@ -61,11 +61,17 @@ Now the environment is ready we can `cf push` our back-end microservice applicat
 ```bash
 # you need to provide this script with your PCF username, password, org and space...
 $ ./push-microservices.sh USERNAME PASSWORD ORG SPACE
+
+# When finished, you should see a list of your currently deployed apps and their URL's...
+
+name                            requested state   instances  urls
+esrefarch-demo-trader-app       started           1/1        esrefarch-demo-trader-app.cfapps.io
+esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trader-ui.cfapps.io
 ```
 
 > If you're new to PCF, notice also how easy it is to run your apps in the cloud. In a couple of minutes you'll have running services that will keep running no matter what.
 
-Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
+Once the script has finished, you should notice output that contains the application URL's. Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
 
 ### 4. Push the User Interface (UI)
 
@@ -97,7 +103,7 @@ Copy the url for the `esrefarch-demo-trader-ui` application from the `urls` colu
 
 ![Axon Trader][12]
 
-If the User interface is working, you can borrow the "run-all-tests" script to exercise the Axon Trader application and check that everything is working as expected. 
+If the User interface is up, you can borrow the "run-all-tests" script to test the Axon Trader application and check that everything is working as expected. 
 
 > Notice how we are setting environment variables for the `trader-app`, `trader-ui` and `trader-engine` before calling the `run-tests.sh` script...
 
