@@ -4,20 +4,20 @@ set -e
 
 if [ -n $engineURL ]
 then
-    echo -e "Setting a default URL for the Trading Engine..."
     export engineURL=https://esrefarch-demo-trading-engine.cfapps.io
+    echo -e "Setting URL for the Trading Engine to ${engineURL}"
 fi
 
 if [ -n $appURL ]
 then
-    echo -e "Setting a default URL for the Trading App..."
     export appURL=https://esrefarch-demo-trader-app.cfapps.io
+    echo -e "Setting URL for the Trading App to ${appURL}"
 fi
 
 if [ -n $uiURL ]
 then
-    echo -e "Setting a default URL for the Trader UI..."
     export uiURL=https://esrefarch-demo-trader-ui.cfapps.io
+    echo -e "Setting URL for the Trader UI to ${uiURL}"
 fi
 
 env URL="$engineURL" ./tasks/smoke-test-trading-engine.sh

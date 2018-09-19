@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
+# apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
 set -eu
 
@@ -105,9 +105,12 @@ fi
 
 export RANDOM_COMPANY_NAME=`uuidgen`
 export CREATE_COMPANY_PAYLOAD="{\"companyName\": \"${RANDOM_COMPANY_NAME}\", \"companyValue\": \"1337\", \"amountOfShares\": \"42\"}"
-export COMPANY_UUID=`curl -X POST -sL -d "${CREATE_COMPANY_PAYLOAD}" -H "Content-Type:application/json" ${URL}/command/CreateCompanyCommand | jq -r ''`
+export COMPANY_UUID=`curl -X POST -sL -d "${CREATE_COMPANY_PAYLOAD}" -H "Content-Type:application/json" ${appURL}/command/CreateCompanyCommand | jq -r ''`
 
 echo "The randomly generated Company Name for the e2e test is: ${RANDOM_COMPANY_NAME}"
+echo "The Company Payload for the e2e test is: ${CREATE_COMPANY_PAYLOAD}"
+echo "The Company UUID returned for the e2e test is: ${COMPANY_UUID}"
+
 if [ -z ${COMPANY_UUID} ] || [ "$COMPANY_UUID" = "" ];
 then
    echo -e "\e[31mError. The e2e test has failed, it didn't create a new company!"
@@ -116,7 +119,7 @@ else
    echo "The company (${RANDOM_COMPANY_NAME}) was created, with a UUID of [${COMPANY_UUID}]."
 fi
 
-export COMPANY_NAME=`curl -sL -H "Content-Type: application/json" -X GET ${URL}/query/order-book/by-company/${COMPANY_UUID} | jq -r '.[]|.companyName'`
+export COMPANY_NAME=`curl -sL -H "Content-Type: application/json" -X GET ${appURL}/query/order-book/by-company/${COMPANY_UUID} | jq -r '.[]|.companyName'`
 echo "The Company Name  is: ${COMPANY_NAME}"
 
 if [ "$COMPANY_NAME" != "$RANDOM_COMPANY_NAME" ];
