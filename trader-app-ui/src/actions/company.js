@@ -13,7 +13,8 @@ import {
   PLACE_BUY_ORDER_FAILURE,
   PLACE_SELL_ORDER_REQUEST,
   PLACE_SELL_ORDER_SUCCESS,
-  PLACE_SELL_ORDER_FAILURE
+  PLACE_SELL_ORDER_FAILURE,
+  SET_SSE_ORDERBOOK_DATA
 } from '../constants/companyActions';
 import { status, json } from '../utils/fetch';
 
@@ -212,10 +213,14 @@ const placeSellOrderFailure = (error) => {
   }
 }
 
-export const setSSEOrderBookData = (data) => 
-  (dispatch) => {
-    dispatch(fetchOrderBooksByCompanyIdSuccess(data));
+export const setSSEOrderBookData = (data) => (
+  {
+    type: SET_SSE_ORDERBOOK_DATA,
+    payload: {
+      data
+    }
   }
+)
 
 export const fetchOrderBooksByCompanyId = (id) =>
   (dispatch) => {

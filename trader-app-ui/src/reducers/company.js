@@ -13,7 +13,8 @@ import {
   PLACE_BUY_ORDER_FAILURE,
   PLACE_SELL_ORDER_REQUEST,
   PLACE_SELL_ORDER_SUCCESS,
-  PLACE_SELL_ORDER_FAILURE
+  PLACE_SELL_ORDER_FAILURE,
+  SET_SSE_ORDERBOOK_DATA
 } from '../constants/companyActions';
 
 const initialState = {
@@ -118,9 +119,8 @@ function companyReducer(state = initialState, action) {
           }
         }
       }
-    case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS:
+    case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS: {
       const orderBook = action.payload.data && action.payload.data.length > 0 && action.payload.data[0]
-
       return {
         ...state,
         activeCompany: {
@@ -134,6 +134,7 @@ function companyReducer(state = initialState, action) {
           }
         }
       }
+    }
     case FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE:
       return {
         ...state,
@@ -145,6 +146,20 @@ function companyReducer(state = initialState, action) {
             identifier: null,
             buy: [],
             sell: []
+          }
+        }
+      }
+    case SET_SSE_ORDERBOOK_DATA:
+      return {
+        ...state,
+        activeCompany: {
+          ...state.activeCompany,
+          orderBook: {
+            isFetching: false,
+            error: null,
+            identifier: action.payload.data.identifier,
+            buy: action.payload.data.buyOrders,
+            sell: action.payload.data.sellOrders
           }
         }
       }

@@ -11,7 +11,7 @@ class CompanyContainer extends Component {
     super(props);
 
     this.state = {
-        eventSource: null
+      eventSource: null
     }
 
     this.sellOrderHandler = this.sellOrderHandler.bind(this);
@@ -27,34 +27,32 @@ class CompanyContainer extends Component {
   }
 
   componentWillUnmount() {
-      if(this.state.eventSource) {
-        this.state.eventSource.close();
-      }
+    if (this.state.eventSource) {
+      this.state.eventSource.close();
+    }
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if(oldProps.activeCompany.orderBook.isFetching && !this.props.activeCompany.orderBook.isFetching
-        && !this.props.activeCompany.orderBook.error) {
-        const orderBookId = this.props.activeCompany.orderBook.identifier;
+    if (oldProps.activeCompany.orderBook.isFetching && !this.props.activeCompany.orderBook.isFetching
+      && !this.props.activeCompany.orderBook.error) {
+      const orderBookId = this.props.activeCompany.orderBook.identifier;
 
-        // let eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
-        // eventSource.onmessage = (event) => {
-        //   if(event.data) {
-        //     let jsonData = JSON.parse(event.data);
-        //     console.log('event json data', jsonData);
-        //     this.props.companyActions.setSSEOrderBookData(jsonData);
-        //   }
-        // }
+      console.log("componentdidupdate");
 
-        // this.setState({
-        //   eventSource: eventSource
-        // })
-    }
+      if (!this.state.eventSource) {
+        let eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
+        eventSource.onmessage = (event) => {
+          if (event.data) {
+            let jsonData = JSON.parse(event.data);
+            console.log('event json data', jsonData);
+            this.props.companyActions.setSSEOrderBookData(jsonData);
+          }
+        }
 
-    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)||
-      (oldProps.sellOrder.isFetching && !this.props.sellOrder.isFetching && !this.props.sellOrder.error)) {
-      // refetch order book after successfully posting a transaction
-      this.props.companyActions.fetchOrderBooksByCompanyId(this.props.match.params.id);
+        this.setState({
+          eventSource: eventSource
+        })
+      }
     }
   }
 
@@ -93,7 +91,7 @@ class CompanyContainer extends Component {
           buyOrderHandler={this.buyOrderHandler}
           sellOrder={sellOrder}
           buyOrder={buyOrder}
-          />
+        />
       </div>
     );
   }
