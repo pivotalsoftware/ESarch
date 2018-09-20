@@ -72,7 +72,7 @@ jobs:
   - put: push-to-pcf
     params:
       manifest: source-code/trader-app-ui/manifest.yml
-      path: source-code/trader-app-ui/
+      path: package-output/build/
     on_success:
       put: slack-alert
       params:
