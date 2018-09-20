@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -e +x
+set -eux
 
 export FOLDER=`pwd`
 echo "The path is ${OLDPATH}"
@@ -14,8 +14,13 @@ cd source-code/trader-app-ui
   cp Staticfile build/Staticfile
 cd $FOLDER
 
+echo "package-output/build..."
+ls -la package-output/build
+echo "package-output/build/static..."
+ls -la package-output/build/static
+
+echo "cp -R source-code/trader-app-ui/build package-output"
 cp -R source-code/trader-app-ui/build package-output
-tree package-output/build
 
 echo "Done building trader ui"
 exit 0
