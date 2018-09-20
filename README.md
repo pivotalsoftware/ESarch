@@ -1,6 +1,6 @@
 # Axon Trader
 
-This project demonstrates the use of CQRS and Event Sourcing with [Pivotal Application Service][11] (a.k.a PCF). It consists of two [Spring Boot][9] microservices, built using the open source [Axon Framework][10] and a user interface built using Node JS.
+This project demonstrates the use of CQRS and Event Sourcing with [Pivotal Application Service][11] (a.k.a PCF). It consists of two [Spring Boot][9] microservices, built using the open source [Axon Framework][10] and a user interface built using React  JS.
 
 > __Note:__ If you just want to experience Axon Trader without having to build and host the code yourself, go ahead! Simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5].
 
