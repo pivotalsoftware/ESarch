@@ -135,9 +135,9 @@ INTEGRATION TESTS FINISHED - NO ERRORS ;D
 
 This section on continuously delivering Axon Trader is purely mentioned here for completeness. You can manually refresh the Axon Trader applications at any time simply by repeating the steps above.
 
-For continuous integration and deployment of the Axon Trader the team are using [Concourse][13]. You can view the build monitor online at any time [here][14]. 
+For the continuous integration and deployment needs of the Axon Trader application, the team have chosen to use [Concourse-ci][13]. You can view our team's Axon Trader build monitor [here][14] at any time. _Remember: builds can be green as well as red. Past performance is no guarantee of future results._  
 
-Allmost all of the configuration required to recreate our build pipeline on your own Concourse server is included in the `ci` folder under the project root. The only thing that's missing is the `private.yml` file which we use to specify some secrets and additional config required by the pipeline. 
+All of the configuration and scripts required to recreate our build pipeline on your own Concourse server is included in the `ci` folder under the project root. The only thing that's missing is the `private.yml` file which we use to specify some secrets and additional config required by the pipeline. 
 
 Here is an example of `ci/private.yml` so you can recreate it...
 
