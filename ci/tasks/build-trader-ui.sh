@@ -18,6 +18,7 @@ cp -R source-code/trader-app-ui/build package-output/build
 
 ls -la source-code/trader-app-ui
 ls -la package-output/build
+ls -la package-output/build/build
 
 echo "Done building trader ui"
 exit 0

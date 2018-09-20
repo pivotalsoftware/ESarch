@@ -5,6 +5,6 @@ applications:
   instances: 1
   buildpacks: 
     - staticfile_buildpack
-  path: bob
+  path: build
   env:
     TRUST_CERTS: api.run.pivotal.io
