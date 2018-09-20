@@ -1,11 +1,9 @@
+export const HostURLsMapping = {
+    "localhost": "http://localhost:8080",
+    "esrefarch-demo-trader-ui.cfapps.io": "https://esrefarch-demo-trader-app.cfapps.io",
+}
 export const ApiConfig = () => {
     let hostname = window.location.hostname;
-    console.log(hostname);
-    if (hostname === "localhost") {
-        return "http://localhost:8080"
-    } else if (hostname === "esrefarch-demo-trader-ui.cfapps.io") {
-        return "https://esrefarch-demo-trader-app.cfapps.io"
-    } else {
-        return "https://esrefarch-demo-trader-app.cfapps.io"
-    }
+    let apiURL = HostURLsMapping[hostname];
+    return apiURL ? apiURL : '';
 }
