@@ -71,7 +71,7 @@ jobs:
     file: source-code/ci/tasks/build-trader-ui.yml
   - put: push-to-pcf
     params:
-      manifest: package-output/build/manifest.yml
+      manifest: source-code/trader-app-ui/manifest.yml
       path: package-output/build
     on_success:
       put: slack-alert
