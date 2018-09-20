@@ -7,6 +7,7 @@ echo "The path is ${OLDPATH}"
 
 echo "Packaging the Trader UI App..."
 cd source-code/trader-app-ui
+  npm install
   npm run build
 cd $FOLDER
 
