@@ -13,8 +13,7 @@ cd source-code/trader-app-ui
   cp manifest.yml build/manifest.yml
 cd $FOLDER
 
-mkdir package-output/build
-cp -R source-code/trader-app-ui/build package-output/build
+cp -R source-code/trader-app-ui/build package-output
 
 ls -la source-code/trader-app-ui
 ls -la package-output/build
