@@ -11,8 +11,12 @@ cd source-code/trader-app-ui
   npm run build
 cd $FOLDER
 
-# find build folder and copy it to package-output
-find source-code/trader-app-ui/build -type d -name build -exec cp -r "{}"/. package-output/build \;
+# copy the build folder to package-output
+cp -r source-code/trader-app-ui/build package-output/build
+cp -r source-code/trader-app-ui/manifest.yml package-output/build/manifest.yml
+
+ls -la source-code
+ls -la package-output
 
 echo "Done building trader ui"
 exit 0

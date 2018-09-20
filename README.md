@@ -28,7 +28,7 @@ First clone this repository using `git` and `cd` to it's directory in your termi
 For instructions on how to build the Axon Trader Reference application for yourself and host them in your space on [Pivotal Web Services][6], read on.
 
 
-### 1. Build the Microservice JARs
+### 1. Building the Microservice JARs
 
 To obtain Spring Boot JAR's for the `trader-app` and `trading-engine` microservices of the Axon Trader Reference Architecture run the following script provided in the project folder...
 
@@ -38,7 +38,7 @@ To obtain Spring Boot JAR's for the `trader-app` and `trading-engine` microservi
 
 > Note: The user interface is written in Node.js, so formally building it is not required in this step.
 
-### 2. Pave the Pivotal Application Service Environment
+### 2. Paving your Pivotal Application Service Environment
 
 The Axon Trader Reference Architecture needs certain Pivotal Cloud Foundry Marketplace Services to be available in the "space" where you will to run the applications. The services required are [ClearDB][1], [CloudAMQP][2], [Spring Cloud Config][3] and [Spring Cloud Registry][4].
 
@@ -55,7 +55,7 @@ Following this step, a quick call to `cf services` should list all four of these
 
 > Note: If this is your first time using PCF, notice how easy it is to create services via the marketplace. It's designed to be a low code, low friction experience focussed on developers.
 
-### 3. Push Your JARs to the Pivotal Application Service
+### 3. Pushing your JARs to the Pivotal Application Service
 
 Now the environment is ready we can `cf push` our back-end microservice applications and get them running in the cloud. Again, a script has been provided to make this simple... 
 
@@ -74,7 +74,7 @@ esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trad
 
 Once the script has finished, you should notice output that contains the application URL's. Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
 
-### 4. Push the Axon Trader UI to Pivotal Application Service
+### 4. Pushing the Axon Trader UI to Pivotal Application Service
 
 Next we push the Node.js user interface to Pivotal Application Service, providing the URL of the `esrefarch-demo-trader-app` we discovered at the end of the last task. This will be used to link our UI to our backend. 
 
@@ -172,7 +172,7 @@ fly -t wings unpause-pipeline -p bw-esrefarch-demo
 
 ## Architecture Overview
 
-TODO: Need to describe the CQRS, Event Sourcing etc.
+TODO: Need to describe the Axon CQRS, Event Sourcing etc.
 
 
 [1]: https://docs.run.pivotal.io/marketplace/services/cleardb.html
