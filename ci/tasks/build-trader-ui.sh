@@ -11,6 +11,7 @@ cd source-code/trader-app-ui
   npm install
   npm run build
   cp manifest.yml build/manifest.yml
+  touch build/Staticfile
 cd $FOLDER
 
 cp -R source-code/trader-app-ui/build package-output
