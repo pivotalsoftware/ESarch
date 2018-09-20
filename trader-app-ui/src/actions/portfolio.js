@@ -7,8 +7,9 @@ import {
   FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE
 } from '../constants/portfolioActions';
 import { status, json } from '../utils/fetch';
+import { ApiConfig } from '../utils/config';
 
-const API_ROOT = process.env.REACT_APP_API_ROOT;
+const API_ROOT = ApiConfig();
 
 const fetchPortfolioRequest = () => (
   {

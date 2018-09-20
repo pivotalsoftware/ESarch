@@ -67,6 +67,8 @@ jobs:
     passed: [just-build-it]
   - get: source-code
     trigger: true
+  - task: package-trader-ui
+    file: source-code/ci/tasks/build-trader-ui.yml
   - put: push-to-pcf
     params:
       manifest: source-code/trader-app-ui/manifest.yml

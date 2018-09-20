@@ -17,8 +17,9 @@ import {
   SET_SSE_ORDERBOOK_DATA
 } from '../constants/companyActions';
 import { status, json } from '../utils/fetch';
+import { ApiConfig } from '../utils/config';
 
-const API_ROOT = process.env.REACT_APP_API_ROOT;
+const API_ROOT = ApiConfig();
 
 const fetchCompanyByIdRequest = () => (
   {
