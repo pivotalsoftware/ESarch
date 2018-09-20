@@ -12,6 +12,7 @@ cd source-code/trader-app-ui
   npm run build
   cp manifest.yml build/manifest.yml
   touch build/Staticfile
+  echo "directory: visible" > build/Staticfile
 cd $FOLDER
 
 cp -R source-code/trader-app-ui/build package-output
