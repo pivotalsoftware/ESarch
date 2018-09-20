@@ -22,8 +22,9 @@ class Home extends Component {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-sm-6 px-0">
-              <img alt="home background" src={require('../../assets/home-foreground-image.png')}
-                   style={{width: '100%', height: '100%'}}/>
+              <img src={require('../../assets/home-foreground-image.png')}
+                   style={{width: '100%', height: '100%'}}
+                   alt="axon banner" />
             </div>
             <div className="col-sm-6 mt-2 pt-5 text-right">
               <Banner />

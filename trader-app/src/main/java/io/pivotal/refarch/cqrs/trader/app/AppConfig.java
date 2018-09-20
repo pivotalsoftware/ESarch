@@ -31,18 +31,10 @@ public class AppConfig {
         commandBus.registerHandlerInterceptor(new LoggingInterceptor<>());
     }
 
-    /**
-     * Instantiate an {@link ObjectMapper} for Jackson de-/serialization.
-     * Additionally, a {@link KotlinModule} is registered, as the Commands, Events and Queries are written in Kotlin.
-     *
-     * @return an {@link ObjectMapper} for Jackson de-/serialization
-     */
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    public void configure(ObjectMapper objectMapper) {
         objectMapper.registerModule(new KotlinModule());
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        return objectMapper;
     }
 
     @Bean

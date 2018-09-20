@@ -6,7 +6,7 @@ const data = [
     header: 'Check the stocks',
     description: 'If you have logged in, you can go to the companies',
     linkTo: '/orderbooks',
-    linkName: 'To the items'
+    linkName: 'To the stocks'
   }
 ]
 

@@ -68,7 +68,6 @@ else
   echo $'\nWe\'re logged in. Super!\n'
 fi
 
-
 pushd .
 cd trading-engine
 cf push -f manifest.yml --random-route
@@ -79,12 +78,6 @@ cd trader-app
 cf push -f manifest.yml --random-route
 popd
 
-pushd .
-cd trader-app-ui
-cf push -f manifest.yml --random-route
-popd
-
-echo $'\nDon\'t forget, these apps will only work together as intended if you also modify the code to use the new URL\'s they were assigned!'
-echo $'You can check their URL\'s below...'
+echo $'Apps deployed. You can check their URL\'s below...'
 
 cf apps

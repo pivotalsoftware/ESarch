@@ -10,6 +10,7 @@ export default class BuyOrder extends Component {
     this.formSubmitHandler = this.onFormSubmit.bind(this);
     this.priceChangeHandler = this.onPriceChanged.bind(this);
     this.amountChangeHandler = this.onAmountChanged.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
 
     this.state = {
       priceToTrade: null,
@@ -44,8 +45,36 @@ export default class BuyOrder extends Component {
     })
   }
 
+  renderFooter() {
+    const { isFetching, cancelHandler } = this.props;
+    return (
+      <div>
+        <button
+          disabled={isFetching}
+          className="btn btn-transaction-primary"
+          type="submit">
+          PLACE ORDER
+        </button>
+        <button
+          disabled={isFetching}
+          className="btn btn-transaction-default"
+          type="reset"
+          onClick={this.formResetHandler}>
+          RESET
+        </button>
+        <button
+          disabled={isFetching}
+          className="btn btn-transaction-default"
+          type="button"
+          onClick={cancelHandler}>
+          CANCEL
+        </button>
+      </div>
+    );
+  }
+
   render() {
-    const { company, portfolio, cancelHandler } = this.props;
+    const { company, portfolio, cancelHandler, error } = this.props;
     const currencyStyle = { style: 'currency', currency: 'USD' }
     const price = this.state.priceToTrade ? this.state.priceToTrade.toLocaleString('en') : ''
     const amount = this.state.amountToTrade ? this.state.amountToTrade.toLocaleString('en') : ''
@@ -70,7 +99,7 @@ export default class BuyOrder extends Component {
                   </p>
                 </div>}
 
-                <h4 className="company-transaction-title my-3">Enter items to buy and for how much</h4>
+                <h4 className="company-transaction-title my-3">Enter shares to buy and for how much</h4>
                 <div className="form-group row">
                   <label className="col-sm-6 col-form-label transaction-form-lable">Price to trade:</label>
                   <div className="col-sm-6">
@@ -78,18 +107,23 @@ export default class BuyOrder extends Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label className="col-sm-6 col-form-label transaction-form-lable">Amount of items to trade:</label>
+                  <label className="col-sm-6 col-form-label transaction-form-lable">Amount of shares to trade:</label>
                   <div className="col-sm-6">
                     <input className="form-control transaction-form-control" value={amount} type="text" min="0" placeholder="0" onChange={this.amountChangeHandler} />
                   </div>
                 </div>
+                {
+                  error && (
+                    <div className="row">
+                      <div className="col">
+                        <h2 className="axon-error">Place order error! {error.message}</h2>
+                      </div>
+                    </div>
+                  )
+                }
               </div>
               <div className="modal-footer">
-                <div>
-                  <button className="btn btn-transaction-primary" type="submit">PLACE ORDER</button>
-                  <button className="btn btn-transaction-default" type="reset" onClick={this.formResetHandler}>RESET</button>
-                  <button className="btn btn-transaction-default" type="button" onClick={cancelHandler}>CANCEL</button>
-                </div>
+                {this.renderFooter()}
               </div>
             </form>
           </div>

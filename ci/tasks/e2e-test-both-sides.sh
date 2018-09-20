@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
+apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
 set -eu
 

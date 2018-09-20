@@ -12,9 +12,10 @@ const Transactions = ({ transactions, title, description }) => {
           <tr>
             <th>Name</th>
             <th>Type</th>
-            <th># Items</th>
+            <th># Shares</th>
             <th>Price</th>
-            <th>Executed</th>
+            <th>Total Price</th>
+            <th>Shares Executed</th>
             <th>State</th>
           </tr>
         </thead>
@@ -27,6 +28,7 @@ const Transactions = ({ transactions, title, description }) => {
                   <td>{transaction.type}</td>
                   <td>{transaction.amountOfItems.toLocaleString('en')}</td>
                   <td>{(transaction.pricePerItem).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
+                  <td>{(transaction.amountOfItems * transaction.pricePerItem).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
                   <td>{transaction.amountOfExecutedItems.toLocaleString('en')}</td>
                   <td>{formatTransactionState(transaction.state)}</td>
                 </tr>

@@ -45,7 +45,7 @@ class Company extends Component {
   }
 
   render() {
-    const { activeCompany, portfolio, sellOrderHandler, buyOrderHandler } = this.props;
+    const { activeCompany, portfolio, sellOrderHandler, buyOrderHandler, buyOrder, sellOrder } = this.props;
     const { sellModalOpen, buyModalOpen } = this.state;
 
     if (activeCompany.orderBook.error) {
@@ -82,6 +82,8 @@ class Company extends Component {
         {
           sellModalOpen &&
           <SellOrder
+            isFetching={sellOrder.isFetching}
+            error={sellOrder.error}
             sellOrderHandler={sellOrderHandler}
             cancelHandler={this.closeModal}
             company={activeCompany.companyDetail}
@@ -90,6 +92,8 @@ class Company extends Component {
         }
         {buyModalOpen &&
           <BuyOrder
+            isFetching={buyOrder.isFetching}
+            error={buyOrder.error}
             buyOrderHandler={buyOrderHandler}
             cancelHandler={this.closeModal}
             company={activeCompany.companyDetail}
