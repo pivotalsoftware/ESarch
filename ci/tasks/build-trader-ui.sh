@@ -10,6 +10,7 @@ echo "Packaging the Trader UI App..."
 cd source-code/trader-app-ui
   npm install
   npm run build
+  cp manifest.yml build/manifest.yml
 cd $FOLDER
 
 mkdir package-output/build
