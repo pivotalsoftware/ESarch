@@ -1,26 +1,27 @@
 # Axon Trader
 
-This project demonstrates the use of CQRS and Event Sourcing with [Pivotal Application Service][11] (a.k.a PCF). It consists of two [Spring Boot][9] microservices, built using the open source [Axon Framework][10] and a user interface built using React  JS.
+This project demonstrates the use of CQRS and Event Sourcing with [Pivotal Application Service][11] (a.k.a PCF or PAS). It consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface built using [Node.js][16].
 
-> __Note:__ If you just want to experience Axon Trader without having to build and host the code yourself, go ahead! Simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5].
+> __Note:__ If you just want to experience Axon Trader without having to build and host the code yourself, go ahead! Simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sorcing works in practice. 
 
 ## Before You Begin.
 
-This demo will *only* run in a compatible [Pivotal Application Service (PCF)][11] environment which also contains a marketplace with the right brokered services. Examples of compatible environments would include [Pivotal Web Services (PWS)][6] or locally on [PCF-Dev][7] (started with services installed). 
+This demo will *only* run in a compatible [Pivotal Application Service (PCF)][11] environment. This environment must also contain a marketplace with the correct "brokered" services. Examples of compatible environments would include [Pivotal Web Services (PWS)][6], an enterprise PCF foundation with the correct services, or locally on your PC using [PCF-Dev][7] (started with the correct marketplace services installed). 
 
-> We recommend Pivotal Web Services (PWS). If you don't have a PWS account, [you can sign up for free here][6].
+> We recommend Pivotal Web Services (PWS) for this tutorial as it meets these requirements. If you don't have a PWS account, [you can sign up for free here][6].
 
 ## Prerequisites
 
 In order to follow along with this tutorial...
 
 - You must have the [cf-cli][8] installed (test by calling `cf version`).
-- You must have access to a [Pivotal Application Service][11] instance with the required marketplace services (like [PWS][6]).
-- You must have a `bash` terminal to run the provided scripts.
+- You must have access to a [Pivotal Application Service][11] instance.
+- Your PCF must have the correct marketplace services (which are MySQL, Rabbit, Spring Cloud Registry and Spring Cloud Config).
+- You must have a `bash` terminal in order to run the provided scripts.
 
 # Building and Running the Axon Trader
 
-First clone this repository and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` microservice, a folder for the `trading-engine` microservice and a folder for the `trader-ui`.
+First clone this repository using `git` and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` microservice, a folder for the `trading-engine` microservice and a folder for the `trader-ui` (amongst others).
 
 > You don't have to explore the code in order to run the Axon Trader application, but you might like to take a look later.
 
@@ -35,7 +36,7 @@ To obtain Spring Boot JAR's for the `trader-app` and `trading-engine` microservi
 ./package.sh
 ```
 
-> Note: The user interface is written in Node JS, so formally building it is not required in this step.
+> Note: The user interface is written in Node.js, so formally building it is not required in this step.
 
 ### 2. Pave Your Pivotal Web Services Environment
 
@@ -75,7 +76,7 @@ Once the script has finished, you should notice output that contains the applica
 
 ### 4. Push the User Interface (UI)
 
-Next we push the Node JS user interface to Pivotal Application Service, providing the URL of the `esrefarch-demo-trader-app` we discovered at the end of the last task. This will be used to link our UI to our backend. 
+Next we push the Node.js user interface to Pivotal Application Service, providing the URL of the `esrefarch-demo-trader-app` we discovered at the end of the last task. This will be used to link our UI to our backend. 
 
 ```bash
 # you need to provide this script with your PCF username, password, org, space and trader-app-url ()...
@@ -190,4 +191,5 @@ TODO: Need to describe the CQRS, Event Sourcing etc.
 [12]: /images/AxonTrader-UI-001.png
 [13]: https://concourse-ci.org/
 [14]: https://wings.pivotal.io/teams/pcf-solutions-emea/pipelines/bw-esrefarch-demo
-[15]: TODO: installing fly cli...
+[15]: https://concourse-ci.org/fly.html
+[16]: https://nodejs.org/en/
