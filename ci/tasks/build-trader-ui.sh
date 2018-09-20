@@ -6,12 +6,14 @@ export FOLDER=`pwd`
 echo "The path is ${OLDPATH}"
 
 echo "Packaging the Trader UI App..."
+
 cd source-code/trader-app-ui
   npm install
   npm run build
-  # copy the build folder to package-output
-  cp -R ./build package-output/build
 cd $FOLDER
+
+mkdir package-output/build
+cp -R source-code/trader-app-ui/build package-output/build
 
 ls -la source-code/trader-app-ui
 ls -la package-output/build
