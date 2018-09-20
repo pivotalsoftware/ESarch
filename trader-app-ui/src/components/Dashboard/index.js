@@ -78,11 +78,11 @@ export default class Dashboard extends Component {
               <TradeItemsContainer>
                 <TradeItemsTable
                   items={data.itemsInPossession}
-                  tableName="Trade items"
+                  tableName="Trade Shares"
                 />
                 <TradeItemsTable
                   items={data.itemsReserved}
-                  tableName="Trade items reserved"
+                  tableName="Trade Shares reserved"
                 />
               </TradeItemsContainer>
             }

@@ -99,7 +99,7 @@ export default class BuyOrder extends Component {
                   </p>
                 </div>}
 
-                <h4 className="company-transaction-title my-3">Enter items to buy and for how much</h4>
+                <h4 className="company-transaction-title my-3">Enter shares to buy and for how much</h4>
                 <div className="form-group row">
                   <label className="col-sm-6 col-form-label transaction-form-lable">Price to trade:</label>
                   <div className="col-sm-6">
@@ -107,7 +107,7 @@ export default class BuyOrder extends Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label className="col-sm-6 col-form-label transaction-form-lable">Amount of items to trade:</label>
+                  <label className="col-sm-6 col-form-label transaction-form-lable">Amount of shares to trade:</label>
                   <div className="col-sm-6">
                     <input className="form-control transaction-form-control" value={amount} type="text" min="0" placeholder="0" onChange={this.amountChangeHandler} />
                   </div>
