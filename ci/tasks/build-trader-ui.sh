@@ -3,7 +3,7 @@
 set -eux
 
 export FOLDER=`pwd`
-echo "The path is ${OLDPATH}"
+echo "The path is ${FOLDER}"
 
 echo "Packaging the Trader UI App..."
 
