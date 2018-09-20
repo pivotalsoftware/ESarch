@@ -132,9 +132,40 @@ INTEGRATION TESTS FINISHED - NO ERRORS ;D
 
 ### 6. [Optional] Continuously Delivering the Axon Trader
 
-This section on continuously delivering Axon Trader using [Concourse][13] is purely mentioned here for completeness and as "extra credit". You can manually refresh the Axon Trader at any time simply by repeating steps 1 thru 5 again, so you may prefer to avoid this additional effort.
+This section on continuously delivering Axon Trader is purely mentioned here for completeness. You can manually refresh the Axon Trader applications at any time simply by repeating the steps above.
 
+For continuous integration and deployment of the Axon Trader the team are using [Concourse][13]. You can view the build monitor online at any time [here][14]. 
 
+Allmost all of the configuration required to recreate our build pipeline on your own Concourse server is included in the `ci` folder under the project root. The only thing that's missing is the `private.yml` file which we use to specify some secrets and additional config required by the pipeline. 
+
+Here is an example of `ci/private.yml` so you can recreate it...
+
+````yaml
+---
+cf-trading-engine-url: http://your-trading-engine.cfapps.io
+cf-trader-app-url: http://your-trader-app.cfapps.io
+cf-trader-ui-url: http://your-trader-ui.cfapps.io
+cf-endpoint: api.run.pivotal.io
+cf-user: me@pivotal.io
+cf-password: ************
+cf-org: myorg
+cf-space: prod
+skip-ssl: false
+webhook: https://hooks.slack.com/your-webhook-url
+git-uri: git@github.com:pivotalsoftware/ESarch.git
+git-private-key: |
+  -----BEGIN RSA PRIVATE KEY-----
+````
+
+> Note: For the `git-uri` you could use your own fork if you don't want to track our repo.
+
+To install and run the pipeline on Concourse, `login` using [fly][15] then run `set-pipeline` using the `pipeline.yml` and the `private.yml` as shown below. Finally `unpause-pipeline` so make it capable of being run. The commands for this are illustrated below...
+
+````bash
+fly -t wings login -c http://your-concourse-url
+fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.yml
+fly -t wings unpause-pipeline -p bw-esrefarch-demo
+````
 
 # How Does It Actually Work?
 
@@ -158,3 +189,5 @@ TODO: Need to describe the CQRS, Event Sourcing etc.
 [11]: https://pivotal.io/platform/pivotal-application-service
 [12]: /images/AxonTrader-UI-001.png
 [13]: https://concourse-ci.org/
+[14]: https://wings.pivotal.io/teams/pcf-solutions-emea/pipelines/bw-esrefarch-demo
+[15]: TODO: installing fly cli...
