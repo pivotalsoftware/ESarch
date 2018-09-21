@@ -11,7 +11,7 @@ import { ApiConfig } from '../utils/config';
 
 const API_ROOT = ApiConfig();
 
-const fetchPortfolioRequest = () => (
+export const fetchPortfolioRequest = () => (
   {
     type: FETCH_PORTFOLIO_REQUEST,
     payload: {
@@ -20,7 +20,7 @@ const fetchPortfolioRequest = () => (
   }
 )
 
-const fetchPortfolioSuccess = (data) => (
+export const fetchPortfolioSuccess = (data) => (
   {
     type: FETCH_PORTFOLIO_SUCCESS,
     payload: {
@@ -30,7 +30,7 @@ const fetchPortfolioSuccess = (data) => (
   }
 )
 
-const fetchPortfolioFailure = (error) => (
+export const fetchPortfolioFailure = (error) => (
   {
     type: FETCH_PORTFOLIO_FAILURE,
     payload: {
