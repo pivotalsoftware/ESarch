@@ -68,4 +68,27 @@ describe('home reducer', () => {
     )
   })
 
+  it('should handle SET_IMPERSONATED_USER', () => {
+    expect(homeReducer({}, {
+      type: actions.SET_IMPERSONATED_USER,
+      payload: {
+        impersonatedUser: {identifier: 'kdjs333', name: 'Buyer One'}
+      }
+    })).toEqual(
+      {
+        impersonatedUser: {identifier: 'kdjs333', name: 'Buyer One'}
+      }
+    )
+  })
+
+  it('should handle LOGOUT_USER', () => {
+    expect(homeReducer({}, {
+      type: actions.LOGOUT_USER,
+    })).toEqual(
+      {
+        impersonatedUser: null
+      }
+    )
+  })
+
 })
