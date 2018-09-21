@@ -45,7 +45,7 @@ class CompanyContainer extends Component {
         eventSource.onmessage = (event) => {
           if (event.data) {
             let jsonData = JSON.parse(event.data);
-            console.log('event json data', jsonData);
+            console.log('Order book subscribe event json data: ', jsonData);
             this.props.companyActions.setSSEOrderBookData(jsonData);
           }
         }
