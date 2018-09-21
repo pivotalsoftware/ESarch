@@ -87,27 +87,30 @@ function companyReducer(state = initialState, action) {
         }
       }
     case FETCH_COMPANY_LIST_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         companyList: {
-          isFetching: action.payload.isFetching,
+          isFetching: true,
           error: null
         }
-      })
+      }
     case FETCH_COMPANY_LIST_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         companyList: {
-          isFetching: action.payload.isFetching,
+          isFetching: false,
           items: action.payload.data,
           error: null
         }
-      })
+      }
     case FETCH_COMPANY_LIST_FAILURE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         companyList: {
-          isFetching: action.payload.isFetching,
+          isFetching: false,
           error: action.payload.error
         }
-      })
+      }
     case FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST:
       return {
         ...state,
@@ -217,59 +220,3 @@ function companyReducer(state = initialState, action) {
 }
 
 export default companyReducer;
-
-/*
-The redux state for the company reducer (state.company) 
-
-staeOfTheCompanyReducer = {
-
-    companyList: {
-        isFetching: boolean
-        error: {
-            message: string,
-            statusCode: number
-        }
-        items:[
-            {
-                id:
-                name:
-                value:
-                shares:
-            },
-            {
-                id:
-                name:
-                value:
-                shares:
-            },
-            {
-                .....
-            }
-        ]
-    },
-
-    activeCompany: {
-      id: 'sbajd
-      orders: {
-          isFetching: true,
-          error: {}
-        buy: [{
-          count: "10",
-          price: "200",
-          remaining: "45"
-        }],
-        sell: []
-      },
-      executedTrades: {
-        isFetching: true,
-        error: {},
-        trades: [{
-          count: 33,
-          price: 3333
-        }]
-      }
-    }
-
-
-}
-*/
