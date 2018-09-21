@@ -59,7 +59,7 @@ else
   echo $'\nWe\'re logged in. Super!\n'
 fi
 
-echo $'Now we\'ll create some services using the Cloud Foundry marketplace [#Awesome #NoOps]...\n'
+echo $'Now we\'ll create some services using the Cloud Foundry marketplace [#AwesomePCF #NoOps :D ]...\n'
 
 cf create-service cleardb spark enginedb
 cf create-service cleardb spark appdb
