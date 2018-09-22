@@ -1,7 +1,8 @@
-#!/usr/bin/env bash
-# Use this script to push your code to PWS
+#!/usr/bin/env sh
+# Use this script to package up your code
 
-set -eu +x
+set -eux
+
 
 pushd () {
     command pushd "$@" > /dev/null
@@ -68,6 +69,9 @@ else
   echo $'\nWe\'re logged in. Super!\n'
 fi
 
+mvn clean package -DskipTests=true
+
+
 pushd .
 cd trading-engine
 cf push -f manifest.yml --random-route
@@ -78,9 +82,13 @@ cd trader-app
 cf push -f manifest.yml --random-route
 popd
 
+pushd .
+cd trader-app-ui
+npm install
+npm run build
+cf push -f manifest.yml --random-route
+popd
+
 cf add-network-policy esrefarch-demo-trader-app --destination-app esrefarch-demo-trading-engine
 cf add-network-policy esrefarch-demo-trading-engine --destination-app esrefarch-demo-trader-app
 
-echo $'Apps deployed. You can check their URL\'s below...'
-
-cf apps

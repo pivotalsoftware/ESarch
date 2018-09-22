@@ -65,7 +65,7 @@ public class TraderAggregateDataInitializer {
     public boolean initializeTraderAggregates()
             throws InterruptedException, ExecutionException {
         if (hasData()) {
-            logger.info("Verified the Event Store already contains events. Aborting initialization...");
+            logger.warn("Verified the Event Store already contains events. Aborting initialization...");
             return true;
         }
         logger.info("Verified the Event Store does not contain any events. "
@@ -73,7 +73,7 @@ public class TraderAggregateDataInitializer {
 
         CommandMessage<Object> canary = asCommandMessage(new CreatePortfolioCommand(new PortfolioId(), new UserId()));
         if (!commandRouter.findDestination(canary).isPresent()) {
-            logger.info("Trading-Engine isn't running. Unable to initialize data");
+            logger.error("Trading-Engine isn't running. Unable to initialize data");
             return false;
         }
 
@@ -100,12 +100,14 @@ public class TraderAggregateDataInitializer {
     }
 
     private UserId createUser(String longName, String userName) {
+        logger.debug("createUser() called with: longName = [" + longName + "], userName = [" + userName + "]");
         UserId userId = new UserId();
         commandGateway.sendAndWait(new CreateUserCommand(userId, longName, userName, userName));
         return userId;
     }
 
     private void addMoney(UserId userId, long amount) throws ExecutionException, InterruptedException {
+        logger.debug("addMoney() called with: userId = [" + userId + "], amount = [" + amount + "]");
         PortfolioView portfolioView = queryNonNull(new PortfolioByUserIdQuery(userId),
                                                    ResponseTypes.instanceOf(PortfolioView.class));
 
@@ -114,6 +116,7 @@ public class TraderAggregateDataInitializer {
 
     private void addItems(UserId userId, CompanyId companyId, long amount)
             throws ExecutionException, InterruptedException {
+        logger.debug("addItems() called with: userId = [" + userId + "], companyId = [" + companyId + "], amount = [" + amount + "]");
         PortfolioView portfolioView = queryNonNull(new PortfolioByUserIdQuery(userId),
                                                    ResponseTypes.instanceOf(PortfolioView.class));
         OrderBookView orderBookView = obtainOrderBookByCompanyId(companyId);
@@ -125,6 +128,7 @@ public class TraderAggregateDataInitializer {
 
     private OrderBookView obtainOrderBookByCompanyId(CompanyId companyId)
             throws ExecutionException, InterruptedException {
+        logger.debug("obtainOrderBookByCompanyId() called with: companyId = [" + companyId + "]");
         OrderBooksByCompanyIdQuery query =
                 new OrderBooksByCompanyIdQuery(companyId);
         List<OrderBookView> orderBookEntries =
@@ -134,14 +138,19 @@ public class TraderAggregateDataInitializer {
     }
 
     public <Q, R> R queryNonNull(Q query, ResponseType<R> responseType) throws ExecutionException, InterruptedException {
+        logger.debug("queryNonNull() called with: query = [" + query + "], responseType = [" + responseType + "]");
         R result = queryGateway.query(query, responseType).get();
-        for (int i = 0; i < 20 && result == null; i++) {
-            Thread.sleep(500);
+        for (int i = 0; i < 30 && result == null; i++) {
+            logger.debug("Trying...");
+            Thread.sleep(2000);
             result = queryGateway.query(query, responseType).get();
-            if (i == 19 && result == null) {
-                throw new RuntimeException("Unable to initialize, not getting any value for " + query.getClass().getSimpleName());
+            if (i == 29 && result == null) {
+                logger.error("Tried many times, now giving up!");
+                throw new RuntimeException("Unable to continue initialisation. Not getting any value for " + query.getClass().getSimpleName());
             }
         }
+
+        logger.debug("Successfully obtained result for ({}): {}", query.getClass().getSimpleName(), result);
         return result;
     }
 }
