@@ -2,7 +2,7 @@
 
 apt-get update && apt-get install -y curl uuid-runtime jq --allow-unauthenticated
 
-set -eu
+set -eu +x
 
 if [ -z $engineURL ];
 then
@@ -81,7 +81,7 @@ fi
 # Initialise the data if it hasn't been done already...
 
 export DATA=`curl -sL -X POST ${appURL}/actuator/data-initializer`
-if [ -z ${DATA} ] || [[ ${DATA} != true ]]
+if [[ -z ${DATA} ]] || [[ ${DATA} != true ]]
 then
     echo -e "\e[31mError. The e2e test has failed, the application's data could not be initialised!"
     exit 1
