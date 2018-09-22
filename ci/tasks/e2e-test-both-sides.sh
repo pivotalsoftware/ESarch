@@ -83,7 +83,7 @@ fi
 export DATA=`curl -sL -X POST ${appURL}/actuator/data-initializer`
 if [[ -z ${DATA} ]] || [[ ${DATA} != true ]]
 then
-    echo -e "\e[31mError. The e2e test has failed, the application's data could not be initialised!"
+    echo -e "\e[31mError. The e2e test has failed, the application's data could not be initialised! Returned: ($DATA)"
     exit 1
 else
     echo -e "The DATA initializer is reporting data initialisation = $DATA."
