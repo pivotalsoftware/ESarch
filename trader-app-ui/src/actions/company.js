@@ -21,13 +21,13 @@ import { ApiConfig } from '../utils/config';
 
 const API_ROOT = ApiConfig();
 
-const fetchCompanyByIdRequest = () => (
+export const fetchCompanyByIdRequest = () => (
   {
     type: FETCH_COMPANY_REQUEST
   }
 )
 
-const fetchCompanyByIdSuccess = (data) => (
+export const fetchCompanyByIdSuccess = (data) => (
   {
     type: FETCH_COMPANY_SUCCESS,
     payload: {
@@ -36,14 +36,14 @@ const fetchCompanyByIdSuccess = (data) => (
   }
 )
 
-const fetchCompanyByIdFailure = (error) => (
+export const fetchCompanyByIdFailure = (error) => (
   {
     type: FETCH_COMPANY_FAILURE,
     error
   }
 )
 
-const getCompanyFromCompanyList = (id, companyList) => {
+export const getCompanyFromCompanyList = (id, companyList) => {
   for(let company of companyList) {
     if(company.identifier === id) {
       return company;
@@ -88,7 +88,7 @@ export const fetchCompanyById = (id) =>
     }
   }
 
-const fetchCompanyListRequest = () => (
+export const fetchCompanyListRequest = () => (
   {
     type: FETCH_COMPANY_LIST_REQUEST,
     payload: {
@@ -97,7 +97,7 @@ const fetchCompanyListRequest = () => (
   }
 )
 
-const fetchCompanyListSuccess = data => (
+export const fetchCompanyListSuccess = data => (
   {
     type: FETCH_COMPANY_LIST_SUCCESS,
     payload: {
@@ -107,7 +107,7 @@ const fetchCompanyListSuccess = data => (
   }
 )
 
-const fetchCompanyListFailure = error => (
+export const fetchCompanyListFailure = error => (
   {
     type: FETCH_COMPANY_LIST_FAILURE,
     payload: {
@@ -141,13 +141,13 @@ export const fetchCompanyList = () =>
     });  
 }
 
-const fetchOrderBooksByCompanyIdRequest = () => (
+export const fetchOrderBooksByCompanyIdRequest = () => (
   {
     type: FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST
   }
 )
 
-const fetchOrderBooksByCompanyIdSuccess = data => (
+export const fetchOrderBooksByCompanyIdSuccess = data => (
   {
     type: FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
     payload: {
@@ -156,7 +156,7 @@ const fetchOrderBooksByCompanyIdSuccess = data => (
     }
   }
 )
-const fetchOrderBooksByCompanyIdFailure = error => (
+export const fetchOrderBooksByCompanyIdFailure = error => (
   {
     type: FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
     payload: {
