@@ -71,7 +71,6 @@ fi
 
 mvn clean package -DskipTests=true
 
-
 pushd .
 cd trading-engine
 cf push -f manifest.yml --random-route
@@ -91,3 +90,5 @@ popd
 
 cf add-network-policy esrefarch-demo-trader-app --destination-app esrefarch-demo-trading-engine
 cf add-network-policy esrefarch-demo-trading-engine --destination-app esrefarch-demo-trader-app
+
+echo "The Axon Trader application is now ready to test."
