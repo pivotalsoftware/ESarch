@@ -6,59 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "Create Company",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "642ce3fd-165f-465f-8abe-9acebebb436f",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"});",
-							"",
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"companyName\": \"Pivotal\",\n    \"companyValue\": 10000000,\n    \"amountOfShares\": 5000000\n}"
-				},
-				"url": {
-					"raw": "http://{{appURL}}/command/CreateCompanyCommand",
-					"protocol": "http",
-					"host": [
-						"{{appURL}}"
-					],
-					"path": [
-						"command",
-						"CreateCompanyCommand"
-					]
-				},
-				"description": "Get a list of companies"
-			},
-			"response": []
-		},
-		{
 			"name": "Get All Companies",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "b5f4ba59-7d31-4493-9bc6-0573b74a4e5d",
+						"id": "553d9327-0e97-4632-8ea7-533a71432b83",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
@@ -68,8 +21,8 @@
 							"    pm.expect(pm.response.text()).to.include(\"Pivotal\");",
 							"});",
 							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -102,46 +55,41 @@
 			"response": []
 		},
 		{
-			"name": "Create User",
+			"name": "Get OrderBooks for Company",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "642ce3fd-165f-465f-8abe-9acebebb436f",
+						"id": "efe0b1c8-5530-47c9-94be-6650add085ad",
 						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"});",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"orderbookID\", jsonData[0].identifier);",
 							"",
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});"
 						]
 					}
 				}
 			],
 			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Ben Wilcock\",\n    \"username\": \"benwilcock\",\n    \"password\": \"password\"\n}"
-				},
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"url": {
-					"raw": "http://{{appURL}}/command/CreateUserCommand",
+					"raw": "http://{{appURL}}/query/order-book/by-company/{{companyID}}",
 					"protocol": "http",
 					"host": [
 						"{{appURL}}"
 					],
 					"path": [
-						"command",
-						"CreateUserCommand"
+						"query",
+						"order-book",
+						"by-company",
+						"{{companyID}}"
 					]
 				},
 				"description": "Get a list of companies"
@@ -154,14 +102,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "85fc2872-4c84-4af3-9a17-f2009435f8a1",
+						"id": "75e57a95-f323-4b90-9778-6f8753d40249",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"userID\", jsonData[0].identifier);",
 							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -196,15 +144,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "74dd33b8-53cc-4cfe-b4b3-eb10d2dba74c",
+						"id": "923e1728-2c78-4bee-adea-2fb81877abeb",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"portfolioID\", jsonData.identifier);",
 							"",
 							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -236,131 +184,7 @@
 			"response": []
 		},
 		{
-			"name": "Deposit Money",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ce41ca7b-52d3-4774-9127-e9abe946f160",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"});",
-							"",
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"portfolioId\": \"{{portfolioID}}\",\n    \"moneyToAddInCents\": 1000000\n}"
-				},
-				"url": {
-					"raw": "http://{{appURL}}/command/DepositCashCommand",
-					"protocol": "http",
-					"host": [
-						"{{appURL}}"
-					],
-					"path": [
-						"command",
-						"DepositCashCommand"
-					]
-				},
-				"description": "Get a list of companies"
-			},
-			"response": []
-		},
-		{
-			"name": "Get OrderBooks for Company",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0df3bb9e-8998-4fa6-b369-0e9ed59f273a",
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"orderbookID\", jsonData[0].identifier);"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://{{appURL}}/query/order-book/by-company/{{companyID}}",
-					"protocol": "http",
-					"host": [
-						"{{appURL}}"
-					],
-					"path": [
-						"query",
-						"order-book",
-						"by-company",
-						"{{companyID}}"
-					]
-				},
-				"description": "Get a list of companies"
-			},
-			"response": []
-		},
-		{
-			"name": "Get Transactions by Portfolio",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "887b74cf-04ea-434a-a4ff-d15e9716d00b",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
-							"});",
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://{{appURL}}/query/transaction/by-portfolio/{{portfolioID}}",
-					"protocol": "http",
-					"host": [
-						"{{appURL}}"
-					],
-					"path": [
-						"query",
-						"transaction",
-						"by-portfolio",
-						"{{portfolioID}}"
-					]
-				},
-				"description": "Get a list of companies"
-			},
-			"response": []
-		},
-		{
-			"name": "Buy Shares Copy",
+			"name": "Buy Shares",
 			"event": [
 				{
 					"listen": "test",
@@ -407,7 +231,7 @@
 			"response": []
 		},
 		{
-			"name": "Sell Shares Copy",
+			"name": "Sell Shares",
 			"event": [
 				{
 					"listen": "test",
@@ -456,20 +280,20 @@
 			"response": []
 		},
 		{
-			"name": "Get Executed Trades by OrderBook Copy",
+			"name": "Get Transactions by Portfolio",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "d0f22cc2-42ab-4870-8639-67e3b7d3f011",
+						"id": "29487bf8-36a0-4480-a850-118833dd34f2",
 						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});",
 							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						]
 					}
@@ -480,15 +304,16 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://{{appURL}}/query/executed-trades/{{orderbookID}}",
+					"raw": "http://{{appURL}}/query/transaction/by-portfolio/{{portfolioID}}",
 					"protocol": "http",
 					"host": [
 						"{{appURL}}"
 					],
 					"path": [
 						"query",
-						"executed-trades",
-						"{{orderbookID}}"
+						"transaction",
+						"by-portfolio",
+						"{{portfolioID}}"
 					]
 				},
 				"description": "Get a list of companies"
