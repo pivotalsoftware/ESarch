@@ -66,29 +66,26 @@ if [[ $? != 0 ]]; then
   echo "Abort. There was a problem logging in to PWS with the details given. Please resolve the problem and try again."
   exit 1
 else
-  echo $'\nWe\'re logged in. Super!\n'
+  echo $'\nWe\'re logged in. Let\'s deploy some code!\n'
 fi
 
+echo "Building the Java Packages..."
 mvn clean package -DskipTests=true
 
+echo "Pushing the Trading Engine to PWS..."
 pushd .
 cd trading-engine
 cf push -f manifest.yml --random-route
 popd
 
+echo "Pushing the Trader App to PWS..."
 pushd .
 cd trader-app
 cf push -f manifest.yml --random-route
 popd
 
-pushd .
-cd trader-app-ui
-npm install
-npm run build
-cf push -f manifest.yml --random-route
-popd
-
+echo "Adding a network policy so that the Trader App and the Tradng Engine can communicate directly..."
 cf add-network-policy esrefarch-demo-trader-app --destination-app esrefarch-demo-trading-engine
 cf add-network-policy esrefarch-demo-trading-engine --destination-app esrefarch-demo-trader-app
 
-echo "The Axon Trader application is now ready to test."
+echo "All done. The Axon Trader application is now ready to test."

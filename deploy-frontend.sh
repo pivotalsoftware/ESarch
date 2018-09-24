@@ -1,7 +1,16 @@
-#!/usr/bin/env bash
-# Use this script to pave your PWS instance with the correct services
+#!/usr/bin/env sh
+# Use this script to package up your code
 
-set -eu
+set -eux
+
+
+pushd () {
+    command pushd "$@" > /dev/null
+}
+
+popd () {
+    command popd "$@" > /dev/null
+}
 
 if [ -z ${1+x} ] && [ -z ${2+x} ] && [ -z ${3+x} ] && [ -z ${4+x} ]; then
     echo "Usage: USERNAME PASSWORD ORG SPACE"
@@ -19,6 +28,7 @@ fi
 
 export API="https://api.run.pivotal.io"
 echo "API: ${API}"
+
 
 if [ -z ${1+x} ]; then
     echo "I need your PWS username (email address) to continue."
@@ -56,22 +66,16 @@ if [[ $? != 0 ]]; then
   echo "Abort. There was a problem logging in to PWS with the details given. Please resolve the problem and try again."
   exit 1
 else
-  echo $'\nWe\'re logged in. Super!\n'
+  echo $'\nWe\'re logged in. Let\'s deploy some code!\n'
 fi
 
-echo $'Now we\'ll create some services using the Cloud Foundry marketplace [#AwesomePCF #NoOps :D ]...\n'
+echo "Building the Trader UI..."
+pushd .
+cd trader-app-ui
+npm install
+npm run build
+echo "Pushing the Trader UI to PWS..."
+cf push -f manifest.yml --random-route
+popd
 
-cf create-service cleardb spark enginedb
-cf create-service cleardb spark appdb
-cf create-service cloudamqp lemur rabbit
-cf create-service p-service-registry trial registry
-cf create-service p-config-server trial config -c config-server-setup.json
-
-echo $'\nNow we need to wait a few minutes until all five
- services show \"create succeeded\" as their status.' 
-echo "Press [CTRL+C] any time to quit (the services will still be created)."
-read -p "Press the [Enter] key to watch while the services get created..."
-
-watch -n 1 "cf services"
-
-echo $'\nWe\'re done. You can now deploy the Axom Trader applications to Pivotal Web Services.'
+echo "All done. The Axon Trader application is now ready to test."
