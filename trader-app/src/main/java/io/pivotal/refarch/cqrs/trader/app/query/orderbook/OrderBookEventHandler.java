@@ -74,7 +74,7 @@ public class OrderBookEventHandler {
         OrderBookView orderBook = orderBookRepository.getOne(event.getOrderBookId().getIdentifier());
 
         OrderView buyOrder = createPlacedOrder(event, BUY);
-        orderBook.buyOrders().add(buyOrder);
+        orderBook.getBuyOrders().add(buyOrder);
 
         orderBookRepository.save(orderBook);
 
@@ -89,7 +89,7 @@ public class OrderBookEventHandler {
         OrderBookView orderBook = orderBookRepository.getOne(event.getOrderBookId().getIdentifier());
 
         OrderView sellOrder = createPlacedOrder(event, SELL);
-        orderBook.sellOrders().add(sellOrder);
+        orderBook.getSellOrders().add(sellOrder);
 
         orderBookRepository.save(orderBook);
 
@@ -116,7 +116,7 @@ public class OrderBookEventHandler {
         tradeExecutedRepository.save(tradeExecutedView);
 
         OrderView foundBuyOrder = null;
-        for (OrderView order : orderBookView.buyOrders()) {
+        for (OrderView order : orderBookView.getBuyOrders()) {
             if (order.getIdentifier().equals(buyOrderId.getIdentifier())) {
                 long itemsRemaining = order.getItemsRemaining();
                 order.setItemsRemaining(itemsRemaining - event.getTradeCount());
@@ -125,10 +125,10 @@ public class OrderBookEventHandler {
             }
         }
         if (null != foundBuyOrder && foundBuyOrder.getItemsRemaining() == 0) {
-            orderBookView.buyOrders().remove(foundBuyOrder);
+            orderBookView.getBuyOrders().remove(foundBuyOrder);
         }
         OrderView foundSellOrder = null;
-        for (OrderView order : orderBookView.sellOrders()) {
+        for (OrderView order : orderBookView.getSellOrders()) {
             if (order.getIdentifier().equals(sellOrderId.getIdentifier())) {
                 long itemsRemaining = order.getItemsRemaining();
                 order.setItemsRemaining(itemsRemaining - event.getTradeCount());
@@ -137,7 +137,7 @@ public class OrderBookEventHandler {
             }
         }
         if (null != foundSellOrder && foundSellOrder.getItemsRemaining() == 0) {
-            orderBookView.sellOrders().remove(foundSellOrder);
+            orderBookView.getSellOrders().remove(foundSellOrder);
         }
         orderBookRepository.save(orderBookView);
 

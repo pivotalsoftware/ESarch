@@ -91,8 +91,7 @@ public class OrderBookEventHandlerIntegrationTest {
 
     @Test
     public void testHandleBuyOrderPlaced() {
-        CompanyView company = createCompany();
-        OrderBookView orderBook = createOrderBook(company);
+        createOrderBook(createCompany());
 
         BuyOrderPlacedEvent event = new BuyOrderPlacedEvent(orderBookId, orderId, transactionId, 300, 100, portfolioId);
 
@@ -101,8 +100,8 @@ public class OrderBookEventHandlerIntegrationTest {
         OrderBookView orderBookView = all.iterator().next();
         assertNotNull("The first item of the iterator for orderbooks should not be null", orderBookView);
         assertEquals("Test Company", orderBookView.getCompanyName());
-        assertEquals(1, orderBookView.buyOrders().size());
-        assertEquals(300, orderBookView.buyOrders().get(0).getTradeCount());
+        assertEquals(1, orderBookView.getBuyOrders().size());
+        assertEquals(300, orderBookView.getBuyOrders().get(0).getTradeCount());
     }
 
     @Test
@@ -123,14 +122,13 @@ public class OrderBookEventHandlerIntegrationTest {
         OrderBookView orderBookView = all.iterator().next();
         assertNotNull("The first item of the iterator for orderbooks should not be null", orderBookView);
         assertEquals("Test Company", orderBookView.getCompanyName());
-        assertEquals(1, orderBookView.sellOrders().size());
-        assertEquals(300, orderBookView.sellOrders().get(0).getTradeCount());
+        assertEquals(1, orderBookView.getSellOrders().size());
+        assertEquals(300, orderBookView.getSellOrders().get(0).getTradeCount());
     }
 
     @Test
     public void testHandleTradeExecuted() {
-        CompanyView company = createCompany();
-        OrderBookView orderBook = createOrderBook(company);
+        createOrderBook(createCompany());
 
         OrderId sellOrderId = new OrderId();
         TransactionId sellTransactionId = new TransactionId();
@@ -158,8 +156,8 @@ public class OrderBookEventHandlerIntegrationTest {
         OrderBookView orderBookView = all.iterator().next();
         assertNotNull("The first item of the iterator for orderbooks should not be null", orderBookView);
         assertEquals("Test Company", orderBookView.getCompanyName());
-        assertEquals(1, orderBookView.sellOrders().size());
-        assertEquals(1, orderBookView.buyOrders().size());
+        assertEquals(1, orderBookView.getSellOrders().size());
+        assertEquals(1, orderBookView.getBuyOrders().size());
 
 
         TradeExecutedEvent event = new TradeExecutedEvent(orderBookId,
@@ -182,8 +180,8 @@ public class OrderBookEventHandlerIntegrationTest {
         orderBookView = all.iterator().next();
         assertNotNull("The first item of the iterator for orderbooks should not be null", orderBookView);
         assertEquals("Test Company", orderBookView.getCompanyName());
-        assertEquals(1, orderBookView.sellOrders().size());
-        assertEquals(0, orderBookView.buyOrders().size());
+        assertEquals(1, orderBookView.getSellOrders().size());
+        assertEquals(0, orderBookView.getBuyOrders().size());
     }
 
 

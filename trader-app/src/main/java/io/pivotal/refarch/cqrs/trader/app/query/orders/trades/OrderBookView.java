@@ -20,6 +20,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -36,14 +37,6 @@ public class OrderBookView {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "ORDERENTRY_BUY", joinColumns = @JoinColumn(name = "ORDERBOOK_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
     private List<OrderView> buyOrders = new ArrayList<>();
-
-    public List<OrderView> sellOrders() {
-        return sellOrders;
-    }
-
-    public List<OrderView> buyOrders() {
-        return buyOrders;
-    }
 
     public String getIdentifier() {
         return identifier;
@@ -70,6 +63,7 @@ public class OrderBookView {
     }
 
     public List<OrderView> getBuyOrders() {
+        buyOrders.sort(Comparator.comparing(OrderView::getItemPrice).reversed().thenComparing(OrderView::getJpaId));
         return buyOrders;
     }
 
@@ -78,6 +72,7 @@ public class OrderBookView {
     }
 
     public List<OrderView> getSellOrders() {
+        sellOrders.sort(Comparator.comparing(OrderView::getItemPrice).thenComparing(OrderView::getJpaId));
         return sellOrders;
     }
 
