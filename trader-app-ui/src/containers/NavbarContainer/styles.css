@@ -59,3 +59,20 @@
   letter-spacing: 0px;
   color: #ffffff;
 }
+
+/* Medium devices (tablets, less than 992px) - bootstrap responsive breakpoint */
+@media (max-width: 991.98px) {
+  .navbar-item-list {
+    margin-left: 0;
+  }
+
+  .current-username {
+    margin: 20px 0;
+  }
+
+  .bg-axon .nav-item .nav-link.active,
+  .bg-axon .nav-item:hover .nav-link.active {
+    color: #01ade5;
+    border-bottom: none;
+  }
+}
