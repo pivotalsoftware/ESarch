@@ -17,7 +17,6 @@
 package io.pivotal.refarch.cqrs.trader.tradingengine.trade;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
@@ -134,4 +133,62 @@ public class OrderBookTest {
                              expectedTradeEventTwo,
                              expectedTradeEventThree);
     }
+
+    @Test
+    public void testMassiveSellerTradeExecutionWithEqualBuyerPrices() {
+        OrderId sellOrderId = new OrderId();
+        OrderId buyOrder1 = new OrderId();
+        OrderId buyOrder2 = new OrderId();
+        OrderId buyOrder3 = new OrderId();
+        TransactionId buyTransaction1 = new TransactionId();
+        TransactionId buyTransaction2 = new TransactionId();
+        TransactionId buyTransaction3 = new TransactionId();
+
+        PortfolioId sellingUser = new PortfolioId();
+        TransactionId sellingTransaction = new TransactionId();
+
+        CreateSellOrderCommand sellOrder =
+                new CreateSellOrderCommand(sellOrderId, sellingUser, orderBookId, sellingTransaction, 200, 100);
+
+        TradeExecutedEvent expectedTradeEventOne =
+                new TradeExecutedEvent(orderBookId,
+                                       100,
+                                       100,
+                                       buyOrder1,
+                                       sellOrderId,
+                                       buyTransaction1,
+                                       sellingTransaction);
+        TradeExecutedEvent expectedTradeEventTwo =
+                new TradeExecutedEvent(orderBookId,
+                                       66,
+                                       100,
+                                       buyOrder2,
+                                       sellOrderId,
+                                       buyTransaction2,
+                                       sellingTransaction);
+        TradeExecutedEvent expectedTradeEventThree =
+                new TradeExecutedEvent(orderBookId,
+                                       34,
+                                       100,
+                                       buyOrder3,
+                                       sellOrderId,
+                                       buyTransaction3,
+                                       sellingTransaction);
+
+        fixture.given(orderBookCreatedEvent,
+                      new BuyOrderPlacedEvent(orderBookId, buyOrder1, buyTransaction1, 100, 100, new PortfolioId()),
+                      new BuyOrderPlacedEvent(orderBookId, buyOrder2, buyTransaction2, 66, 100, new PortfolioId()),
+                      new BuyOrderPlacedEvent(orderBookId, buyOrder3, buyTransaction3, 44, 100, new PortfolioId()))
+               .when(sellOrder)
+               .expectEvents(new SellOrderPlacedEvent(orderBookId,
+                                                      sellOrderId,
+                                                      sellingTransaction,
+                                                      200,
+                                                      100,
+                                                      sellingUser),
+                             expectedTradeEventOne,
+                             expectedTradeEventTwo,
+                             expectedTradeEventThree);
+    }
+
 }

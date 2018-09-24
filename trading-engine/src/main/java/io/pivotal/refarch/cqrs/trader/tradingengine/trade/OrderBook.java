@@ -34,7 +34,10 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 @Aggregate
 public class OrderBook {
 
-    private static final Comparator<Order> orderComparator = Comparator.comparingLong(Order::getItemPrice);
+    public static final Comparator<Order> BUY_ORDER_COMPARATOR = Comparator.comparingLong(Order::getItemPrice).reversed()
+                                                                           .thenComparing(Order::getCounter);
+    public static final Comparator<Order> SELL_ORDER_COMPARATOR = Comparator.comparingLong(Order::getItemPrice)
+                                                                            .thenComparing(Order::getCounter);
 
     @AggregateIdentifier
     private OrderBookId orderBookId;
@@ -43,6 +46,7 @@ public class OrderBook {
     private SortedSet<Order> buyOrders;
     @AggregateMember(routingKey = "sellOrderId", eventForwardingMode = ForwardMatchingInstances.class)
     private SortedSet<Order> sellOrders;
+    private long orderCounter;
 
     @SuppressWarnings("UnusedDeclaration")
     public OrderBook() {
@@ -79,7 +83,7 @@ public class OrderBook {
     private void executeTrades() {
         boolean tradingDone = false;
         while (!tradingDone && !buyOrders.isEmpty() && !sellOrders.isEmpty()) {
-            Order highestBuyer = buyOrders.last();
+            Order highestBuyer = buyOrders.first();
             Order lowestSeller = sellOrders.first();
             if (highestBuyer.getItemPrice() >= lowestSeller.getItemPrice()) {
                 long matchedTradeCount = Math.min(highestBuyer.getItemsRemaining(), lowestSeller.getItemsRemaining());
@@ -100,8 +104,8 @@ public class OrderBook {
     @EventSourcingHandler
     protected void on(OrderBookCreatedEvent event) {
         this.orderBookId = event.getOrderBookId();
-        buyOrders = new TreeSet<>(orderComparator);
-        sellOrders = new TreeSet<>(orderComparator);
+        buyOrders = new TreeSet<>(BUY_ORDER_COMPARATOR);
+        sellOrders = new TreeSet<>(SELL_ORDER_COMPARATOR);
     }
 
     @EventSourcingHandler
@@ -110,7 +114,8 @@ public class OrderBook {
                                 event.getTransactionId(),
                                 event.getItemPrice(),
                                 event.getTradeCount(),
-                                event.getPortfolioId()));
+                                event.getPortfolioId(),
+                                orderCounter++));
     }
 
     @EventSourcingHandler
@@ -119,12 +124,13 @@ public class OrderBook {
                                  event.getTransactionId(),
                                  event.getItemPrice(),
                                  event.getTradeCount(),
-                                 event.getPortfolioId()));
+                                 event.getPortfolioId(),
+                                 orderCounter++));
     }
 
     @EventSourcingHandler
     protected void on(TradeExecutedEvent event) {
-        Order highestBuyer = buyOrders.last();
+        Order highestBuyer = buyOrders.first();
         if (highestBuyer.getItemsRemaining() <= event.getTradeCount()) {
             buyOrders.remove(highestBuyer);
         }
