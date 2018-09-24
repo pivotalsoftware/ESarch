@@ -116,8 +116,8 @@ describe('company reducer', () => {
       type: actions.FETCH_COMPANY_LIST_SUCCESS,
       payload: {
         data: [
-          {identifier: '8293sdjh', name: 'Pivotal', value: 100},
-          {identifier: '12hdi393', name: 'Solstice', value: 400},
+          { identifier: '8293sdjh', name: 'Pivotal', value: 100 },
+          { identifier: '12hdi393', name: 'Solstice', value: 400 },
         ]
       }
     })).toEqual(
@@ -126,8 +126,8 @@ describe('company reducer', () => {
           isFetching: false,
           error: null,
           items: [
-            {identifier: '8293sdjh', name: 'Pivotal', value: 100},
-            {identifier: '12hdi393', name: 'Solstice', value: 400},
+            { identifier: '8293sdjh', name: 'Pivotal', value: 100 },
+            { identifier: '12hdi393', name: 'Solstice', value: 400 },
           ]
         }
       }
@@ -155,7 +155,7 @@ describe('company reducer', () => {
   })
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST', () => {
-    expect(companyReducer({activeCompany: {}}, {
+    expect(companyReducer({ activeCompany: {} }, {
       type: actions.FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST,
     })).toEqual(
       {
@@ -169,7 +169,7 @@ describe('company reducer', () => {
   })
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS', () => {
-    expect(companyReducer({activeCompany: {}}, {
+    expect(companyReducer({ activeCompany: {} }, {
       type: actions.FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS,
       payload: {
         data: [{
@@ -194,7 +194,7 @@ describe('company reducer', () => {
   })
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE', () => {
-    expect(companyReducer({activeCompany: {}}, {
+    expect(companyReducer({ activeCompany: {} }, {
       type: actions.FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
       payload: {
         error: {
@@ -219,7 +219,7 @@ describe('company reducer', () => {
   })
 
   it('should handle SET_SSE_ORDERBOOK_DATA', () => {
-    expect(companyReducer({activeCompany: {}}, {
+    expect(companyReducer({ activeCompany: {} }, {
       type: actions.SET_SSE_ORDERBOOK_DATA,
       payload: {
         data: {
@@ -237,6 +237,98 @@ describe('company reducer', () => {
             identifier: '8923kjdskj',
             buy: [],
             sell: []
+          }
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_BUY_ORDER_REQUEST', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_BUY_ORDER_REQUEST,
+    })).toEqual(
+      {
+        buyOrder: {
+          isFetching: true,
+          error: null
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_BUY_ORDER_SUCCESS', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_BUY_ORDER_SUCCESS,
+    })).toEqual(
+      {
+        buyOrder: {
+          isFetching: false,
+          error: null
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_BUY_ORDER_FAILURE', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_BUY_ORDER_FAILURE,
+      payload: {
+        error: {
+          message: 'Not Found'
+        }
+      }
+    })).toEqual(
+      {
+        buyOrder: {
+          isFetching: false,
+          error: {
+            message: 'Not Found'
+          }
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_SELL_ORDER_REQUEST', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_SELL_ORDER_REQUEST,
+    })).toEqual(
+      {
+        sellOrder: {
+          isFetching: true,
+          error: null
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_SELL_ORDER_SUCCESS', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_SELL_ORDER_SUCCESS,
+    })).toEqual(
+      {
+        sellOrder: {
+          isFetching: false,
+          error: null
+        }
+      }
+    )
+  })
+
+  it('should handle PLACE_SELL_ORDER_FAILURE', () => {
+    expect(companyReducer({}, {
+      type: actions.PLACE_SELL_ORDER_FAILURE,
+      payload: {
+        error: {
+          message: 'Not Found'
+        }
+      }
+    })).toEqual(
+      {
+        sellOrder: {
+          isFetching: false,
+          error: {
+            message: 'Not Found'
           }
         }
       }
