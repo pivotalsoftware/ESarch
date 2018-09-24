@@ -176,3 +176,19 @@
   font-weight: 600;
   margin: 0 5px;
 }
+
+/* Medium devices (tablets, less than 992px) - bootstrap responsive breakpoint */
+@media (max-width: 991.98px) {
+  .company-transaction-header {
+    font-size: 26px;
+  }
+  .company-transaction-title {
+    font-size: 20px;
+  }
+  .money-available-container .money-available-text {
+    font-size: 14px;
+  }
+  .btn-transaction-primary, .btn-transaction-default {
+    font-size: 10px;
+  }
+}

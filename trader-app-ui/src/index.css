@@ -56,3 +56,8 @@ body {
   letter-spacing: normal;
   color: #e74c3c;
 }
+
+.table-responsive {
+  height: 500px;
+  overflow-y:auto;
+}
