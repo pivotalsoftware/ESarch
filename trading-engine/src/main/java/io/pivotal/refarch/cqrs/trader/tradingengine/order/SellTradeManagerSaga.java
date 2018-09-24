@@ -17,8 +17,8 @@
 package io.pivotal.refarch.cqrs.trader.tradingengine.order;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
@@ -84,6 +84,7 @@ public class SellTradeManagerSaga {
         logger.debug(
                 "Cannot continue with transaction with id {} since the items needed cannot be reserved", totalItems
         );
+        commandGateway.send(new CancelTransactionCommand(event.getTransactionId()));
     }
 
     @SagaEventHandler(associationProperty = "transactionId")
