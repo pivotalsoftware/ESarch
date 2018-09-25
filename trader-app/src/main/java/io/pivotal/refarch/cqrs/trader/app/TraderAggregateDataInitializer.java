@@ -65,10 +65,10 @@ public class TraderAggregateDataInitializer {
     public boolean initializeTraderAggregates()
             throws InterruptedException, ExecutionException {
         if (hasData()) {
-            logger.warn("Verified the Event Store already contains events. Aborting initialization...");
+            logger.warn("#### The Event Store already contains events. Aborting initialization...");
             return true;
         }
-        logger.info("Verified the Event Store does not contain any events. "
+        logger.info("#### The Event Store does not contain any events. "
                             + "Starting initialization of Trader Aggregates.");
 
         CommandMessage<Object> canary = asCommandMessage(new CreatePortfolioCommand(new PortfolioId(), new UserId()));
@@ -77,24 +77,51 @@ public class TraderAggregateDataInitializer {
             return false;
         }
 
+        logger.info("Adding some companies to the application...");
         CompanyId pivotalId = new CompanyId();
         CompanyId axonIQId = new CompanyId();
-        commandGateway.sendAndWait(new CreateCompanyCommand(pivotalId, "Pivotal", 500, 5000));
+        CompanyId solsticeId = new CompanyId();
+        commandGateway.sendAndWait(new CreateCompanyCommand(pivotalId, "Pivotal", 1000, 10000));
         commandGateway.sendAndWait(new CreateCompanyCommand(axonIQId, "AxonIQ", 1000, 10000));
+        commandGateway.sendAndWait(new CreateCompanyCommand(solsticeId, "Solstice", 1000, 10000));
 
-        UserId buyer1 = createUser("Buyer One", "buyer1");
-        UserId buyer2 = createUser("Buyer Two", "buyer2");
-        UserId buyer3 = createUser("Buyer Three", "buyer3");
-        UserId buyer4 = createUser("Buyer Four", "buyer4");
-        UserId buyer5 = createUser("Buyer Five", "buyer5");
-        UserId buyer6 = createUser("Buyer Six", "buyer6");
+        logger.info("Adding some users to the application...");
+        UserId buyer1 = createUser("Allard Buijze", "allardb");
+        UserId buyer2 = createUser("Steven van Beelen", "stevenvb");
+        UserId buyer3 = createUser("Ben Wilcock", "benw");
+        UserId buyer4 = createUser("Pieter Humphrey", "pieterh");
+        UserId buyer5 = createUser("Sampath Kunta", "sampathk");
+        UserId buyer6 = createUser("Haridu Senadeera", "haridus");
+        UserId buyer7 = createUser("Jakub Pilmon", "jakubp");
+        UserId buyer8 = createUser("Kenny Bastani", "kennyb");
+        UserId buyer9 = createUser("David Caron", "davidc");
 
+        logger.info("Giving each user a starting position...");
         addMoney(buyer1, 100000);
-        addItems(buyer2, pivotalId, 10000L);
+        addItems(buyer1, axonIQId, 10000L);
+
+        addMoney(buyer2, 100000);
+        addItems(buyer2, axonIQId, 10000L);
+
         addMoney(buyer3, 100000);
-        addItems(buyer4, axonIQId, 10000L);
+        addItems(buyer3, pivotalId, 10000L);
+
+        addMoney(buyer4, 100000);
+        addItems(buyer4, pivotalId, 10000L);
+
         addMoney(buyer5, 100000);
-        addItems(buyer6, axonIQId, 10000L);
+        addItems(buyer5, solsticeId, 10000L);
+
+        addMoney(buyer6, 100000);
+        addItems(buyer6, solsticeId, 10000L);
+
+        addMoney(buyer7, 100000);
+        addItems(buyer7, pivotalId, 10000L);
+
+        addMoney(buyer8, 100000);
+        addItems(buyer8, pivotalId, 10000L);
+
+        logger.info("All done. Data initialisation is complete.");
 
         return true;
     }
