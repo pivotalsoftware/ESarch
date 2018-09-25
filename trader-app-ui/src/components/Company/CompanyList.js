@@ -95,49 +95,51 @@ class CompanyList extends Component {
     }
 
     if (isFetching) {
-      return <Loader className="centered-loader"/>;
+      return <Loader className="centered-loader" />;
     }
 
     const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"
 
     return (
-      <table className="table table-bordered company-table">
-        <thead>
-          <tr className="list-row-gray">
-            <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
-              <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
-              {this.state.sortedBy === 'name' && <div className={sortArrowClassName} />}
-            </th>
-            <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
-              <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
-              {this.state.sortedBy === 'value' && <div className={sortArrowClassName} />}
-            </th>
-            <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
-              <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
-              {this.state.sortedBy === 'shares' && <div className={sortArrowClassName} />}
-            </th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            items.map((company, index) => {
-              const className = index % 2 === 0 ? "list-row-white" : "list-row-gray"
+      <div className="table-responsive">
+        <table className="table table-bordered company-table">
+          <thead>
+            <tr className="list-row-gray">
+              <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
+                <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
+                {this.state.sortedBy === 'name' && <div className={sortArrowClassName} />}
+              </th>
+              <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
+                <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
+                {this.state.sortedBy === 'value' && <div className={sortArrowClassName} />}
+              </th>
+              <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
+                <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
+                {this.state.sortedBy === 'shares' && <div className={sortArrowClassName} />}
+              </th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              items.map((company, index) => {
+                const className = index % 2 === 0 ? "list-row-white" : "list-row-gray"
 
-              return (
-                <tr key={company.identifier} className={className}>
-                  <td className="company-list-cell-text">{company.name}</td>
-                  <td className="company-list-cell-text">{(company.value).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
-                  <td className="company-list-cell-text">{company.amountOfShares.toLocaleString('en')}</td>
-                  <td className="text-centering">
-                    <Link className="company-list-details-link" to={`/orderbooks/${company.identifier}`}>Details</Link>
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+                return (
+                  <tr key={company.identifier} className={className}>
+                    <td className="company-list-cell-text">{company.name}</td>
+                    <td className="company-list-cell-text">{(company.value).toLocaleString('en', { style: 'currency', currency: 'USD' })}</td>
+                    <td className="company-list-cell-text">{company.amountOfShares.toLocaleString('en')}</td>
+                    <td className="text-centering">
+                      <Link className="company-list-details-link" to={`/orderbooks/${company.identifier}`}>Details</Link>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
