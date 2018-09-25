@@ -63,14 +63,14 @@ class Company extends Component {
           <div className="col-sm-8">
             <span className="company-details-title">{activeCompany.companyDetail.name}</span>
           </div>
-          <div className="col-sm-2">
+          <div className="col-sm-2 pt-2">
             <button
               className="btn btn-primary btn-block axon-button"
               onClick={this.openSellModal}>
               SELL
             </button>
           </div>
-          <div className="col-sm-2">
+          <div className="col-sm-2 pt-2">
             <button
               className="btn btn-primary btn-block axon-button"
               onClick={this.openBuyModal}>

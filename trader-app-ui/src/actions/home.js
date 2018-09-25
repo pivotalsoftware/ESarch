@@ -53,7 +53,7 @@ export const getUsers = () =>
 
     const appState = getState();
 
-    dispatch(fetchUsersRequest);
+    dispatch(fetchUsersRequest());
 
     const options = {
       method: 'GET',

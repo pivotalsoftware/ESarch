@@ -20,24 +20,14 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateSellOrderCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ConfirmTransactionCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTransactionCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionCancelledEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionConfirmedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.DepositCashCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.CancelItemReservationForPortfolioCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ConfirmItemReservationForPortfolioCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.NotEnoughItemsAvailableToReserveInPortfolioEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ReserveItemsCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.*;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.test.saga.SagaTestFixture;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.axonframework.test.matchers.Matchers.exactSequenceOf;
 import static org.axonframework.test.matchers.Matchers.matches;
@@ -122,7 +112,7 @@ public class SellTradeManagerSagaTest {
                .whenAggregate(portfolioId.toString())
                .publishes(givenEvent)
                .expectActiveSagas(0)
-               .expectNoDispatchedCommands();
+               .expectDispatchedCommands(new CancelTransactionCommand(transactionId));
     }
 
     @Test

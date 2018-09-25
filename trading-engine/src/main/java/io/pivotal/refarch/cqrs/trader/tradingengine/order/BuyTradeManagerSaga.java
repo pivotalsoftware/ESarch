@@ -17,8 +17,8 @@
 package io.pivotal.refarch.cqrs.trader.tradingengine.order;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.CreateBuyOrderCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.*;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
@@ -97,6 +97,7 @@ public class BuyTradeManagerSaga {
                 "Not enough cash was available to make reservation in transaction {} for portfolio {}. Required: {}",
                 transactionId, event.getPortfolioId(), event.getAmountToPayInCents()
         );
+        commandGateway.send(new CancelTransactionCommand(event.getTransactionId()));
     }
 
     @SuppressWarnings("unused")

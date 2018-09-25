@@ -1,11 +1,21 @@
+import configureMockStore from 'redux-mock-store'
+import fetchMock from 'fetch-mock';
+import thunk from 'redux-thunk'
 import {
   fetchUsersRequest,
   fetchUsersSuccess,
   fetchUsersFailure,
   validImpersonatedUser,
-  setImpersonatedUser
+  setImpersonatedUser,
+  getUsers
 } from './home';
 import * as actions from '../constants/homeActions';
+import { ApiConfig } from '../utils/config';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares)
+
+const API_ROOT = ApiConfig();
 
 describe('homeActions: fetch users request', () => {
   it('should create an action to request fetching users', () => {
@@ -106,5 +116,58 @@ describe('homeActions: set impersonated user', () => {
       }
     }
     expect(setImpersonatedUser(user)).toEqual(expectedAction)
+  })
+})
+
+describe('home async actions: fetch users', () => {
+  afterEach(() => {
+    fetchMock.reset()
+    fetchMock.restore()
+  })
+
+  it('creates FETCH_USERS_SUCCESS when fetching users has been done', () => {
+
+    fetchMock
+      .getOnce(`${API_ROOT}/query/user`,
+        {
+          body: [
+            {identifier: '123fjdfk', name: 'Buyer One'},
+            {identifier: 'lksd4848', name: 'Buyer Two'},
+          ],
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+
+    const expectedActions = [
+      { 
+        type: actions.FETCH_USERS_REQUEST,
+        payload: {
+          isFetching: true
+        }
+      },
+      { 
+        type: actions.FETCH_USERS_SUCCESS, 
+        payload: {
+          isFetching: false,
+          data: [
+            {identifier: '123fjdfk', name: 'Buyer One'},
+            {identifier: 'lksd4848', name: 'Buyer Two'},
+          ]
+        }
+      }
+    ]
+
+    const store = mockStore({ 
+      home: {
+        users: [],
+      } 
+    })
+
+    return store.dispatch(getUsers()).then(() => {
+      // return of async actions
+      expect(store.getActions()).toEqual(expectedActions)
+    })
   })
 })

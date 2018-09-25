@@ -32,14 +32,17 @@ public class Order {
     private OrderId orderId;
     private TransactionId transactionId;
     private long itemsRemaining;
+    private long counter;
 
-    public Order(OrderId orderId, TransactionId transactionId, long itemPrice, long tradeCount, PortfolioId portfolioId) {
+    public Order(OrderId orderId, TransactionId transactionId, long itemPrice, long tradeCount, PortfolioId portfolioId,
+                 long counter) {
         this.orderId = orderId;
         this.transactionId = transactionId;
         this.itemPrice = itemPrice;
         this.tradeCount = tradeCount;
         this.itemsRemaining = tradeCount;
         this.portfolioId = portfolioId;
+        this.counter = counter;
     }
 
     public long getItemPrice() {
@@ -69,6 +72,10 @@ public class Order {
     @EventSourcingHandler
     protected void onTradeExecuted(TradeExecutedEvent event) {
         recordTraded(event.getTradeCount());
+    }
+
+    public long getCounter() {
+        return counter;
     }
 
     private void recordTraded(long tradeCount) {
