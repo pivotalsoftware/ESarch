@@ -178,9 +178,9 @@
 }
 
 /* Medium devices (tablets, less than 992px) - bootstrap responsive breakpoint */
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
   .company-transaction-header {
-    font-size: 26px;
+    font-size: 30px;
   }
   .company-transaction-title {
     font-size: 20px;

@@ -18,6 +18,14 @@ export default class BuyOrder extends Component {
     }
   }
 
+  componentDidMount() {
+    document.body.classList.add('modal-open');
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('modal-open');
+  }
+
   onFormReset(event) {
     event.preventDefault();
 
