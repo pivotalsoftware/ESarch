@@ -86,15 +86,15 @@ public class TraderAggregateDataInitializer {
         commandGateway.sendAndWait(new CreateCompanyCommand(solsticeId, "Solstice", 1000, 10000));
 
         logger.info("Adding some users to the application...");
-        UserId buyer1 = createUser("Allard Buijze", "allardb");
-        UserId buyer2 = createUser("Steven van Beelen", "stevenvb");
-        UserId buyer3 = createUser("Ben Wilcock", "benw");
-        UserId buyer4 = createUser("Pieter Humphrey", "pieterh");
-        UserId buyer5 = createUser("Sampath Kunta", "sampathk");
-        UserId buyer6 = createUser("Haridu Senadeera", "haridus");
-        UserId buyer7 = createUser("Jakub Pilmon", "jakubp");
-        UserId buyer8 = createUser("Kenny Bastani", "kennyb");
-        UserId buyer9 = createUser("David Caron", "davidc");
+        UserId buyer1 = createUser("Allard", "allard");
+        UserId buyer2 = createUser("Steven", "steven");
+        UserId buyer3 = createUser("Ben", "ben");
+        UserId buyer4 = createUser("Pieter", "pieter");
+        UserId buyer5 = createUser("Sampath", "sampath");
+        UserId buyer6 = createUser("Haridu", "haridu");
+        UserId buyer7 = createUser("Jakub", "jakub");
+        UserId buyer8 = createUser("Kenny", "kenny");
+        UserId buyer9 = createUser("David", "david");
 
         logger.info("Giving each user a starting position...");
         addMoney(buyer1, 100000);
