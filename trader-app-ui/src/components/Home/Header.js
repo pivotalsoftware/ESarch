@@ -7,8 +7,8 @@ const Header = () => {
       <p className="text-info-homepage header-info">Have fun playing with the trader</p>
       <div className="mt-1 small-divider-white home-extra-margin-left"/>
       <p className="text-homepage">
-        There are a few things implemented.<br/>
-        You can choose the company to trade stock shares for.<br/>
+        There are a few things implemented.
+        You can choose the company to trade stock shares for.
         Before you can use them you need to login.
       </p>
     </div>

@@ -6,9 +6,9 @@ const Banner = () => {
     <div>
       <h1 className="homepage-heading">The Trader</h1>
       <p className="text-homepage">
-        Welcome to the proof of concept of Axon Trader.<br/>
-        This sample is created to showcase axon capabilities.<br/>
-        Next to that we wanted to create a cool app with a nice<br/>
+        Welcome to the proof of concept of Axon Trader.
+        This sample is created to showcase axon capabilities. 
+        Next to that we wanted to create a cool app with a nice
         front-end that we can really use as a showcase.
       </p>
       <p className="text-info-homepage banner-info">
