@@ -1,14 +1,14 @@
 .axon-homepage {
   background-image: url("../../assets/home-background.png");
   background-position: center center;
-  background-repeat:  no-repeat;
-  background-size:  cover;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #999;
 }
 
 .table-credentials {
   background-color: #ffffff;
-  border-bottom: 8px solid  #01ade5;
+  border-bottom: 8px solid #01ade5;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -117,4 +117,14 @@
 
 .home-extra-margin-left {
   margin-left: 1px;
+}
+
+.homepage-link {
+  color: #01ade5;
+}
+.homepage-link:hover,
+.homepage-link:focus,
+.homepage-link:active{
+  color: #ffffff;
+  text-decoration: none;
 }
