@@ -57,6 +57,7 @@ $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 
 When the deploymet script has finished, you should see a list of your currently deployed apps and their URL's...
 
+```bash
 name                            requested state   instances  urls
 esrefarch-demo-trader-app       started           1/1        esrefarch-demo-trader-app.cfapps.io
 esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trader-ui.cfapps.io
@@ -68,17 +69,20 @@ Once the `deploy-backend.sh` script has finished it's work, you should notice ou
 
 Finally, the Node.js user interface for the Axon Trader UI needs to know where to find the newly pushed Axon Trader App backend. 
 
-When we "pushed" the Axon Trader App to Pivital Web Services a few moments ago, it was assigned a unique and random URL. We now need to tell the Axon Trader UI this unique URL so that it can communicate with the backend.
+When we "pushed" the Axon Trader App to Pivotal Web Services a few moments ago, it was assigned a unique and random URL. We now need to tell the Axon Trader UI this unique URL so that it can communicate with the backend.
 
-TODO: Articulate how this is done.
+Edit the `HostURLsMapping` in the file `trader-app-ui/src/utils/config.js` to add your trader app url hostname as follows...
 
-```bash
-cf app esrefarch-demo-trader-app
-```
+````javascript
+export const HostURLsMapping = {
+    "localhost": "http://localhost:8080",
+    "your-trader-app-hostname": "https://your-trader-app-hostname",
+}
+````
 
-Copy the `URL` returned.
+> Note: The map key does not include the `http://` scheme. You can get the trader-app URL by calling `cf apps` and finding it in the list.
 
-Open `blah.txt` in your favourite text editor for editing. Paste in the new setting for the `TODO` attribute and save the file. Now this configuration is set, we need to build and push the Axon Trader UI to PWS.
+Now this configuration is set, we can build and push the Axon Trader UI to PWS.
 
 ```bash
 ./deploy-frontend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
@@ -165,13 +169,39 @@ cf network-policies
 
 You should see that each is empty. If not, use the PWS UI at [run.pivotal.io][18] to clear things manually or use the cf-cli `cf help -a" to find and execute the commands you need.
 
-# How Does the Axon Trader Application Actually Work?
+# Architectural Overview
 
-[TODO] Intro
+CQRS on itself is a very simple pattern. It only prescribes that the component of an application that processes commands should be separated from the component that processes queries. Although this separation is very simple on itself, it provides a number of very powerful features when combined with other patterns. Axon provides the building blocks that make it easier to implement the different patterns that can be used in combination with CQRS.
 
-## Architecture Overview
+## Commands and the Command Bus
 
-TODO: Need to describe the Axon CQRS, Event Sourcing etc.
+Commands are typically represented by simple and straightforward objects that contain all data necessary for a command handler to execute it. A command expresses its intent by its name. In Java terms, that means the class name is used to figure out what needs to be done, and the fields of the command provide the information required to do it.
+
+The Command Bus receives commands and routes them to the Command Handlers. Each command handler responds to a specific type of command and executes logic based on the contents of the command. In some cases, however, you would also want to execute logic regardless of the actual type of command, such as validation, logging or authorization.
+
+The command handler retrieves domain objects (Aggregates) from a repository and executes methods on them to change their state. These aggregates typically contain the actual business logic and are therefore responsible for guarding their own invariants. The state changes of aggregates result in the generation of Domain Events. Both the Domain Events and the Aggregates form the domain model.
+
+Repositories are responsible for providing access to aggregates. Typically, these repositories are optimized for lookup of an aggregate by its unique identifier only. Some repositories will store the state of the aggregate itself (using Object Relational Mapping, for example), while others store the state changes that the aggregate has gone through in an Event Store. The repository is also responsible for persisting the changes made to aggregates in its backing storage.
+
+
+## Events, Event Bus and Event Sourcing
+
+Axon provides support for both the direct way of persisting aggregates (using object-relational-mapping, for example) and for event sourcing.
+
+The event bus dispatches events to all interested event listeners. This can either be done synchronously or asynchronously. Asynchronous event dispatching allows the command execution to return and hand over control to the user, while the events are being dispatched and processed in the background. Not having to wait for event processing to complete makes an application more responsive. Synchronous event processing, on the other hand, is simpler and is a sensible default. By default, synchronous processing will process event listeners in the same transaction that also processed the command.
+
+Event listeners receive events and handle them. Some handlers will update data sources used for querying while others send messages to external systems. As you might notice, the command handlers are completely unaware of the components that are interested in the changes they make. This means that it is very non-intrusive to extend the application with new functionality. All you need to do is add another event listener. The events loosely couple all components in your application together.
+
+In some cases, event processing requires new commands to be sent to the application. An example of this is when an order is received. This could mean the customer's account should be debited with the amount of the purchase, and shipping must be told to prepare a shipment of the purchased goods. In many applications, logic will become more complicated than this: what if the customer didn't pay in time? Will you send the shipment right away, or await payment first? The saga is the CQRS concept responsible for managing these complex business transactions.
+
+
+## Queries and the Query Bus
+
+Since Axon 3.1 the framework provides components to handle queries. The Query Bus receives queries and routes them to the Query Handlers. A query handler is registered at the query bus with both the type of query it handles as well as the type of response it providers. Both the query and the result type are typically simple, read-only DTO objects. The contents of these DTOs are typically driven by the needs of the User Interface. In most cases, they map directly to a specific view in the UI (also referred to as table-per-view).
+
+It is possible to register multiple query handlers for the same type of query and type of response. When dispatching queries, the client can indicate whether he wants a result from one or from all available query handlers.
+
+For more information on Axon [visit the docs site][19].
 
 
 [1]: https://docs.run.pivotal.io/marketplace/services/cleardb.html
@@ -192,3 +222,4 @@ TODO: Need to describe the Axon CQRS, Event Sourcing etc.
 [16]: https://nodejs.org/en/
 [17]: https://www.slideshare.net/BenWilcock1/microservice-architecture-with-cqrs-and-event-sourcing
 [18]: https://run.pivotal.io
+[19]: https://docs.axonframework.org
