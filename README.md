@@ -190,5 +190,5 @@ TODO: Need to describe the Axon CQRS, Event Sourcing etc.
 [14]: https://wings.pivotal.io/teams/pcf-solutions-emea/pipelines/bw-esrefarch-demo
 [15]: https://concourse-ci.org/fly.html
 [16]: https://nodejs.org/en/
-[17]: cqrs-event-sourcing-article
+[17]: https://www.slideshare.net/BenWilcock1/microservice-architecture-with-cqrs-and-event-sourcing
 [18]: https://run.pivotal.io
