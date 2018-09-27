@@ -1,14 +1,14 @@
 # Axon Trader
 
-This project demonstrates the use of Command and Query Responsibility Segregation [CQRS][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). It consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface built using [Node.js][16] and Angular.
+This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and Angular.
 
-> __Note:__ If you just want to experience Axon Trader without having to build and host the code yourself, go ahead! Simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sorcing works in practice. 
+> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sorcing works in practice. 
 
 ## Before You Begin.
 
-This demo will *only* run in a compatible [Pivotal Application Service][11] environment. This environment must also have a marketplace containing the required "brokered" services. Examples of compatible PAS environments would include [Pivotal Web Services (PWS)][6], any enterprise PCF foundation with the correct services, or locally on your PC using [PCF-Dev][7] (started with the required marketplace services running). 
+This demo will *only* run in a compatible [Pivotal Application Service][11] environment. This environment must also have a marketplace containing the required "brokered" services. Examples of compatible PAS environments would include [Pivotal Web Services (PWS)][6], any enterprise PCF foundation with the correct services, or locally on your computer using [PCF-Dev][7] (started with the required marketplace services running). 
 
-> In this tutorial we will use Pivotal Web Services (PWS) as it meets all of the requirements set out above. If you don't have a PWS account yet, [you can sign up for one with some free credit here][6].
+> In this tutorial we will use Pivotal Web Services (PWS) as our PAS as it meets all of the requirements set out above. If you don't have a PWS account yet, [you can sign up for one with some free credit here][6].
 
 ## Prerequisites
 
@@ -21,41 +21,41 @@ In order to follow along with this tutorial...
 
 # Building and Running the Axon Trader
 
-Clone this repository using `git` in the usual way and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` microservice, a folder for the `trading-engine` microservice and a folder for the `trader-ui`  user interface (amongst others).
+Clone this repository using `git` in the usual way and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` api, a folder for the `trading-engine` microservice and a folder for the `trader-ui`  user interface (amongst others).
 
-> You don't have to explore the code in these folders in order to run the Axon Trader application, but you might like to take a look later.
+> You don't have to explore the code in these folders in order to run the Axon Trader application, but you might want to take a look.
 
-To build and run the Axon Trader Reference application in your space on [Pivotal Web Services][6], read on. If you're using your enterprise instance of Pivotal Application Service the instructions are the same (as long as you have the required services).
+To build and run Axon Trader in your space on [Pivotal Web Services][6], read on. If you're using an enterprise instance of Pivotal Application Service the instructions are the same (as long as you have the required services).
 
 ### 1. Paving your Pivotal Application Service Environment
 
-The Axon Trader Reference Architecture is built using Java (more specifically Spring Boot) and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications need certain PAS arketplace Services to be available in the "space" where you will run the applications. These services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Config][3] and [Spring Cloud Registry][4].
+The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications requires certain PAS arketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Config][3] and [Spring Cloud Registry][4].
 
-To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. I needs some details from you about your PWS space in order to run as illustrated below... 
+To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. I needs some details from you about your PWS space in order to run, as illustrated below... 
 
 ```bash
 # you need to provide this script with your PCF username, password, org and space...
 ./pave.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> Note: In the `pave.sh` script we have chosen only the __free__ PWS service plans for each of the marketplace services. These free plans won't cost you a penny to run but do have usage limitations (like a 7 day lifetime in the case of the Spring Cloud Services), so make yourself aware of these and make other choices as you feel appropriate.
+> Note: In the `pave.sh` script we have chosen only the __free__ PWS service plans for each of the marketplace services. These free plans won't cost you a penny to run but they do have usage limitations (like a 7 day lifetime in the case of the Spring Cloud Services), so make yourself aware of these and make other choices as you feel appropriate.
 
 Following the completion of the `pave.sh` script, a quick call to `cf services` in your terminal window should provide you with a list of all of the marketplace services you just created. These services will now be available for use by the Axon Trader applications (which is good, because the Axon Trader applications depend on them to run).
 
-> Note: If this was your first time using the Pivotal Application Service, notice how easy it is to create services via the marketplace. It's designed to be a low code, low friction experience focussed on developers.
+> Note: If this was your first time using the Pivotal Application Service, notice how easy it is to create services via the marketplace. Pivotal Application Service is designed to offer a low code, low friction developer experience.
 
 ### 2. Building and Pushing the Axon Trader applications Pivotal Web Services
 
-Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface toit. Again, a script called `deploy-backend.sh` has been provided to save you a little typing... 
+Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little typing... 
 
 ```bash
 # you need to provide the deploy script with your PCF username, password, org and space...
 $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> Notice how easy it is to run your apps in the cloud. In a couple of minutes you'll have running services with HTTP URL's accessible from anywhere that will keep running no matter what.
+> Notice how easy it is to run your apps in the cloud. In a couple of minutes you'll have running micoservices who's HTTP URL's are accessible from anywhere that will keep running no matter what.
 
-When the deploymet script has finished, you should see a list of your currently deployed apps and their URL's...
+When the script has finished, you should see a list of your currently deployed apps and their URL's...
 
 ```bash
 name                            requested state   instances  urls
@@ -63,15 +63,13 @@ esrefarch-demo-trader-app       started           1/1        esrefarch-demo-trad
 esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trader-ui.cfapps.io
 ```
 
-Once the `deploy-backend.sh` script has finished it's work, you should notice output that contains the application URL's. Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
+> Note: Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
 
 ### 3. Configuring the Axon Trader UI to Pivotal Application Service
 
-Finally, the Node.js user interface for the Axon Trader UI needs to know where to find the newly pushed Axon Trader App backend. 
+When we "pushed" the Axon Trader App to Pivotal Web Services a few moments ago, it was assigned a unique and random route URL. We now need to tell the Axon Trader UI about this unique URL so that it can communicate with the backend.
 
-When we "pushed" the Axon Trader App to Pivotal Web Services a few moments ago, it was assigned a unique and random URL. We now need to tell the Axon Trader UI this unique URL so that it can communicate with the backend.
-
-Edit the `HostURLsMapping` in the file `trader-app-ui/src/utils/config.js` to add your trader app url hostname as follows...
+Edit the `HostURLsMapping` constant in the file `trader-app-ui/src/utils/config.js` and add your trader app url hostname as follows...
 
 ````javascript
 export const HostURLsMapping = {
@@ -167,11 +165,11 @@ cf services
 cf network-policies
 ```
 
-You should see that each is empty. If not, use the PWS UI at [run.pivotal.io][18] to clear things manually or use the cf-cli `cf help -a" to find and execute the commands you need.
+You should see that each is empty. If not, use the PWS UI at [run.pivotal.io][18] to clear things manually or use the cf-cli's `cf help -a" command to find and execute the commands you need.
 
 # Architectural Overview
 
-CQRS on itself is a very simple pattern. It only prescribes that the component of an application that processes commands should be separated from the component that processes queries. Although this separation is very simple on itself, it provides a number of very powerful features when combined with other patterns. Axon provides the building blocks that make it easier to implement the different patterns that can be used in combination with CQRS.
+CQRS on itself is a very simple pattern. It only prescribes that the component of an application that processes commands should be separated from the component that processes queries. Although this separation is very simple in and of itself, it provides a number of very powerful features when combined with other patterns. Axon provides the building blocks that make it easier to implement the different patterns that can be used in combination with CQRS.
 
 ## Commands and the Command Bus
 
@@ -201,7 +199,8 @@ Since Axon 3.1 the framework provides components to handle queries. The Query Bu
 
 It is possible to register multiple query handlers for the same type of query and type of response. When dispatching queries, the client can indicate whether he wants a result from one or from all available query handlers.
 
-For more information on Axon [visit the docs site][19].
+For more information on Axon [visit the Axon documentation][19].
+For more information on Axon Trader [visit the Axon Trader wiki][20].
 
 
 [1]: https://docs.run.pivotal.io/marketplace/services/cleardb.html
@@ -223,3 +222,4 @@ For more information on Axon [visit the docs site][19].
 [17]: https://www.slideshare.net/BenWilcock1/microservice-architecture-with-cqrs-and-event-sourcing
 [18]: https://run.pivotal.io
 [19]: https://docs.axonframework.org
+[20]: https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation

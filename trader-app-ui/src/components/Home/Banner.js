@@ -12,7 +12,7 @@ const Banner = () => {
         &nbsp;Axon Trader showcases various <a href="http://www.axonframework.org/" className="homepage-link" target="_blank" rel="noopener noreferrer">Axon Framework</a>
         &nbsp;capabilities and it is built for <a href="https://pivotal.io/platform/pivotal-application-service" className="homepage-link" target="_blank" rel="noopener noreferrer">Pivotal Application Service</a> 
         &nbsp;(provided by <a href="https://run.pivotal.io" className="homepage-link" target="_blank" rel="noopener noreferrer">Pivotal Web Services</a>). 
-        To get the code checkout <a href="https://github.com/pivotalsoftware/ESarch" className="homepage-link" target="_blank" rel="noopener noreferrer">this repository</a>.
+        For more information see <a href="https://github.com/pivotalsoftware/ESarch" className="homepage-link" target="_blank" rel="noopener noreferrer">code</a> and <a href="https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation" className="homepage-link" target="_blank" rel="noopener noreferrer">wiki</a> on GitHub.
         </p>
       <p className="text-info-homepage banner-info">
         Choose a user to impersonate below, then go to your account dashboard.
