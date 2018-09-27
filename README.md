@@ -212,7 +212,7 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [7]: https://pivotal.io/pcf-dev
 [8]: https://docs.cloudfoundry.org/cf-cli/install-go-cli.html
 [9]: http://projects.spring.io/spring-boot/
-[10]: http://www.axonframework.org/
+[10]: https://axoniq.io/
 [11]: https://pivotal.io/platform/pivotal-application-service
 [12]: /images/AxonTrader-UI-001.png
 [13]: https://concourse-ci.org/
