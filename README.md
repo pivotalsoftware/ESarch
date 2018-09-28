@@ -1,6 +1,6 @@
 # Axon Trader
 
-This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and Angular.
+This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and [React][21].
 
 > __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sourcing works in practice. 
 
@@ -223,3 +223,4 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [18]: https://run.pivotal.io
 [19]: https://docs.axonframework.org
 [20]: https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation
+[21]: https://reactjs.org/
