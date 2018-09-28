@@ -18,9 +18,9 @@ package io.pivotal.refarch.cqrs.trader.app.command.company;
 
 import io.pivotal.refarch.cqrs.trader.coreapi.company.AddOrderBookToCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CreateCompanyCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -41,9 +41,17 @@ public class Company {
 
     @CommandHandler
     public Company(CreateCompanyCommand cmd) {
-        apply(new CompanyCreatedEvent(
-                cmd.getCompanyId(), cmd.getCompanyName(), cmd.getCompanyValue(), cmd.getAmountOfShares()
-        ));
+        long companyValue = cmd.getCompanyValue();
+        if (companyValue < 0) {
+            throw new IllegalArgumentException("Company value should be a positive number");
+        }
+
+        long amountOfShares = cmd.getAmountOfShares();
+        if (amountOfShares < 0) {
+            throw new IllegalArgumentException("Amount of shares should be a positive number");
+        }
+
+        apply(new CompanyCreatedEvent(cmd.getCompanyId(), cmd.getCompanyName(), companyValue, amountOfShares));
     }
 
     @CommandHandler
