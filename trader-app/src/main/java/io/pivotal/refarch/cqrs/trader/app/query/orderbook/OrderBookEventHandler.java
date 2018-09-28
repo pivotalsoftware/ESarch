@@ -24,20 +24,32 @@ import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecuted
 import io.pivotal.refarch.cqrs.trader.app.query.orders.transaction.TradeExecutedView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.OrderBookAddedToCompanyEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.AbstractOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.BuyOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBookByIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderBooksByCompanyIdQuery;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.OrderId;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.SellOrderPlacedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.trades.TradeExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.ExecutedTradesByOrderBookIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Optional;
 
 // TODO introduce regular Unit Test for this class i.o. just an intergration test
 @Service
 @ProcessingGroup("trading")
 public class OrderBookEventHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final String BUY = "Buy";
     private static final String SELL = "Sell";
@@ -81,7 +93,6 @@ public class OrderBookEventHandler {
         queryUpdateEmitter.emit(OrderBookByIdQuery.class,
                                 q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
                                 eagerInit(orderBook));
-
     }
 
     @EventHandler
@@ -96,7 +107,6 @@ public class OrderBookEventHandler {
         queryUpdateEmitter.emit(OrderBookByIdQuery.class,
                                 q -> q.getOrderBookId().getIdentifier().equals(orderBook.getIdentifier()),
                                 eagerInit(orderBook));
-
     }
 
     @EventHandler
@@ -161,23 +171,35 @@ public class OrderBookEventHandler {
 
     @QueryHandler
     public OrderBookView find(OrderBookByIdQuery query) {
-        return eagerInit(orderBookRepository.getOne(query.getOrderBookId().getIdentifier()));
-    }
-
-    @QueryHandler
-    public List<OrderBookView> find(OrderBooksByCompanyIdQuery query) {
-        return eagerInit(orderBookRepository.findByCompanyIdentifier(query.getCompanyId().getIdentifier()));
-    }
-
-    @QueryHandler
-    public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
-        return tradeExecutedRepository.findByOrderBookId(query.getOrderBookId().getIdentifier());
+        String orderBookId = query.getOrderBookId().getIdentifier();
+        //noinspection ConstantConditions
+        return Optional.ofNullable(orderBookRepository.getOne(orderBookId))
+                       .map(this::eagerInit)
+                       .orElseGet(() -> {
+                           logger.warn(
+                                   "Tried to retrieve a OrderBook query model with a non existent order book id [{}]",
+                                   orderBookId
+                           );
+                           return null;
+                       });
     }
 
     private OrderBookView eagerInit(OrderBookView orderBookView) {
         orderBookView.getBuyOrders().size();
         orderBookView.getSellOrders().size();
         return orderBookView;
+    }
+
+    @QueryHandler
+    public List<OrderBookView> find(OrderBooksByCompanyIdQuery query) {
+        String companyId = query.getCompanyId().getIdentifier();
+        return Optional.ofNullable(orderBookRepository.findByCompanyIdentifier(companyId))
+                       .map(this::eagerInit)
+                       .orElseGet(() -> {
+                           logger.warn("Tried to retrieve a OrderBook query model with a non existent company id [{}]",
+                                       companyId);
+                           return null;
+                       });
     }
 
     private List<OrderBookView> eagerInit(List<OrderBookView> orderBookViews) {
@@ -187,4 +209,16 @@ public class OrderBookEventHandler {
         return orderBookViews;
     }
 
+    @QueryHandler
+    public List<TradeExecutedView> find(ExecutedTradesByOrderBookIdQuery query) {
+        String orderBookId = query.getOrderBookId().getIdentifier();
+        return Optional.ofNullable(tradeExecutedRepository.findByOrderBookId(orderBookId))
+                       .orElseGet(() -> {
+                           logger.warn(
+                                   "Tried to retrieve a Executed Trades query model with a non existent order book id [{}]",
+                                   orderBookId
+                           );
+                           return null;
+                       });
+    }
 }

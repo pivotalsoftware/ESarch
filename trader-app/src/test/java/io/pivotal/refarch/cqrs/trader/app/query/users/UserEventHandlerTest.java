@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -54,7 +55,7 @@ public class UserEventHandlerTest {
     }
 
     @Test
-    public void testFindUserByIdQueryReturnsAUserView() {
+    public void testFindUserByIdReturnsAUserView() {
         UserView testView = buildTestView();
 
         when(userViewRepository.findByIdentifier(testUserId.getIdentifier())).thenReturn(testView);
@@ -65,7 +66,14 @@ public class UserEventHandlerTest {
     }
 
     @Test
-    public void testFindAllUserQueryReturnsAListOfUserViews() {
+    public void testFindUserByIdReturnsNullForNonExistingUserId() {
+        when(userViewRepository.findByIdentifier(testUserId.getIdentifier())).thenReturn(null);
+
+        assertNull(testSubject.find(new UserByIdQuery(testUserId)));
+    }
+
+    @Test
+    public void testFindAllUserReturnsAListOfUserViews() {
         UserView testView = buildTestView();
 
         when(userViewRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(testView)));

@@ -34,18 +34,25 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @ProcessingGroup("trading")
 public class TransactionEventHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final OrderBookViewRepository orderBookViewRepository;
     private final TransactionViewRepository transactionViewRepository;
@@ -161,11 +168,28 @@ public class TransactionEventHandler {
 
     @QueryHandler
     public TransactionView find(TransactionByIdQuery query) {
-        return transactionViewRepository.getOne(query.getTransactionId().getIdentifier());
+        String transactionId = query.getTransactionId().getIdentifier();
+        //noinspection ConstantConditions
+        return Optional.ofNullable(transactionViewRepository.getOne(transactionId))
+                       .orElseGet(() -> {
+                           logger.warn(
+                                   "Tried to retrieve a Transaction query model with a non existent transaction id [{}]",
+                                   transactionId
+                           );
+                           return null;
+                       });
     }
 
     @QueryHandler
     public List<TransactionView> find(TransactionsByPortfolioIdQuery query) {
-        return transactionViewRepository.findByPortfolioId(query.getPortfolioId().getIdentifier());
+        String portfolioId = query.getPortfolioId().getIdentifier();
+        return Optional.ofNullable(transactionViewRepository.findByPortfolioId(portfolioId))
+                       .orElseGet(() -> {
+                           logger.warn(
+                                   "Tried to retrieve a Transaction query model with a non existent portfolio id [{}]",
+                                   portfolioId
+                           );
+                           return Collections.emptyList();
+                       });
     }
 }

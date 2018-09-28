@@ -21,17 +21,23 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.UserByIdQuery;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @ProcessingGroup("userQueryModel")
 public class UserEventHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final UserViewRepository userRepository;
 
@@ -52,12 +58,18 @@ public class UserEventHandler {
 
     @QueryHandler
     public UserView find(UserByIdQuery query) {
-        return userRepository.findByIdentifier(query.getUserId().getIdentifier());
+        String userId = query.getUserId().getIdentifier();
+        return Optional.ofNullable(userRepository.findByIdentifier(userId))
+                       .orElseGet(() -> {
+                           logger.warn("Tried to retrieve a User query model with a non existent user id [{}]",
+                                       userId);
+                           return null;
+                       });
     }
 
     @QueryHandler
     public List<UserView> findAll(FindAllUsersQuery query) {
-        return userRepository.findAll(PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name")))).getContent();
+        return userRepository.findAll(PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name"))))
+                             .getContent();
     }
-
 }

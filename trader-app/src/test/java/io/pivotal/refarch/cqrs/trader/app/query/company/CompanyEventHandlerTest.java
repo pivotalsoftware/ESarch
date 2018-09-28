@@ -4,10 +4,9 @@ import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
+import org.junit.*;
+import org.junit.runner.*;
+import org.mockito.*;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,8 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -72,6 +70,13 @@ public class CompanyEventHandlerTest {
         CompanyView result = testSubject.find(new CompanyByIdQuery(testCompanyId));
 
         assertEquals(testView, result);
+    }
+
+    @Test
+    public void testFindCompanyByIdReturnsNullForNonExistingCompanyId() {
+        when(companyViewRepository.getOne(testCompanyId.getIdentifier())).thenReturn(null);
+
+        Assert.assertNull(testSubject.find(new CompanyByIdQuery(testCompanyId)));
     }
 
     @Test

@@ -33,9 +33,9 @@ import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransaction
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionPartiallyExecutedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.SellTransactionStartedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionByIdQuery;
-import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionState;
+import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionsByPortfolioIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
 import org.junit.*;
 import org.mockito.*;
@@ -250,7 +250,7 @@ public class TransactionEventHandlerTest {
     }
 
     @Test
-    public void testFindTransactionByIdQueryReturnsATransactionView() {
+    public void testFindTransactionByIdReturnsATransactionView() {
         TransactionView testView = new TransactionView();
         when(transactionViewRepository.getOne(transactionId.getIdentifier())).thenReturn(testView);
 
@@ -261,7 +261,14 @@ public class TransactionEventHandlerTest {
     }
 
     @Test
-    public void testFindTransactionByPortfolioIdQueryReturnsATransactionView() {
+    public void testFindTransactionByIdReturnsNullForNonExistentTransactionId() {
+        when(transactionViewRepository.getOne(transactionId.getIdentifier())).thenReturn(null);
+
+        assertNull(testSubject.find(new TransactionByIdQuery(transactionId)));
+    }
+
+    @Test
+    public void testFindTransactionsByPortfolioIdReturnsATransactionView() {
         List<TransactionView> testViews = new ArrayList<>();
         testViews.add(new TransactionView());
         when(transactionViewRepository.findByPortfolioId(portfolioId.getIdentifier())).thenReturn(testViews);
@@ -271,5 +278,12 @@ public class TransactionEventHandlerTest {
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertEquals(testViews, results);
+    }
+
+    @Test
+    public void testFindTransactionsByIdReturnsAnEmptyListForNonExistentTransactionId() {
+        when(transactionViewRepository.findByPortfolioId(portfolioId.getIdentifier())).thenReturn(null);
+
+        assertTrue(testSubject.find(new TransactionsByPortfolioIdQuery(portfolioId)).isEmpty());
     }
 }

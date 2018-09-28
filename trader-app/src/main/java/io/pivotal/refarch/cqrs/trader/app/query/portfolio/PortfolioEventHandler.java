@@ -18,12 +18,15 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.app.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.app.query.users.UserViewRepository;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
@@ -35,11 +38,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+
 @Service
 @ProcessingGroup("trading")
 public class PortfolioEventHandler {
 
-    private final static Logger logger = LoggerFactory.getLogger(PortfolioEventHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final PortfolioViewRepository portfolioViewRepository;
     private final OrderBookViewRepository orderBookViewRepository;
@@ -181,11 +187,24 @@ public class PortfolioEventHandler {
 
     @QueryHandler
     public PortfolioView find(PortfolioByIdQuery query) {
-        return portfolioViewRepository.getOne(query.getPortfolioId().getIdentifier());
+        String portfolioId = query.getPortfolioId().getIdentifier();
+        //noinspection ConstantConditions
+        return Optional.ofNullable(portfolioViewRepository.getOne(portfolioId))
+                       .orElseGet(() -> {
+                           logger.warn("Tried to retrieve a Portfolio query model with a non existent portfolio id [{}]",
+                                       portfolioId);
+                           return null;
+                       });
     }
 
     @QueryHandler
     public PortfolioView find(PortfolioByUserIdQuery query) {
-        return portfolioViewRepository.findByUserId(query.getUserId().getIdentifier());
+        String userId = query.getUserId().getIdentifier();
+        return Optional.ofNullable(portfolioViewRepository.findByUserId(userId))
+                       .orElseGet(() -> {
+                           logger.warn("Tried to retrieve a Portfolio query model with a non existent user id [{}]",
+                                       userId);
+                           return null;
+                       });
     }
 }

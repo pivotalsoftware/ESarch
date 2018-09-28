@@ -18,7 +18,6 @@ package io.pivotal.refarch.cqrs.trader.app.query.portfolio;
 
 import io.pivotal.refarch.cqrs.trader.app.query.orderbook.OrderBookViewRepository;
 import io.pivotal.refarch.cqrs.trader.app.query.orders.trades.OrderBookView;
-import io.pivotal.refarch.cqrs.trader.app.query.users.UserView;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.OrderBookId;
 import io.pivotal.refarch.cqrs.trader.coreapi.orders.transaction.TransactionId;
@@ -26,20 +25,22 @@ import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioByUserIdQuery;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.PortfolioId;
-import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.*;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashDepositedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationCancelledEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservationConfirmedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashReservedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.cash.CashWithdrawnEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationCancelledForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemReservationConfirmedForPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsAddedToPortfolioEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.portfolio.stock.ItemsReservedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.*;
+import org.mockito.*;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -295,6 +296,13 @@ public class PortfolioEventHandlerTest {
     }
 
     @Test
+    public void testFindByPortfolioIdReturnsNullForNonExistentPortfolioId() {
+        when(portfolioViewRepository.getOne(portfolioId.getIdentifier())).thenReturn(null);
+
+        assertNull(testSubject.find(new PortfolioByIdQuery(portfolioId)));
+    }
+
+    @Test
     public void testFindPortfolioByUserIdReturnsAPortfolioView() {
         PortfolioView testView = buildTestPortfolio();
         when(portfolioViewRepository.findByUserId(userId.getIdentifier())).thenReturn(testView);
@@ -302,6 +310,13 @@ public class PortfolioEventHandlerTest {
         PortfolioView result = testSubject.find(new PortfolioByUserIdQuery(userId));
 
         assertEquals(testView, result);
+    }
+
+    @Test
+    public void testFindPortfolioByUserIdReturnsNullForNonExistentUserId() {
+        when(portfolioViewRepository.findByUserId(userId.getIdentifier())).thenReturn(null);
+
+        assertNull(testSubject.find(new PortfolioByUserIdQuery(userId)));
     }
 
     private PortfolioView buildTestPortfolio() {
@@ -330,12 +345,5 @@ public class PortfolioEventHandlerTest {
         orderBookView.setCompanyIdentifier(companyId.getIdentifier());
         orderBookView.setCompanyName("Test Company");
         return orderBookView;
-    }
-
-    private UserView buildTestUser() {
-        UserView testView = new UserView();
-        testView.setIdentifier(userId.getIdentifier());
-        testView.setUsername("john.doe");
-        return testView;
     }
 }

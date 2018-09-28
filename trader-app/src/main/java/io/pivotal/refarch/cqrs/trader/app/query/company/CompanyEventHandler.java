@@ -21,16 +21,22 @@ import io.pivotal.refarch.cqrs.trader.coreapi.company.CompanyCreatedEvent;
 import io.pivotal.refarch.cqrs.trader.coreapi.company.FindAllCompaniesQuery;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 public class CompanyEventHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final CompanyViewRepository companyRepository;
 
@@ -53,12 +59,21 @@ public class CompanyEventHandler {
 
     @QueryHandler
     public CompanyView find(CompanyByIdQuery query) {
-        return companyRepository.getOne(query.getCompanyId().getIdentifier());
+        String companyId = query.getCompanyId().getIdentifier();
+        //noinspection ConstantConditions
+        return Optional.ofNullable(companyRepository.getOne(companyId))
+                       .orElseGet(() -> {
+                           logger.warn("Tried to retrieve a Company query model with a non existent company id [{}]",
+                                       companyId);
+                           return null;
+                       });
     }
 
 
     @QueryHandler
     public List<CompanyView> find(FindAllCompaniesQuery query) {
-        return companyRepository.findAll(PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name")))).getContent();
+        return companyRepository.findAll(
+                PageRequest.of(query.getPageOffset(), query.getPageSize(), Sort.by(asc("name")))
+        ).getContent();
     }
 }
