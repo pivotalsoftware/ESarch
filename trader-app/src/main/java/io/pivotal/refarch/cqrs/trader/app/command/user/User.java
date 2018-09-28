@@ -16,11 +16,12 @@
 
 package io.pivotal.refarch.cqrs.trader.app.command.user;
 
-import io.pivotal.refarch.cqrs.trader.coreapi.users.AuthenticateUserCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserAuthenticatedEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.AuthenticateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
+import org.apache.commons.lang.StringUtils;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -41,10 +42,20 @@ public class User {
 
     @CommandHandler
     public User(CreateUserCommand cmd) {
-        apply(new UserCreatedEvent(cmd.getUserId(),
-                                   cmd.getName(),
-                                   cmd.getUsername(),
-                                   hashOf(cmd.getPassword().toCharArray())));
+        String name = cmd.getName();
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("The user's name should be non empty");
+        }
+        String username = cmd.getUsername();
+        if (StringUtils.isBlank(username)) {
+            throw new IllegalArgumentException("The username should be non empty");
+        }
+        String password = cmd.getPassword();
+        if (StringUtils.isBlank(password)) {
+            throw new IllegalArgumentException("The password should be non empty");
+        }
+
+        apply(new UserCreatedEvent(cmd.getUserId(), name, username, hashOf(password.toCharArray())));
     }
 
     @CommandHandler

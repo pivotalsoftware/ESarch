@@ -16,15 +16,19 @@
 
 package io.pivotal.refarch.cqrs.trader.app.command.user;
 
-import io.pivotal.refarch.cqrs.trader.coreapi.users.AuthenticateUserCommand;
-import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserAuthenticatedEvent;
 import io.pivotal.refarch.cqrs.trader.app.query.users.UserCreatedEvent;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.AuthenticateUserCommand;
+import io.pivotal.refarch.cqrs.trader.coreapi.users.CreateUserCommand;
 import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.*;
 
 public class UserTest {
+
+    private static final String USER_NAME = "Allard Buijze";
+    private static final String USERNAME = "abuijze";
+    private static final String PASSWORD = "extremely-difficult-password";
 
     private AggregateTestFixture<User> fixture;
 
@@ -36,20 +40,50 @@ public class UserTest {
     public void setUp() {
         fixture = new AggregateTestFixture<>(User.class);
 
-        userCreatedEvent = new UserCreatedEvent(userId, "Buyer 1", "buyer1", DigestUtils.sha1("buyer1"));
+        userCreatedEvent = new UserCreatedEvent(userId, USER_NAME, USERNAME, DigestUtils.sha1(PASSWORD));
     }
 
     @Test
-    public void testHandleCreateUser() {
+    public void testCreateUser() {
         fixture.givenNoPriorActivity()
-               .when(new CreateUserCommand(userId, "Buyer 1", "buyer1", "buyer1"))
+               .when(new CreateUserCommand(userId, USER_NAME, USERNAME, PASSWORD))
                .expectEvents(userCreatedEvent);
     }
 
     @Test
-    public void testHandleAuthenticateUser() {
+    public void testCreateUserThrowsIllegalArgumentExceptionForEmptyUserName() {
+        fixture.givenNoPriorActivity()
+               .when(new CreateUserCommand(userId, "", USERNAME, PASSWORD))
+               .expectException(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testCreateUserThrowsIllegalArgumentExceptionForEmptyUsername() {
+        fixture.givenNoPriorActivity()
+               .when(new CreateUserCommand(userId, USER_NAME, "", PASSWORD))
+               .expectException(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testCreateUserThrowsIllegalArgumentExceptionForEmptyPassword() {
+        fixture.givenNoPriorActivity()
+               .when(new CreateUserCommand(userId, USER_NAME, USERNAME, ""))
+               .expectException(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testAuthenticateUser() {
         fixture.given(userCreatedEvent)
-               .when(new AuthenticateUserCommand(userId, "buyer1", "buyer1".toCharArray()))
-               .expectEvents(new UserAuthenticatedEvent(userId));
+               .when(new AuthenticateUserCommand(userId, USERNAME, PASSWORD.toCharArray()))
+               .expectEvents(new UserAuthenticatedEvent(userId))
+               .expectReturnValue(true);
+    }
+
+    @Test
+    public void testAuthenticateUserReturnsFalseForNonMatchingPasswordd() {
+        fixture.given(userCreatedEvent)
+               .when(new AuthenticateUserCommand(userId, USERNAME, "some-other-password".toCharArray()))
+               .expectNoEvents()
+               .expectReturnValue(false);
     }
 }
