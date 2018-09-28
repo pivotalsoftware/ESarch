@@ -2,7 +2,7 @@
 
 This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and Angular.
 
-> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sorcing works in practice. 
+> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sourcing works in practice. 
 
 ## Before You Begin.
 
@@ -16,7 +16,7 @@ In order to follow along with this tutorial...
 
 - You must have the [cf-cli][8] installed (ypu can test this test by calling `cf version` in your terminal).
 - You must have access to a [Pivotal Application Service][11] instance.
-- You must have marketplace services for MySQL, Rabbit, Spring Cloud Registry and Spring Cloud Config in PAS.
+- You must have marketplace services for MySQL, RabbitMQ, Spring Cloud Services Registry and Spring Cloud Services Config Server in PAS.
 - You must have the `bash` terminal in order to run the provided scripts. 
 
 # Building and Running the Axon Trader
@@ -29,9 +29,9 @@ To build and run Axon Trader in your space on [Pivotal Web Services][6], read on
 
 ### 1. Paving your Pivotal Application Service Environment
 
-The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications requires certain PAS arketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Config][3] and [Spring Cloud Registry][4].
+The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications requires certain PAS Marketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Services Config Server][3] and [Spring Cloud Services Service Registry][4].
 
-To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. I needs some details from you about your PWS space in order to run, as illustrated below... 
+To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. Obviously it needs some details from you about your PWS space in order to run, as illustrated below... 
 
 ```bash
 # you need to provide this script with your PCF username, password, org and space...
