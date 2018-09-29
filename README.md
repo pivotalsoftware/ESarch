@@ -19,19 +19,19 @@ In order to follow along with this tutorial...
 - You must have marketplace services for MySQL, RabbitMQ, Spring Cloud Services Registry and Spring Cloud Services Config Server in PAS.
 - You must have the `bash` terminal in order to run the provided scripts. 
 
-# Building and Running the Axon Trader
+# Building and Running the Axon Trader on PWS
 
-Clone this repository using `git` in the usual way and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` api, a folder for the `trading-engine` microservice and a folder for the `trader-ui`  user interface (amongst others).
+To begin, clone this repository and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` api, a folder for the `trading-engine` microservice and a folder for the `trader-ui`  user interface (amongst others).
 
-> You don't have to explore the code in these folders in order to run the Axon Trader application, but you might want to take a look.
+> You don't have to explore the code in these folders in order to run the Axon Trader application, but you might want to take a look if you're curious how it's written.
 
-To build and run Axon Trader in your space on [Pivotal Web Services][6], read on. If you're using an enterprise instance of Pivotal Application Service the instructions are the same (as long as you have the required services).
+To build and run Axon Trader application in your [Pivotal Web Services][6] space, read on. If you're using an enterprise instance of Pivotal Application Service the instructions are the same (as long as you have the required marketplace services available).
 
-### 1. Paving your Pivotal Application Service Environment
+## 1. Paving your Pivotal Application Service Environment
 
 The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications requires certain PAS Marketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Services Config Server][3] and [Spring Cloud Services Service Registry][4].
 
-To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. Obviously it needs some details from you about your PWS space in order to run, as illustrated below... 
+To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. The pave script isn't rocket science, there's no magic, it just saves you typing `cf create-service` multiple times. Obviously it needs some details from you about your PWS space in order to run, as illustrated below... 
 
 ```bash
 # you need to provide this script with your PCF username, password, org and space...
@@ -44,16 +44,20 @@ Following the completion of the `pave.sh` script, a quick call to `cf services` 
 
 > Note: If this was your first time using the Pivotal Application Service, notice how easy it is to create services via the marketplace. Pivotal Application Service is designed to offer a low code, low friction developer experience.
 
-### 2. Building and Pushing the Axon Trader applications Pivotal Web Services
+#### The Axon Trader Configuration
 
-Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little typing... 
+The configuration of the backend microservices in the Axon Trader application is handled by [Spring Cloud Services Config][3]. In the `pave.sh` script, when commissioning Spring Cloud Services Config, a file called `config-server-setup.json` is used to tell the service where it can find the configuration for the mocroservices. If you wish to change this location, edit the file. The config repository can be cloned from [here][21]. 
+
+## 2. Building and Pushing the Axon Trader applications Pivotal Web Services
+
+Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little more repetative typing... 
 
 ```bash
 # you need to provide the deploy script with your PCF username, password, org and space...
 $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> Notice how easy it is to run your apps in the cloud. In a couple of minutes you'll have running micoservices who's HTTP URL's are accessible from anywhere that will keep running no matter what.
+> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URL's and which will keep running no matter what.
 
 When the script has finished, you should see a list of your currently deployed apps and their URL's...
 
@@ -65,7 +69,17 @@ esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trad
 
 > Note: Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
 
-### 3. Configuring the Axon Trader UI to Pivotal Application Service
+#### Initialising the Axon Trader Database
+
+Finally, we need to create some dummy data for the application (companies, users, and cash). To help with this, we have provided an actuator endpoint that accepts a POST request but doesn't require any content. You can use `curl` to trigger this as shown below.
+
+```bash
+curl -sL -X POST ${your-trader-app-url}/actuator/data-initializer
+```
+
+If this returns true, you should now have users, companies and orderbooks ready to be used once the UI is in place, which we'll do in the next section.
+
+## 3. Configuring the Axon Trader UI to Pivotal Application Service
 
 When we "pushed" the Axon Trader App to Pivotal Web Services a few moments ago, it was assigned a unique and random route URL. We now need to tell the Axon Trader UI about this unique URL so that it can communicate with the backend.
 
@@ -88,7 +102,7 @@ Now this configuration is set, we can build and push the Axon Trader UI to PWS.
 
 In a few minutes, the UI should have now have started and you will be in a position to test the application as desribed in the next section.
 
-### 4. Test the Axon Trader Application
+## 4. Test the Axon Trader Application
 
 You should have a replica of the Axon Trader application running in your own PWS space. This means you are ready to test it. To begin, we need the Axon Trader UI URL. You can discover all the URL's for all your PWS application by calling `cf apps` from your command line...
 
@@ -108,11 +122,11 @@ Copy the url for the `esrefarch-demo-trader-ui` application from the `urls` colu
 
 ![Axon Trader][12]
 
-If the User Interface is you can use the Axon Trader UI application and check that everything is working as expected.
+If the User Interface is there you can use the Axon Trader UI application and check that everything is working as expected. You should be able to impersonate users, view the dashboard and the order books and place trades. If you forgot to initialise the data you won't have any users, companies or orderbooks. Go back to section 2. and complete the initialisation exercise before you continue.
 
-You should be able to impersonate users, view the dashboard and the order books and place trades.
+# Optional Tasks
 
-### 5. [Optional] Continuously Delivering the Axon Trader Application to PAS
+## [Optional] Continuously Delivering the Axon Trader Application to PAS
 
 This section on continuously delivering Axon Trader is purely mentioned here for completeness. You can manually refresh the Axon Trader applications at any time simply by repeating the steps above.
 
@@ -149,7 +163,7 @@ fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.
 fly -t wings unpause-pipeline -p bw-esrefarch-demo
 ````
 
-### [Optional] Cleaning Up
+## [Optional] Cleaning Up Your PWS
 
 If you have finished trying the Axon Trader application and you would like to clear down your PWS space, a script has been provided that will stop the applications, remove the services and delete everything.
 
@@ -165,9 +179,20 @@ cf services
 cf network-policies
 ```
 
-You should see that each is empty. If not, use the PWS UI at [run.pivotal.io][18] to clear things manually or use the cf-cli's `cf help -a" command to find and execute the commands you need.
+You should see that each is empty. If not, use the PWS dashboard UI at [run.pivotal.io][18] to clear things manually or use the cf-cli's `cf help -a" command to find and execute the commands you need.
 
-# Architectural Overview
+## [Optional] Running Axon Trader Locally
+
+You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the intructions for this are beyoynd the scope of this tutorial, but here are a few hints to get you started:-
+
+- You need RabbitMQ running in the background (we use Docker for this).
+- The Axon Trader backend microservices will default to using an in memory database if none is provided.
+- The local configuration is used and basic configuration is provided (very handy).
+- You'll need Spring Cloud Registry running in the background, see the `discovery-server` folder for a quickstart app.
+- You'll need Node.js and `npm` to be installed to build the frontend and Nginx to host it.
+- There are some sample Postman calls for the backrnd in the file `ESArch Initialize Data.postman_collection.json`
+
+# CQRS & Event Sourcing Architectural Overview
 
 CQRS on itself is a very simple pattern. It only prescribes that the component of an application that processes commands should be separated from the component that processes queries. Although this separation is very simple in and of itself, it provides a number of very powerful features when combined with other patterns. Axon provides the building blocks that make it easier to implement the different patterns that can be used in combination with CQRS.
 
@@ -223,3 +248,4 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [18]: https://run.pivotal.io
 [19]: https://docs.axonframework.org
 [20]: https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation
+[21]: https://github.com/pivotalsoftware/ESarch-conf
