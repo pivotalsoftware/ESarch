@@ -1,6 +1,6 @@
 # Axon Trader
 
-This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and Angular.
+This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and [React.js][22].
 
 > __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sourcing works in practice. 
 
@@ -29,7 +29,7 @@ To build and run Axon Trader application in your [Pivotal Web Services][6] space
 
 ## 1. Paving your Pivotal Application Service Environment
 
-The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping an Angular single page application). To run, the Axon Trader applications requires certain PAS Marketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Services Config Server][3] and [Spring Cloud Services Service Registry][4].
+The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping React.js single page application). To run, the Axon Trader applications requires certain PAS Marketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Services Config Server][3] and [Spring Cloud Services Service Registry][4].
 
 To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. The pave script isn't rocket science, there's no magic, it just saves you typing `cf create-service` multiple times. Obviously it needs some details from you about your PWS space in order to run, as illustrated below... 
 
@@ -83,16 +83,16 @@ If this returns true, you should now have users, companies and orderbooks ready 
 
 When we "pushed" the Axon Trader App to Pivotal Web Services a few moments ago, it was assigned a unique and random route URL. We now need to tell the Axon Trader UI about this unique URL so that it can communicate with the backend.
 
-Edit the `HostURLsMapping` constant in the file `trader-app-ui/src/utils/config.js` and add your trader app url hostname as follows...
+Edit the `HostURLsMapping` constant in the file `trader-app-ui/src/utils/config.js` and bind your axon trader UI and APP urls to each other as follows...
 
 ````javascript
 export const HostURLsMapping = {
     "localhost": "http://localhost:8080",
-    "your-trader-app-hostname": "https://your-trader-app-hostname",
+    "your-trader-UI-hostname": "https://your-trader-APP-URL",
 }
 ````
 
-> Note: The map key does not include the `http://` scheme. You can get the trader-app URL by calling `cf apps` and finding it in the list.
+> So if your trader UI hostname was esrefarch-demo-trader-ui.cfapps.io and your trader app URL was https://esrefarch-demo-trader-app.cfapps.io then your configuration file would contain `"esrefarch-demo-trader-ui.cfapps.io": "https://esrefarch-demo-trader-app.cfapps.io"` as a key-value pair in the `config.js` JSON file.
 
 Now this configuration is set, we can build and push the Axon Trader UI to PWS.
 
@@ -249,3 +249,4 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [19]: https://docs.axonframework.org
 [20]: https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation
 [21]: https://github.com/pivotalsoftware/ESarch-conf
+[22]: https://reactjs.org/
