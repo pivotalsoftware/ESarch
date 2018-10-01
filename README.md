@@ -183,14 +183,14 @@ You should see that each is empty. If not, use the PWS dashboard UI at [run.pivo
 
 ## [Optional] Running Axon Trader Locally
 
-You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the intructions for this are beyoynd the scope of this tutorial, but here are a few hints to get you started:-
+You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the instructions for this are beyond the scope of this tutorial, but here are a few hints to get you started:-
 
 - You need RabbitMQ running in the background (we use Docker for this).
 - The Axon Trader backend microservices will default to using an in memory database if none is provided.
 - The local configuration is used and basic configuration is provided (very handy).
 - You'll need Spring Cloud Registry running in the background, see the `discovery-server` folder for a quickstart app.
 - You'll need Node.js and `npm` to be installed to build the frontend and Nginx to host it.
-- There are some sample Postman calls for the backrnd in the file `ESArch Initialize Data.postman_collection.json`
+- There are some sample Postman calls for the backend in the file `ESArch Initialize Data.postman_collection.json`
 
 # CQRS & Event Sourcing Architectural Overview
 
