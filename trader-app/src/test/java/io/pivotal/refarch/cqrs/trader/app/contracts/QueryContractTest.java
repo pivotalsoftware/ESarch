@@ -27,15 +27,15 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.InstanceResponseType;
 import org.axonframework.queryhandling.responsetypes.MultipleInstancesResponseType;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Before;
+import org.junit.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 public class QueryContractTest {
 
@@ -44,7 +44,7 @@ public class QueryContractTest {
     private static final String PORTFOLIO_ID = "f82c481c-a785-11e8-98d0-529269fb1459";
     private static final String BUY_ORDER_ID = "f82c4984-a785-11e8-98d0-529269fb1459";
     private static final String SELL_ORDER_ID = "f82c4ace-a785-11e8-98d0-529269fb1459";
-    private static final String COMPANY_ID = "f82c4dd0-a785-11e8-98d0-529269fb1459";
+    private static final String COMPANY_ID = "f82c40ec-a785-11e8-98d0-529269fb1459";
     private static final String COMPANY_NAME = "Pivotal";
     private static final String USER_ID = "98684ad8-987e-4d16-8ad8-b620f4320f4c";
     private static final String USER_NAME = "Pieter Humphrey";
@@ -54,25 +54,35 @@ public class QueryContractTest {
     public void setup() {
         final QueryGateway queryGateway = mock(QueryGateway.class);
 
-        when(queryGateway.query(any(CompanyByIdQuery.class), any(InstanceResponseType.class)))
+        // Default to an empty CompletableFuture for InstanceResponseType queries - specify working queries later
+        when(queryGateway.query(any(), any(InstanceResponseType.class)))
+                .thenReturn(CompletableFuture.completedFuture(null));
+        // Default to a empty List CompletableFuture for MultipleInstancesResponseType queries - specify working queries later
+        when(queryGateway.query(any(), any(MultipleInstancesResponseType.class)))
+                .thenReturn(CompletableFuture.completedFuture(Collections.emptyList()));
+
+        when(queryGateway.query(argThat(this::matchCompanyByIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildCompanyView()));
         when(queryGateway.query(any(FindAllCompaniesQuery.class), any(MultipleInstancesResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildAllCompaniesView()));
-        when(queryGateway.query(any(OrderBookByIdQuery.class), any(InstanceResponseType.class)))
+        when(queryGateway.query(argThat(this::matchOrderBookByIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildOrderBookView()));
-        when(queryGateway.query(any(OrderBooksByCompanyIdQuery.class), any(MultipleInstancesResponseType.class)))
+        when(queryGateway.query(argThat(this::matchOrderBooksByCompanyIdQuery),
+                                any(MultipleInstancesResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(Collections.singletonList(buildOrderBookView())));
-        when(queryGateway.query(any(TransactionByIdQuery.class), any(InstanceResponseType.class)))
+        when(queryGateway.query(argThat(this::matchTransactionByIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildTransactionView()));
-        when(queryGateway.query(any(TransactionsByPortfolioIdQuery.class), any(MultipleInstancesResponseType.class)))
+        when(queryGateway.query(argThat(this::matchTransactionsByPortfolioIdQuery),
+                                any(MultipleInstancesResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(Collections.singletonList(buildTransactionView())));
-        when(queryGateway.query(any(ExecutedTradesByOrderBookIdQuery.class), any(MultipleInstancesResponseType.class)))
+        when(queryGateway.query(argThat(this::matchExecutedTradesByOrderBookIdQuery),
+                                any(MultipleInstancesResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(Collections.singletonList(buildTradeExecutedView())));
-        when(queryGateway.query(any(PortfolioByIdQuery.class), any(InstanceResponseType.class)))
+        when(queryGateway.query(argThat(this::matchPortfolioByIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildPortfolioView()));
-        when(queryGateway.query(any(PortfolioByUserIdQuery.class), any(InstanceResponseType.class)))
+        when(queryGateway.query(argThat(this::matchPortfolioByUserIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildPortfolioView()));
-        when(queryGateway.query(any(UserByIdQuery.class), any(InstanceResponseType.class)))
+        when(queryGateway.query(argThat(this::matchUserByIdQuery), any(InstanceResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildUserView()));
         when(queryGateway.query(any(FindAllUsersQuery.class), any(MultipleInstancesResponseType.class)))
                 .thenReturn(CompletableFuture.completedFuture(buildAllUsersView()));
@@ -80,6 +90,11 @@ public class QueryContractTest {
         final QueryController queryController = new QueryController(queryGateway);
 
         RestAssuredMockMvc.standaloneSetup(queryController);
+    }
+
+    private <Q> boolean matchCompanyByIdQuery(Q query) {
+        return query instanceof CompanyByIdQuery
+                && ((CompanyByIdQuery) query).getCompanyId().getIdentifier().equals(COMPANY_ID);
     }
 
     @NotNull
@@ -95,6 +110,11 @@ public class QueryContractTest {
 
     private List<CompanyView> buildAllCompaniesView() {
         return Collections.singletonList(buildCompanyView());
+    }
+
+    private <Q> boolean matchOrderBookByIdQuery(Q query) {
+        return query instanceof OrderBookByIdQuery
+                && ((OrderBookByIdQuery) query).getOrderBookId().getIdentifier().equals(ORDER_BOOK_ID);
     }
 
     @NotNull
@@ -134,6 +154,10 @@ public class QueryContractTest {
         return sellOrder;
     }
 
+    private <Q> boolean matchOrderBooksByCompanyIdQuery(Q query) {
+        return query instanceof OrderBooksByCompanyIdQuery
+                && ((OrderBooksByCompanyIdQuery) query).getCompanyId().getIdentifier().equals(COMPANY_ID);
+    }
 
     @NotNull
     private TransactionView buildTransactionView() {
@@ -150,6 +174,16 @@ public class QueryContractTest {
         return transactionView;
     }
 
+    private <Q> boolean matchTransactionByIdQuery(Q query) {
+        return query instanceof TransactionByIdQuery
+                && ((TransactionByIdQuery) query).getTransactionId().getIdentifier().equals(TRANSACTION_ID);
+    }
+
+    private <Q> boolean matchTransactionsByPortfolioIdQuery(Q query) {
+        return query instanceof TransactionsByPortfolioIdQuery
+                && ((TransactionsByPortfolioIdQuery) query).getPortfolioId().getIdentifier().equals(PORTFOLIO_ID);
+    }
+
     @NotNull
     private TradeExecutedView buildTradeExecutedView() {
         TradeExecutedView tradeExecutedView = new TradeExecutedView();
@@ -159,6 +193,11 @@ public class QueryContractTest {
         tradeExecutedView.setTradeCount(30L);
         tradeExecutedView.setTradePrice(180L);
         return tradeExecutedView;
+    }
+
+    private <Q> boolean matchExecutedTradesByOrderBookIdQuery(Q query) {
+        return query instanceof ExecutedTradesByOrderBookIdQuery
+                && ((ExecutedTradesByOrderBookIdQuery) query).getOrderBookId().getIdentifier().equals(ORDER_BOOK_ID);
     }
 
     @NotNull
@@ -195,6 +234,15 @@ public class QueryContractTest {
         return itemEntry;
     }
 
+    private <Q> boolean matchPortfolioByIdQuery(Q query) {
+        return query instanceof PortfolioByIdQuery
+                && ((PortfolioByIdQuery) query).getPortfolioId().getIdentifier().equals(PORTFOLIO_ID);
+    }
+
+    private <Q> boolean matchPortfolioByUserIdQuery(Q query) {
+        return query instanceof PortfolioByUserIdQuery
+                && ((PortfolioByUserIdQuery) query).getUserId().getIdentifier().equals(USER_ID);
+    }
 
     @NotNull
     private UserView buildUserView() {
@@ -203,6 +251,11 @@ public class QueryContractTest {
         userView.setName(USER_NAME);
         userView.setUsername("john.doe");
         return userView;
+    }
+
+    private <Q> boolean matchUserByIdQuery(Q query) {
+        return query instanceof UserByIdQuery
+                && ((UserByIdQuery) query).getUserId().getIdentifier().equals(USER_ID);
     }
 
     @NotNull

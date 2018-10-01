@@ -25,16 +25,17 @@ import io.pivotal.refarch.cqrs.trader.coreapi.users.UserId;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.InstanceResponseType;
 import org.axonframework.queryhandling.responsetypes.MultipleInstancesResponseType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 // Suppresses unchecked generic on InstanceResponseType and MultipleInstancesResponseType
@@ -59,10 +60,28 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<CompanyView> result = testSubject.getCompanyById(testCompanyId);
+        CompletableFuture<ResponseEntity<CompanyView>> result = testSubject.getCompanyById(testCompanyId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<CompanyView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetCompanyByIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testCompanyId = "non-existing-id";
+        CompanyByIdQuery testQuery = new CompanyByIdQuery(new CompanyId(testCompanyId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<CompanyView>> result = testSubject.getCompanyById(testCompanyId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<CompanyView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
@@ -74,10 +93,14 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
                 .thenReturn(completedFuture(singletonList(expectedView)));
 
-        CompletableFuture<List<CompanyView>> result = testSubject.findAllCompanies(0, 50);
+        CompletableFuture<ResponseEntity<List<CompanyView>>> result = testSubject.findAllCompanies(0, 50);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get().get(0));
+        ResponseEntity<List<CompanyView>> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        List<CompanyView> responseBody = responseEntity.getBody();
+        assertNotNull(responseBody);
+        assertEquals(expectedView, responseBody.get(0));
         verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 
@@ -90,10 +113,28 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<OrderBookView> result = testSubject.getOrderBookById(testOrderBookId);
+        CompletableFuture<ResponseEntity<OrderBookView>> result = testSubject.getOrderBookById(testOrderBookId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<OrderBookView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetOrderBookByIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testOrderBookId = "non-existing-id";
+        OrderBookByIdQuery testQuery = new OrderBookByIdQuery(new OrderBookId(testOrderBookId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<OrderBookView>> result = testSubject.getOrderBookById(testOrderBookId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<OrderBookView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
@@ -106,10 +147,30 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<List<OrderBookView>> result = testSubject.getOrderBooksByCompanyId(testCompanyId);
+        CompletableFuture<ResponseEntity<List<OrderBookView>>> result =
+                testSubject.getOrderBooksByCompanyId(testCompanyId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<List<OrderBookView>> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
+    }
+
+    @Test
+    public void testGetOrderBooksByCompanyIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testCompanyId = "non-existing-id";
+        OrderBooksByCompanyIdQuery testQuery = new OrderBooksByCompanyIdQuery(new CompanyId(testCompanyId));
+        when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
+                .thenReturn(completedFuture(Collections.emptyList()));
+
+        CompletableFuture<ResponseEntity<List<OrderBookView>>> result =
+                testSubject.getOrderBooksByCompanyId(testCompanyId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<List<OrderBookView>> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 
@@ -122,16 +183,33 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<TransactionView> result = testSubject.getTransactionById(testTransactionId);
+        CompletableFuture<ResponseEntity<TransactionView>> result = testSubject.getTransactionById(testTransactionId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<TransactionView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
     @Test
-    public void testGetTransactionsByPortfolioIdReturnsListOfTransaction()
-            throws Exception {
+    public void testGetTransactionByIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testTransactionId = "non-existing-id";
+        TransactionByIdQuery testQuery = new TransactionByIdQuery(new TransactionId(testTransactionId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<TransactionView>> result = testSubject.getTransactionById(testTransactionId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<TransactionView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetTransactionsByPortfolioIdReturnsListOfTransaction() throws Exception {
         List<TransactionView> expectedView = singletonList(new TransactionView());
 
         String testPortfolioId = "some-portfolio-id";
@@ -139,16 +217,35 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<List<TransactionView>> result = testSubject.getTransactionsByPortfolioId(testPortfolioId);
+        CompletableFuture<ResponseEntity<List<TransactionView>>> result =
+                testSubject.getTransactionsByPortfolioId(testPortfolioId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<List<TransactionView>> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 
     @Test
-    public void testGetExecutedTradesByOrderBookIdReturnsListOfTradeExecuted()
-            throws Exception {
+    public void testGetTransactionsByPortfolioIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testPortfolioId = "non-existing-id";
+        TransactionsByPortfolioIdQuery testQuery = new TransactionsByPortfolioIdQuery(new PortfolioId(testPortfolioId));
+        when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
+                .thenReturn(completedFuture(Collections.emptyList()));
+
+        CompletableFuture<ResponseEntity<List<TransactionView>>> result =
+                testSubject.getTransactionsByPortfolioId(testPortfolioId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<List<TransactionView>> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
+    }
+
+    @Test
+    public void testGetExecutedTradesByOrderBookIdReturnsListOfTradeExecuted() throws Exception {
         List<TradeExecutedView> expectedView = singletonList(new TradeExecutedView());
 
         String testOrderBookId = "some-order-book-id";
@@ -157,10 +254,31 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<List<TradeExecutedView>> result = testSubject.getExecutedTradesByOrderBookId(testOrderBookId);
+        CompletableFuture<ResponseEntity<List<TradeExecutedView>>> result =
+                testSubject.getExecutedTradesByOrderBookId(testOrderBookId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<List<TradeExecutedView>> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
+    }
+
+    @Test
+    public void testGetExecutedTradesByOrderBookIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testOrderBookId = "non-existing-id";
+        ExecutedTradesByOrderBookIdQuery testQuery =
+                new ExecutedTradesByOrderBookIdQuery(new OrderBookId(testOrderBookId));
+        when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
+                .thenReturn(completedFuture(Collections.emptyList()));
+
+        CompletableFuture<ResponseEntity<List<TradeExecutedView>>> result =
+                testSubject.getExecutedTradesByOrderBookId(testOrderBookId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<List<TradeExecutedView>> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 
@@ -173,10 +291,28 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<PortfolioView> result = testSubject.getPortfolioById(testPortfolioId);
+        CompletableFuture<ResponseEntity<PortfolioView>> result = testSubject.getPortfolioById(testPortfolioId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<PortfolioView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetPortfolioByIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testPortfolioId = "non-existing-id";
+        PortfolioByIdQuery testQuery = new PortfolioByIdQuery(new PortfolioId(testPortfolioId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<PortfolioView>> result = testSubject.getPortfolioById(testPortfolioId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<PortfolioView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
@@ -189,10 +325,28 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<PortfolioView> result = testSubject.getPortfolioByUserId(testUserId);
+        CompletableFuture<ResponseEntity<PortfolioView>> result = testSubject.getPortfolioByUserId(testUserId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<PortfolioView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetPortfolioByUserIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testUserId = "non-existing-id";
+        PortfolioByUserIdQuery testQuery = new PortfolioByUserIdQuery(new UserId(testUserId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<PortfolioView>> result = testSubject.getPortfolioByUserId(testUserId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<PortfolioView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
@@ -205,10 +359,28 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
                 .thenReturn(completedFuture(expectedView));
 
-        CompletableFuture<UserView> result = testSubject.getUserById(testUserId);
+        CompletableFuture<ResponseEntity<UserView>> result = testSubject.getUserById(testUserId);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get());
+        ResponseEntity<UserView> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedView, responseEntity.getBody());
+        verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
+    }
+
+    @Test
+    public void testGetUserByIdReturnsNotFoundForNonExistingId() throws Exception {
+        String testUserId = "non-existing-id";
+        UserByIdQuery testQuery = new UserByIdQuery(new UserId(testUserId));
+        when(queryGateway.query(eq(testQuery), any(InstanceResponseType.class)))
+                .thenReturn(completedFuture(null));
+
+        CompletableFuture<ResponseEntity<UserView>> result = testSubject.getUserById(testUserId);
+
+        assertTrue(result.isDone());
+        ResponseEntity<UserView> responseEntity = result.get();
+        assertSame(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
         verify(queryGateway).query(eq(testQuery), any(InstanceResponseType.class));
     }
 
@@ -220,10 +392,14 @@ public class QueryControllerTest {
         when(queryGateway.query(eq(testQuery), any(MultipleInstancesResponseType.class)))
                 .thenReturn(completedFuture(singletonList(expectedView)));
 
-        CompletableFuture<List<UserView>> result = testSubject.findAllUsers(0, 50);
+        CompletableFuture<ResponseEntity<List<UserView>>> result = testSubject.findAllUsers(0, 50);
 
         assertTrue(result.isDone());
-        assertEquals(expectedView, result.get().get(0));
+        ResponseEntity<List<UserView>> responseEntity = result.get();
+        assertSame(HttpStatus.OK, responseEntity.getStatusCode());
+        List<UserView> responseBody = responseEntity.getBody();
+        assertNotNull(responseBody);
+        assertEquals(expectedView, responseBody.get(0));
         verify(queryGateway).query(eq(testQuery), any(MultipleInstancesResponseType.class));
     }
 }

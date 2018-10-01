@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -198,7 +199,7 @@ public class OrderBookEventHandler {
                        .orElseGet(() -> {
                            logger.warn("Tried to retrieve a OrderBook query model with a non existent company id [{}]",
                                        companyId);
-                           return null;
+                           return Collections.emptyList();
                        });
     }
 
@@ -218,7 +219,7 @@ public class OrderBookEventHandler {
                                    "Tried to retrieve a Executed Trades query model with a non existent order book id [{}]",
                                    orderBookId
                            );
-                           return null;
+                           return Collections.emptyList();
                        });
     }
 }

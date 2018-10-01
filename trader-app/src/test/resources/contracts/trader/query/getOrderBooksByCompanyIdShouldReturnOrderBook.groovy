@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 Contract.make {
   request {
     method 'GET'
-    url "/query/order-book/by-company/f82c4dd0-a785-11e8-98d0-529269fb1459"
+    url "/query/order-book/by-company/f82c40ec-a785-11e8-98d0-529269fb1459"
     headers {
       contentType applicationJson()
     }
@@ -16,7 +16,7 @@ Contract.make {
     body("""
       [ {
         "identifier" : "f82c40ec-a785-11e8-98d0-529269fb1459",
-        "companyIdentifier" : "f82c4dd0-a785-11e8-98d0-529269fb1459",
+        "companyIdentifier" : "f82c40ec-a785-11e8-98d0-529269fb1459",
         "companyName" : "Pivotal",
         "sellOrders" : [ {
           "jpaId" : 2,

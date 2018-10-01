@@ -15,7 +15,7 @@ Contract.make {
     status HttpStatus.OK.value()
     body(
             "identifier": "f82c40ec-a785-11e8-98d0-529269fb1459",
-            "companyIdentifier": "f82c4dd0-a785-11e8-98d0-529269fb1459",
+            "companyIdentifier": "f82c40ec-a785-11e8-98d0-529269fb1459",
             "companyName": "Pivotal",
             "sellOrders": [
                     "jpaId"         : 2,

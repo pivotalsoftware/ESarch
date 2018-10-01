@@ -14,7 +14,7 @@ Contract.make {
   response {
     status HttpStatus.OK.value()
     body(
-            "identifier": "f82c4dd0-a785-11e8-98d0-529269fb1459",
+            "identifier": "f82c40ec-a785-11e8-98d0-529269fb1459",
             "name": "Pivotal",
             "value": 1337,
             "amountOfShares": 42,
