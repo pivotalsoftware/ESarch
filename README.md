@@ -14,7 +14,7 @@ This demo will *only* run in a compatible [Pivotal Application Service][11] envi
 
 In order to follow along with this tutorial...
 
-- You must have the [cf-cli][8] installed (ypu can test this test by calling `cf version` in your terminal).
+- You must have the [cf-cli][8] installed (you can test this test by calling `cf version` in your terminal).
 - You must have access to a [Pivotal Application Service][11] instance.
 - You must have marketplace services for MySQL, RabbitMQ, Spring Cloud Services Registry and Spring Cloud Services Config Server in PAS.
 - You must have the `bash` terminal in order to run the provided scripts. 
