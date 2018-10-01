@@ -14,7 +14,7 @@ This demo will *only* run in a compatible [Pivotal Application Service][11] envi
 
 In order to follow along with this tutorial...
 
-- You must have the [cf-cli][8] installed (ypu can test this test by calling `cf version` in your terminal).
+- You must have the [cf-cli][8] installed (you can test this test by calling `cf version` in your terminal).
 - You must have access to a [Pivotal Application Service][11] instance.
 - You must have marketplace services for MySQL, RabbitMQ, Spring Cloud Services Registry and Spring Cloud Services Config Server in PAS.
 - You must have the `bash` terminal in order to run the provided scripts. 
@@ -50,16 +50,16 @@ The configuration of the backend microservices in the Axon Trader application is
 
 ## 2. Building and Pushing the Axon Trader applications Pivotal Web Services
 
-Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little more repetative typing... 
+Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little more repetitive typing... 
 
 ```bash
 # you need to provide the deploy script with your PCF username, password, org and space...
 $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URL's and which will keep running no matter what.
+> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URLs and which will keep running no matter what.
 
-When the script has finished, you should see a list of your currently deployed apps and their URL's...
+When the script has finished, you should see a list of your currently deployed apps and their URLs...
 
 ```bash
 name                            requested state   instances  urls
@@ -100,11 +100,11 @@ Now this configuration is set, we can build and push the Axon Trader UI to PWS.
 ./deploy-frontend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-In a few minutes, the UI should have now have started and you will be in a position to test the application as desribed in the next section.
+In a few minutes, the UI should have now have started and you will be in a position to test the application as described in the next section.
 
 ## 4. Test the Axon Trader Application
 
-You should have a replica of the Axon Trader application running in your own PWS space. This means you are ready to test it. To begin, we need the Axon Trader UI URL. You can discover all the URL's for all your PWS application by calling `cf apps` from your command line...
+You should have a replica of the Axon Trader application running in your own PWS space. This means you are ready to test it. To begin, we need the Axon Trader UI URL. You can discover all the URLs for all your PWS application by calling `cf apps` from your command line...
 
 ```bash
 cf apps
@@ -183,14 +183,14 @@ You should see that each is empty. If not, use the PWS dashboard UI at [run.pivo
 
 ## [Optional] Running Axon Trader Locally
 
-You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the intructions for this are beyoynd the scope of this tutorial, but here are a few hints to get you started:-
+You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the instructions for this are beyond the scope of this tutorial, but here are a few hints to get you started:-
 
 - You need RabbitMQ running in the background (we use Docker for this).
 - The Axon Trader backend microservices will default to using an in memory database if none is provided.
 - The local configuration is used and basic configuration is provided (very handy).
 - You'll need Spring Cloud Registry running in the background, see the `discovery-server` folder for a quickstart app.
 - You'll need Node.js and `npm` to be installed to build the frontend and Nginx to host it.
-- There are some sample Postman calls for the backrnd in the file `ESArch Initialize Data.postman_collection.json`
+- There are some sample Postman calls for the backend in the file `ESArch Initialize Data.postman_collection.json`
 
 # CQRS & Event Sourcing Architectural Overview
 
