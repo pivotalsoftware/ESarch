@@ -100,7 +100,7 @@ Now this configuration is set, we can build and push the Axon Trader UI to PWS.
 ./deploy-frontend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-In a few minutes, the UI should have now have started and you will be in a position to test the application as desribed in the next section.
+In a few minutes, the UI should have now have started and you will be in a position to test the application as described in the next section.
 
 ## 4. Test the Axon Trader Application
 
