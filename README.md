@@ -57,9 +57,9 @@ Now the PWS space is "paved" we can build and "push" our microservice applicatio
 $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URL's and which will keep running no matter what.
+> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URLs and which will keep running no matter what.
 
-When the script has finished, you should see a list of your currently deployed apps and their URL's...
+When the script has finished, you should see a list of your currently deployed apps and their URLs...
 
 ```bash
 name                            requested state   instances  urls
@@ -104,7 +104,7 @@ In a few minutes, the UI should have now have started and you will be in a posit
 
 ## 4. Test the Axon Trader Application
 
-You should have a replica of the Axon Trader application running in your own PWS space. This means you are ready to test it. To begin, we need the Axon Trader UI URL. You can discover all the URL's for all your PWS application by calling `cf apps` from your command line...
+You should have a replica of the Axon Trader application running in your own PWS space. This means you are ready to test it. To begin, we need the Axon Trader UI URL. You can discover all the URLs for all your PWS application by calling `cf apps` from your command line...
 
 ```bash
 cf apps
