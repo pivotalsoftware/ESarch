@@ -1,10 +1,48 @@
 {
 	"info": {
 		"_postman_id": "c7b51584-5a36-47a7-8374-69c02556760e",
-		"name": "ESArch Initialize Data",
+		"name": "ESArchSmokeTest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Init Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07450f7d-231b-4200-906d-230cc7bdae0e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"AxonIQ\");",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Pivotal\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{appURL}}/actuator/data-initializer",
+					"protocol": "http",
+					"host": [
+						"{{appURL}}"
+					],
+					"path": [
+						"actuator",
+						"data-initializer"
+					]
+				},
+				"description": "Get a list of companies"
+			},
+			"response": []
+		},
 		{
 			"name": "Get All Companies",
 			"event": [
@@ -189,11 +227,11 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ce41ca7b-52d3-4774-9127-e9abe946f160",
+						"id": "2368b70b-0f00-4358-8283-8711497847b8",
 						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 							"});",
 							"",
 							"pm.test(\"Successful POST request\", function () {",
@@ -236,7 +274,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8aea7456-fe2d-4da4-b40d-2217bcfa9d12",
+						"id": "88ab4dcc-5f65-469a-9e66-ffae3f194b18",
 						"type": "text/javascript",
 						"exec": [
 							"",
@@ -245,8 +283,8 @@
 							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
 							"});",
 							"",
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 							"});"
 						]
 					}
