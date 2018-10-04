@@ -2,7 +2,7 @@
 
 This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and [React.js][22].
 
-> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://esrefarch-demo-trader-ui.cfapps.io/][5] but be sure to circle back if you're curious about how CQRS and Event Sourcing works in practice. 
+> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://axontrader.cfapps.io/][5]. 
 
 ## Before You Begin.
 
@@ -189,8 +189,8 @@ You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundr
 - The Axon Trader backend microservices will default to using an in memory database if none is provided.
 - The local configuration is used and basic configuration is provided (very handy).
 - You'll need Spring Cloud Registry running in the background, see the `discovery-server` folder for a quickstart app.
-- You'll need Node.js and `npm` to be installed to build the frontend and Nginx to host it.
-- There are some sample Postman calls for the backend in the file `ESArch Initialize Data.postman_collection.json`
+- You'll need [Node.js][16] and `npm install` to build the frontend and `npm start` to run it.
+- There are some sample Postman calls for the backend in the file `ESArchSmokeTest.postman_collection.json`
 
 # CQRS & Event Sourcing Architectural Overview
 
