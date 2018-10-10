@@ -2,24 +2,24 @@ export const loadState = () => {
   try {
     const serializedHomeState = sessionStorage.getItem('axonHomeState');
     const serializedPortfolioState = sessionStorage.getItem('axonPortfolioState');
-    let initialState = {};
+    const initialState = {};
 
-    if(serializedHomeState == null && serializedPortfolioState== null) {
+    if (serializedHomeState == null && serializedPortfolioState == null) {
       return undefined;
     }
 
-    if(serializedHomeState) {
+    if (serializedHomeState) {
       initialState.home = JSON.parse(serializedHomeState);
     }
 
-    if(serializedPortfolioState) {
+    if (serializedPortfolioState) {
       initialState.portfolio = JSON.parse(serializedPortfolioState);
     }
     return initialState;
-  } catch(err) {
+  } catch (err) {
     return undefined;
   }
-}
+};
 
 export const saveState = (state) => {
   try {
@@ -29,8 +29,7 @@ export const saveState = (state) => {
 
     const serializedPortfolioState = JSON.stringify(state.portfolio);
     sessionStorage.setItem('axonPortfolioState', serializedPortfolioState);
-
   } catch (err) {
     // ignore write errors
   }
-}
+};

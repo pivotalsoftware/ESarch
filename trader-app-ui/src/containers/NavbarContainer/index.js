@@ -7,15 +7,15 @@ class NavbarContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showItems: false
-    }
+      showItems: false,
+    };
     this.toggleNavbar = this.toggleNavbar.bind(this);
   }
-  
+
   toggleNavbar() {
     this.setState({
-      showItems: !this.state.showItems
-    })
+      showItems: !this.state.showItems,
+    });
   }
 
   render() {
@@ -30,53 +30,66 @@ class NavbarContainer extends Component {
         <div className="container">
           <Link className="navbar-brand" to="/">Axon Trader</Link>
           <button className={classToggler} type="button" onClick={this.toggleNavbar}>
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div className={classCollapse}>
             <ul className="navbar-nav navbar-item-list mr-auto mt-2 mt-lg-0">
               <li className="nav-item">
                 <NavLink
-                  exact={true}
-                  className='nav-link'
-                  activeClassName='nav-link active'
-                  to="/">HOME</NavLink>
+                  exact
+                  className="nav-link"
+                  activeClassName="nav-link active"
+                  to="/"
+                >
+HOME
+
+                </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
-                  className='nav-link'
-                  activeClassName='nav-link active'
-                  to="/dashboard">DASHBOARD</NavLink>
+                  className="nav-link"
+                  activeClassName="nav-link active"
+                  to="/dashboard"
+                >
+DASHBOARD
+
+                </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
-                  className='nav-link'
-                  activeClassName='nav-link active'
-                  to="/orderbooks">ORDER BOOKS</NavLink>
+                  className="nav-link"
+                  activeClassName="nav-link active"
+                  to="/orderbooks"
+                >
+ORDER BOOKS
+
+                </NavLink>
               </li>
             </ul>
             {
-              impersonatedUser &&
-              <p className="current-username">
-                {impersonatedUser.fullName} &nbsp;
-                </p>
+              impersonatedUser
+              && <p className="current-username">
+                {impersonatedUser.fullName}
+                {' '}
+&nbsp;
+              </p>
             }
             {
-              impersonatedUser ?
-                <Link className="btn btn-light axon-button my-2 my-sm-0" to="/#credentials">Switch User</Link>
+              impersonatedUser
+                ? <Link className="btn btn-light axon-button my-2 my-sm-0" to="/#credentials">Switch User</Link>
                 : null
             }
           </div>
         </div>
       </nav>
-    )
+    );
   }
-
 }
 
 function matchStateToProps(state) {
   return {
     impersonatedUser: state.home.impersonatedUser,
-    location: state.router.location
+    location: state.router.location,
   };
 }
 

@@ -1,4 +1,4 @@
 export const Constants = {
-    DEFAULT: "Default",
-    RESERVED: "Reserved"
-}
+  DEFAULT: 'Default',
+  RESERVED: 'Reserved',
+};

@@ -25,7 +25,9 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const { data, isFetching, error, transactions } = this.props.portfolio;
+    const {
+      data, isFetching, error, transactions,
+    } = this.props.portfolio;
 
     if (error) {
       return (
@@ -44,7 +46,7 @@ export default class Dashboard extends Component {
               {this.renderHeader()}
             </div>
           </div>
-          <Loader className="centered-loader"/>
+          <Loader className="centered-loader" />
         </div>
       );
     }
@@ -61,20 +63,23 @@ export default class Dashboard extends Component {
             <div className="row">
               <div className="col-md-12">
                 {
-                  data &&
+                  data
+                  && (
                   <Portfolio
                     title="Portfolio"
                     description="Here you see what you have and what is reserved"
                     moneyAvailable={data.amountOfMoney}
                     reserved={data.reservedAmountOfMoney}
                   />
+                  )
                 }
               </div>
             </div>
           </div>
           <div className="col-md-6 align-self-end mb-3">
             {
-              data &&
+              data
+              && (
               <TradeItemsContainer>
                 <TradeItemsTable
                   items={data.itemsInPossession}
@@ -85,22 +90,25 @@ export default class Dashboard extends Component {
                   tableName="Trade Shares reserved"
                 />
               </TradeItemsContainer>
+              )
             }
           </div>
         </div>
         <div className="row mb-5">
           <div className="col-md-12">
             {
-              transactions.data &&
+              transactions.data
+              && (
               <Transactions
                 transactions={transactions.data}
                 title="Transactions"
                 description="Here you see your current transactions"
               />
+              )
             }
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

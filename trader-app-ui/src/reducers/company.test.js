@@ -6,7 +6,7 @@ describe('company reducer', () => {
     expect(companyReducer(undefined, {})).toEqual(
       {
         companyList: {
-          items: []
+          items: [],
         },
         activeCompany: {
           companyDetail: {
@@ -14,27 +14,27 @@ describe('company reducer', () => {
             error: null,
             name: null,
             value: null,
-            amountOfShares: null
+            amountOfShares: null,
           },
           orderBook: {
             isFetching: false,
             error: null,
             identifier: null,
             buy: [],
-            sell: []
-          }
+            sell: [],
+          },
         },
         buyOrder: {
           isFetching: false,
-          error: null
+          error: null,
         },
         sellOrder: {
           isFetching: false,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_REQUEST', () => {
     expect(companyReducer({}, {
@@ -44,12 +44,12 @@ describe('company reducer', () => {
         activeCompany: {
           companyDetail: {
             isFetching: true,
-            error: null
-          }
-        }
-      }
-    )
-  })
+            error: null,
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_SUCCESS', () => {
     expect(companyReducer({}, {
@@ -59,9 +59,9 @@ describe('company reducer', () => {
           identifier: 'dskj2378',
           name: 'Pivotal',
           value: '500',
-          amountOfShares: '1000'
-        }
-      }
+          amountOfShares: '1000',
+        },
+      },
     })).toEqual(
       {
         activeCompany: {
@@ -71,32 +71,32 @@ describe('company reducer', () => {
             identifier: 'dskj2378',
             name: 'Pivotal',
             value: '500',
-            amountOfShares: '1000'
-          }
-        }
-      }
-    )
-  })
+            amountOfShares: '1000',
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_FAILURE', () => {
     expect(companyReducer({}, {
       type: actions.FETCH_COMPANY_FAILURE,
       error: {
-        message: 'Not Found'
-      }
+        message: 'Not Found',
+      },
     })).toEqual(
       {
         activeCompany: {
           companyDetail: {
             isFetching: false,
             error: {
-              message: 'Not Found'
+              message: 'Not Found',
             },
-          }
-        }
-      }
-    )
-  })
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_LIST_REQUEST', () => {
     expect(companyReducer({}, {
@@ -105,11 +105,11 @@ describe('company reducer', () => {
       {
         companyList: {
           isFetching: true,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_LIST_SUCCESS', () => {
     expect(companyReducer({}, {
@@ -118,8 +118,8 @@ describe('company reducer', () => {
         data: [
           { identifier: '8293sdjh', name: 'Pivotal', value: 100 },
           { identifier: '12hdi393', name: 'Solstice', value: 400 },
-        ]
-      }
+        ],
+      },
     })).toEqual(
       {
         companyList: {
@@ -128,31 +128,31 @@ describe('company reducer', () => {
           items: [
             { identifier: '8293sdjh', name: 'Pivotal', value: 100 },
             { identifier: '12hdi393', name: 'Solstice', value: 400 },
-          ]
-        }
-      }
-    )
-  })
+          ],
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_COMPANY_LIST_FAILURE', () => {
     expect(companyReducer({}, {
       type: actions.FETCH_COMPANY_LIST_FAILURE,
       payload: {
         error: {
-          message: 'Not Found'
-        }
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         companyList: {
           isFetching: false,
           error: {
-            message: 'Not Found'
-          }
-        }
-      }
-    )
-  })
+            message: 'Not Found',
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST', () => {
     expect(companyReducer({ activeCompany: {} }, {
@@ -161,12 +161,12 @@ describe('company reducer', () => {
       {
         activeCompany: {
           orderBook: {
-            isFetching: true
-          }
-        }
-      }
-    )
-  })
+            isFetching: true,
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS', () => {
     expect(companyReducer({ activeCompany: {} }, {
@@ -175,9 +175,9 @@ describe('company reducer', () => {
         data: [{
           identifier: 'kdsjhf38739',
           buyOrders: [],
-          sellOrders: []
-        }]
-      }
+          sellOrders: [],
+        }],
+      },
     })).toEqual(
       {
         activeCompany: {
@@ -186,37 +186,37 @@ describe('company reducer', () => {
             error: null,
             identifier: 'kdsjhf38739',
             buy: [],
-            sell: []
-          }
-        }
-      }
-    )
-  })
+            sell: [],
+          },
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE', () => {
     expect(companyReducer({ activeCompany: {} }, {
       type: actions.FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE,
       payload: {
         error: {
-          message: 'Not Found'
-        }
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         activeCompany: {
           orderBook: {
             isFetching: false,
             error: {
-              message: 'Not Found'
+              message: 'Not Found',
             },
             identifier: null,
             buy: [],
-            sell: []
-          }
-        }
-      }
-    )
-  })
+            sell: [],
+          },
+        },
+      },
+    );
+  });
 
   it('should handle SET_SSE_ORDERBOOK_DATA', () => {
     expect(companyReducer({ activeCompany: {} }, {
@@ -225,9 +225,9 @@ describe('company reducer', () => {
         data: {
           identifier: '8923kjdskj',
           buyOrders: [],
-          sellOrders: []
-        }
-      }
+          sellOrders: [],
+        },
+      },
     })).toEqual(
       {
         activeCompany: {
@@ -236,12 +236,12 @@ describe('company reducer', () => {
             error: null,
             identifier: '8923kjdskj',
             buy: [],
-            sell: []
-          }
-        }
-      }
-    )
-  })
+            sell: [],
+          },
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_BUY_ORDER_REQUEST', () => {
     expect(companyReducer({}, {
@@ -250,11 +250,11 @@ describe('company reducer', () => {
       {
         buyOrder: {
           isFetching: true,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_BUY_ORDER_SUCCESS', () => {
     expect(companyReducer({}, {
@@ -263,31 +263,31 @@ describe('company reducer', () => {
       {
         buyOrder: {
           isFetching: false,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_BUY_ORDER_FAILURE', () => {
     expect(companyReducer({}, {
       type: actions.PLACE_BUY_ORDER_FAILURE,
       payload: {
         error: {
-          message: 'Not Found'
-        }
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         buyOrder: {
           isFetching: false,
           error: {
-            message: 'Not Found'
-          }
-        }
-      }
-    )
-  })
+            message: 'Not Found',
+          },
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_SELL_ORDER_REQUEST', () => {
     expect(companyReducer({}, {
@@ -296,11 +296,11 @@ describe('company reducer', () => {
       {
         sellOrder: {
           isFetching: true,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_SELL_ORDER_SUCCESS', () => {
     expect(companyReducer({}, {
@@ -309,30 +309,29 @@ describe('company reducer', () => {
       {
         sellOrder: {
           isFetching: false,
-          error: null
-        }
-      }
-    )
-  })
+          error: null,
+        },
+      },
+    );
+  });
 
   it('should handle PLACE_SELL_ORDER_FAILURE', () => {
     expect(companyReducer({}, {
       type: actions.PLACE_SELL_ORDER_FAILURE,
       payload: {
         error: {
-          message: 'Not Found'
-        }
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         sellOrder: {
           isFetching: false,
           error: {
-            message: 'Not Found'
-          }
-        }
-      }
-    )
-  })
-
-})
+            message: 'Not Found',
+          },
+        },
+      },
+    );
+  });
+});

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './styles.css'
+import './styles.css';
 
 export default class BuyOrder extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
 
     this.formResetHandler = this.onFormReset.bind(this);
     this.formSubmitHandler = this.onFormSubmit.bind(this);
@@ -14,8 +13,8 @@ export default class BuyOrder extends Component {
 
     this.state = {
       priceToTrade: null,
-      amountToTrade: null
-    }
+      amountToTrade: null,
+    };
   }
 
   componentDidMount() {
@@ -31,26 +30,28 @@ export default class BuyOrder extends Component {
 
     this.setState({
       priceToTrade: null,
-      amountToTrade: null
-    })
+      amountToTrade: null,
+    });
   }
 
   onFormSubmit(event) {
     event.preventDefault();
 
-    this.props.buyOrderHandler && this.props.buyOrderHandler(this.state.priceToTrade, this.state.amountToTrade)
+    if (this.props.buyOrderHandler) {
+      this.props.buyOrderHandler(this.state.priceToTrade, this.state.amountToTrade);
+    }
   }
 
   onPriceChanged(event) {
     this.setState({
-      priceToTrade: parseInt(event.target.value.replace(',', ''), 10)
-    })
+      priceToTrade: parseInt(event.target.value.replace(',', ''), 10),
+    });
   }
 
   onAmountChanged(event) {
     this.setState({
-      amountToTrade: parseInt(event.target.value.replace(',', ''), 10)
-    })
+      amountToTrade: parseInt(event.target.value.replace(',', ''), 10),
+    });
   }
 
   renderFooter() {
@@ -60,21 +61,24 @@ export default class BuyOrder extends Component {
         <button
           disabled={isFetching}
           className="btn btn-transaction-primary"
-          type="submit">
+          type="submit"
+        >
           PLACE ORDER
         </button>
         <button
           disabled={isFetching}
           className="btn btn-transaction-default"
           type="reset"
-          onClick={this.formResetHandler}>
+          onClick={this.formResetHandler}
+        >
           RESET
         </button>
         <button
           disabled={isFetching}
           className="btn btn-transaction-default"
           type="button"
-          onClick={cancelHandler}>
+          onClick={cancelHandler}
+        >
           CANCEL
         </button>
       </div>
@@ -82,10 +86,15 @@ export default class BuyOrder extends Component {
   }
 
   render() {
-    const { company, portfolio, cancelHandler, error } = this.props;
-    const currencyStyle = { style: 'currency', currency: 'USD' }
-    const price = this.state.priceToTrade ? this.state.priceToTrade.toLocaleString('en') : ''
-    const amount = this.state.amountToTrade ? this.state.amountToTrade.toLocaleString('en') : ''
+    const {
+      company, portfolio, cancelHandler, error,
+    } = this.props;
+    const {
+      priceToTrade, amountToTrade,
+    } = this.state;
+    const currencyStyle = { style: 'currency', currency: 'USD' };
+    const price = priceToTrade ? priceToTrade.toLocaleString('en') : '';
+    const amount = amountToTrade ? amountToTrade.toLocaleString('en') : '';
 
     return (
       <div className="modal fade show modal-transaction">
@@ -94,18 +103,28 @@ export default class BuyOrder extends Component {
             <form onSubmit={this.formSubmitHandler}>
               <div className="modal-header">
                 <h1 className="modal-title company-transaction-header mt-5">
-                  Buy order for: <span className="company-name">{company.name}</span>
+                  Buy order for:
+                  {' '}
+                  <span className="company-name">{company.name}</span>
                 </h1>
                 <button type="button" onClick={cancelHandler} className="close" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
-                {portfolio.data && <div className="money-available-container mb-4">
+                {portfolio.data && (
+                <div className="money-available-container mb-4">
                   <p className="money-available-text">
-                    {portfolio.data.amountOfMoney.toLocaleString('en', currencyStyle)} dollars available of which {portfolio.data.reservedAmountOfMoney.toLocaleString('en', currencyStyle)} dollars reserved
+                    {portfolio.data.amountOfMoney.toLocaleString('en', currencyStyle)}
+                    {' '}
+dollars available of which
+                    {' '}
+                    {portfolio.data.reservedAmountOfMoney.toLocaleString('en', currencyStyle)}
+                    {' '}
+dollars reserved
                   </p>
-                </div>}
+                </div>
+                )}
 
                 <h4 className="company-transaction-title my-3">Enter shares to buy and for how much</h4>
                 <div className="form-group row">
@@ -124,7 +143,11 @@ export default class BuyOrder extends Component {
                   error && (
                     <div className="row">
                       <div className="col">
-                        <h2 className="axon-error">Place order error! {error.message}</h2>
+                        <h2 className="axon-error">
+                            Place order error!
+                          {' '}
+                          {error.message}
+                        </h2>
                       </div>
                     </div>
                   )
