@@ -13,8 +13,8 @@ const dataTable = props => (
         {
             props.data && props.data.map((item, index) => {
               const className = index % 2 === 0 ? 'list-row-white' : 'list-row-gray';
-              const price = item.itemPrice ? item.itemPrice : item.tradePrice;
-              
+              const price = item.itemPrice !== undefined ? item.itemPrice : item.tradePrice;
+
               return (
                 <tr className={className} key={`${index}-${item.itemsRemaining}-${price}`}>
                   <td className="company-list-cell-text">{item.itemsRemaining.toLocaleString('en')}</td>
