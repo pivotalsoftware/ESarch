@@ -2,13 +2,13 @@
 
 This project demonstrates the use of [Command and Query Responsibility Segregation (CQRS)][17] and [Event Sourcing][17] with [Pivotal Application Service][11] (a.k.a Pivotal Cloud Foundry or PAS). The code consists of two [Spring Boot][9] microservices built using the open source [Axon Framework][10] and a user interface constructed using [Node.js][16] and [React.js][22].
 
-> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://axontrader.cfapps.io/][5]. 
+> __Note:__ If you just want to experience Axon Trader without having to build and host the code for yourself, simply navigate your browser to [https://axontrader.cfapps.io/][5].
 
-## Before You Begin.
+## Before You Begin
 
-This demo will *only* run in a compatible [Pivotal Application Service][11] environment. This environment must also have a marketplace containing the required "brokered" services. Examples of compatible PAS environments would include [Pivotal Web Services (PWS)][6], any enterprise PCF foundation with the correct services, or locally on your computer using [PCF-Dev][7] (started with the required marketplace services running). 
+This demo will *only* intended to run in a compatible [Pivotal Application Service][11] environment. This environment must also have a marketplace containing the required "brokered" services. Examples of compatible PAS environments would include [Pivotal Web Services (PWS)][6], any enterprise PCF foundation with the correct services, or locally on your PC using [PCF-Dev][7] (if started with the required marketplace services running).
 
-> In this tutorial we will use Pivotal Web Services (PWS) as our PAS as it meets all of the requirements set out above. If you don't have a PWS account yet, [you can sign up for one with some free credit here][6].
+> In this tutorial we will use Pivotal Web Services (PWS) as our PAS as it meets all of the requirements set out above. If you don't have a PWS account, [you can sign up and receive free credits here][6].
 
 ## Prerequisites
 
@@ -17,9 +17,9 @@ In order to follow along with this tutorial...
 - You must have the [cf-cli][8] installed (you can test this test by calling `cf version` in your terminal).
 - You must have access to a [Pivotal Application Service][11] instance.
 - You must have marketplace services for MySQL, RabbitMQ, Spring Cloud Services Registry and Spring Cloud Services Config Server in PAS.
-- You must have the `bash` terminal in order to run the provided scripts. 
+- You must have the `bash` terminal in order to run the provided scripts.
 
-# Building and Running the Axon Trader on PWS
+## Building and Running the Axon Trader on PWS
 
 To begin, clone this repository and `cd` to it's directory in your terminal window. There you'll notice there is a folder for the `trader-app` api, a folder for the `trading-engine` microservice and a folder for the `trader-ui`  user interface (amongst others).
 
@@ -31,7 +31,7 @@ To build and run Axon Trader application in your [Pivotal Web Services][6] space
 
 The Axon Trader Reference Architecture is built using Java, Spring Boot and Node.js (bootstrapping React.js single page application). To run, the Axon Trader applications requires certain PAS Marketplace Services to be available in the "space" where you will host and run the applications. These marketplace services are [ClearDB][1] (MySQL), [CloudAMQP][2] (RabbitMQ), [Spring Cloud Services Config Server][3] and [Spring Cloud Services Service Registry][4].
 
-To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. The pave script isn't rocket science, there's no magic, it just saves you typing `cf create-service` multiple times. Obviously it needs some details from you about your PWS space in order to run, as illustrated below... 
+To pave your PWS space with these marketplace services, simply run the `pave.sh` script provided. The pave script isn't rocket science, there's no magic, it just saves you typing `cf create-service` multiple times. Obviously it needs some details from you about your PWS space in order to run, as illustrated below...
 
 ```bash
 # you need to provide this script with your PCF username, password, org and space...
@@ -44,20 +44,20 @@ Following the completion of the `pave.sh` script, a quick call to `cf services` 
 
 > Note: If this was your first time using the Pivotal Application Service, notice how easy it is to create services via the marketplace. Pivotal Application Service is designed to offer a low code, low friction developer experience.
 
-#### The Axon Trader Configuration
+### The Axon Trader Configuration
 
-The configuration of the backend microservices in the Axon Trader application is handled by [Spring Cloud Services Config][3]. In the `pave.sh` script, when commissioning Spring Cloud Services Config, a file called `config-server-setup.json` is used to tell the service where it can find the configuration for the mocroservices. If you wish to change this location, edit the file. The config repository can be cloned from [here][21]. 
+The configuration of the backend microservices in the Axon Trader application is handled by [Spring Cloud Services Config][3]. In the `pave.sh` script, when commissioning Spring Cloud Services Config, a file called `config-server-setup.json` is used to tell the service where it can find the configuration for the microservices. If you wish to change this location, edit the file. The config repository can be cloned from [here][21].
 
 ## 2. Building and Pushing the Axon Trader applications Pivotal Web Services
 
-Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little more repetitive typing... 
+Now the PWS space is "paved" we can build and "push" our microservice applications and their user interface to it. A script called `deploy-backend.sh` has been provided to do this to save you a little more repetitive typing...
 
 ```bash
 # you need to provide the deploy script with your PCF username, password, org and space...
 $ ./deploy-backend.sh <PWS-USERNAME> <PWS-PASSWORD> <PWS-ORG> <PWS-SPACE>
 ```
 
-> If you open the script you'll notice how easy it is to use `cf push` to run your apps in the cloud. In a couple of minutes you can have micoservices with externally accessible URLs and which will keep running no matter what.
+> If you open the script you'll notice how easy it is to use `cf push` to run your applications in the cloud. In a couple of minutes you can have microservices with externally accessible URLs and which will keep running no matter what.
 
 When the script has finished, you should see a list of your currently deployed apps and their URLs...
 
@@ -69,7 +69,7 @@ esrefarch-demo-trader-ui        started           1/1        esrefarch-demo-trad
 
 > Note: Take note of the URL for the `esrefarch-demo-trader-app`, you'll need it for the next task.
 
-#### Initialising the Axon Trader Database
+### Initialising the Axon Trader Database
 
 Finally, we need to create some dummy data for the application (companies, users, and cash). To help with this, we have provided an actuator endpoint that accepts a POST request but doesn't require any content. You can use `curl` to trigger this as shown below.
 
@@ -124,9 +124,11 @@ Copy the url for the `esrefarch-demo-trader-ui` application from the `urls` colu
 
 If the User Interface is there you can use the Axon Trader UI application and check that everything is working as expected. You should be able to impersonate users, view the dashboard and the order books and place trades. If you forgot to initialise the data you won't have any users, companies or orderbooks. Go back to section 2. and complete the initialisation exercise before you continue.
 
-# Optional Tasks
+## Optional Tasks
 
-## [Optional] Continuously Delivering the Axon Trader Application to PAS
+The following tasks are all optional.
+
+### [Optional] Continuously Delivering the Axon Trader Application to PAS
 
 This section on continuously delivering Axon Trader is purely mentioned here for completeness. You can manually refresh the Axon Trader applications at any time simply by repeating the steps above.
 
@@ -163,7 +165,7 @@ fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.
 fly -t wings unpause-pipeline -p bw-esrefarch-demo
 ````
 
-## [Optional] Cleaning Up Your PWS
+### [Optional] Cleaning Up Your PWS
 
 If you have finished trying the Axon Trader application and you would like to clear down your PWS space, a script has been provided that will stop the applications, remove the services and delete everything.
 
@@ -181,7 +183,7 @@ cf network-policies
 
 You should see that each is empty. If not, use the PWS dashboard UI at [run.pivotal.io][18] to clear things manually or use the cf-cli's `cf help -a" command to find and execute the commands you need.
 
-## [Optional] Running Axon Trader Locally
+### [Optional] Running Axon Trader Locally
 
 You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundry, but the instructions for this are beyond the scope of this tutorial, but here are a few hints to get you started:-
 
@@ -192,11 +194,11 @@ You can run the Axon Trader locally on your desktop without Pivotal Cloud Foundr
 - You'll need [Node.js][16] and `npm install` to build the frontend and `npm start` to run it.
 - There are some sample Postman calls for the backend in the file `ESArchSmokeTest.postman_collection.json`
 
-# CQRS & Event Sourcing Architectural Overview
+## CQRS & Event Sourcing Architectural Overview
 
 CQRS on itself is a very simple pattern. It only prescribes that the component of an application that processes commands should be separated from the component that processes queries. Although this separation is very simple in and of itself, it provides a number of very powerful features when combined with other patterns. Axon provides the building blocks that make it easier to implement the different patterns that can be used in combination with CQRS.
 
-## Commands and the Command Bus
+### Commands and the Command Bus
 
 Commands are typically represented by simple and straightforward objects that contain all data necessary for a command handler to execute it. A command expresses its intent by its name. In Java terms, that means the class name is used to figure out what needs to be done, and the fields of the command provide the information required to do it.
 
@@ -206,8 +208,7 @@ The command handler retrieves domain objects (Aggregates) from a repository and 
 
 Repositories are responsible for providing access to aggregates. Typically, these repositories are optimized for lookup of an aggregate by its unique identifier only. Some repositories will store the state of the aggregate itself (using Object Relational Mapping, for example), while others store the state changes that the aggregate has gone through in an Event Store. The repository is also responsible for persisting the changes made to aggregates in its backing storage.
 
-
-## Events, Event Bus and Event Sourcing
+### Events, Event Bus and Event Sourcing
 
 Axon provides support for both the direct way of persisting aggregates (using object-relational-mapping, for example) and for event sourcing.
 
@@ -217,8 +218,7 @@ Event listeners receive events and handle them. Some handlers will update data s
 
 In some cases, event processing requires new commands to be sent to the application. An example of this is when an order is received. This could mean the customer's account should be debited with the amount of the purchase, and shipping must be told to prepare a shipment of the purchased goods. In many applications, logic will become more complicated than this: what if the customer didn't pay in time? Will you send the shipment right away, or await payment first? The saga is the CQRS concept responsible for managing these complex business transactions.
 
-
-## Queries and the Query Bus
+### Queries and the Query Bus
 
 Since Axon 3.1 the framework provides components to handle queries. The Query Bus receives queries and routes them to the Query Handlers. A query handler is registered at the query bus with both the type of query it handles as well as the type of response it providers. Both the query and the result type are typically simple, read-only DTO objects. The contents of these DTOs are typically driven by the needs of the User Interface. In most cases, they map directly to a specific view in the UI (also referred to as table-per-view).
 
