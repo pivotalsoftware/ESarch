@@ -10,8 +10,8 @@ class Company extends Component {
 
     this.state = {
       buyModalOPen: false,
-      sellModalOpen: false
-    }
+      sellModalOpen: false,
+    };
 
     this.openBuyModal = this.openBuyModal.bind(this);
     this.openSellModal = this.openSellModal.bind(this);
@@ -19,8 +19,12 @@ class Company extends Component {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if((oldProps.buyOrder.isFetching && !this.props.buyOrder.isFetching && !this.props.buyOrder.error)||
-    (oldProps.sellOrder.isFetching && !this.props.sellOrder.isFetching && !this.props.sellOrder.error)) {
+    if ((oldProps.buyOrder.isFetching
+        && !this.props.buyOrder.isFetching
+        && !this.props.buyOrder.error)
+    || (oldProps.sellOrder.isFetching
+        && !this.props.sellOrder.isFetching
+        && !this.props.sellOrder.error)) {
       // close modal after successfully making a request
       this.closeModal();
     }
@@ -28,28 +32,37 @@ class Company extends Component {
 
   openBuyModal() {
     this.setState({
-      buyModalOpen: true
-    })
+      buyModalOpen: true,
+    });
   }
+
   openSellModal() {
     this.setState({
-      sellModalOpen: true
-    })
+      sellModalOpen: true,
+    });
   }
 
   closeModal() {
     this.setState({
       buyModalOpen: false,
-      sellModalOpen: false
-    })
+      sellModalOpen: false,
+    });
   }
 
   render() {
-    const { activeCompany, portfolio, sellOrderHandler, buyOrderHandler, buyOrder, sellOrder } = this.props;
+    const {
+      activeCompany, portfolio, sellOrderHandler, buyOrderHandler, buyOrder, sellOrder,
+    } = this.props;
     const { sellModalOpen, buyModalOpen } = this.state;
 
     if (activeCompany.orderBook.error) {
-      return <h1 className="axon-error">Error loading orderbook! {activeCompany.orderBook.error.message}</h1>
+      return (
+        <h1 className="axon-error">
+Error loading orderbook!
+          {' '}
+          {activeCompany.orderBook.error.message}
+        </h1>
+      );
     }
 
     if (activeCompany.orderBook.isFetching) {
@@ -66,21 +79,24 @@ class Company extends Component {
           <div className="col-sm-2 pt-2">
             <button
               className="btn btn-primary btn-block axon-button"
-              onClick={this.openSellModal}>
+              onClick={this.openSellModal}
+            >
               SELL
             </button>
           </div>
           <div className="col-sm-2 pt-2">
             <button
               className="btn btn-primary btn-block axon-button"
-              onClick={this.openBuyModal}>
+              onClick={this.openBuyModal}
+            >
               BUY
             </button>
           </div>
         </div>
 
         {
-          sellModalOpen &&
+          sellModalOpen
+          && (
           <SellOrder
             isFetching={sellOrder.isFetching}
             error={sellOrder.error}
@@ -89,8 +105,10 @@ class Company extends Component {
             company={activeCompany.companyDetail}
             portfolio={portfolio}
           />
+          )
         }
-        {buyModalOpen &&
+        {buyModalOpen
+          && (
           <BuyOrder
             isFetching={buyOrder.isFetching}
             error={buyOrder.error}
@@ -99,13 +117,20 @@ class Company extends Component {
             company={activeCompany.companyDetail}
             portfolio={portfolio}
           />
+          )
         }
 
         <div className="row mb-5">
           <div className="col-12">
             <div className="company-details-share-info-container">
               <p className="company-details-share-info-text">
-                VALUE {activeCompany.companyDetail.value && (activeCompany.companyDetail.value).toLocaleString('en', { style: 'currency', currency: 'USD' })} /  SHARES {activeCompany.companyDetail.amountOfShares && activeCompany.companyDetail.amountOfShares.toLocaleString('en')}
+                VALUE
+                {' '}
+                {activeCompany.companyDetail.value && (activeCompany.companyDetail.value).toLocaleString('en', { style: 'currency', currency: 'USD' })}
+                {' '}
+/  SHARES
+                {' '}
+                {activeCompany.companyDetail.amountOfShares && activeCompany.companyDetail.amountOfShares.toLocaleString('en')}
               </p>
             </div>
           </div>

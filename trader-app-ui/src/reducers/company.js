@@ -14,12 +14,12 @@ import {
   PLACE_SELL_ORDER_REQUEST,
   PLACE_SELL_ORDER_SUCCESS,
   PLACE_SELL_ORDER_FAILURE,
-  SET_SSE_ORDERBOOK_DATA
+  SET_SSE_ORDERBOOK_DATA,
 } from '../constants/companyActions';
 
 const initialState = {
   companyList: {
-    items: []
+    items: [],
   },
   activeCompany: {
     companyDetail: {
@@ -27,25 +27,25 @@ const initialState = {
       error: null,
       name: null,
       value: null,
-      amountOfShares: null
+      amountOfShares: null,
     },
     orderBook: {
       isFetching: false,
       error: null,
       identifier: null,
       buy: [],
-      sell: []
-    }
+      sell: [],
+    },
   },
   buyOrder: {
     isFetching: false,
-    error: null
+    error: null,
   },
   sellOrder: {
     isFetching: false,
-    error: null
-  }
-}
+    error: null,
+  },
+};
 
 function companyReducer(state = initialState, action) {
   switch (action.type) {
@@ -57,9 +57,9 @@ function companyReducer(state = initialState, action) {
           companyDetail: {
             isFetching: true,
             error: null,
-          }
-        }
-      }
+          },
+        },
+      };
     case FETCH_COMPANY_SUCCESS:
       return {
         ...state,
@@ -71,10 +71,10 @@ function companyReducer(state = initialState, action) {
             identifier: action.payload.data.identifier,
             name: action.payload.data.name,
             value: action.payload.data.value,
-            amountOfShares: action.payload.data.amountOfShares
-          }
-        }
-      }
+            amountOfShares: action.payload.data.amountOfShares,
+          },
+        },
+      };
     case FETCH_COMPANY_FAILURE:
       return {
         ...state,
@@ -83,34 +83,34 @@ function companyReducer(state = initialState, action) {
           companyDetail: {
             isFetching: false,
             error: action.error,
-          }
-        }
-      }
+          },
+        },
+      };
     case FETCH_COMPANY_LIST_REQUEST:
       return {
         ...state,
         companyList: {
           isFetching: true,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case FETCH_COMPANY_LIST_SUCCESS:
       return {
         ...state,
         companyList: {
           isFetching: false,
           items: action.payload.data,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case FETCH_COMPANY_LIST_FAILURE:
       return {
         ...state,
         companyList: {
           isFetching: false,
-          error: action.payload.error
-        }
-      }
+          error: action.payload.error,
+        },
+      };
     case FETCH_ORDERBOOKS_BY_COMPANYID_REQUEST:
       return {
         ...state,
@@ -118,12 +118,14 @@ function companyReducer(state = initialState, action) {
           ...state.activeCompany,
           orderBook: {
             ...state.activeCompany.orderBook,
-            isFetching: true
-          }
-        }
-      }
+            isFetching: true,
+          },
+        },
+      };
     case FETCH_ORDERBOOKS_BY_COMPANYID_SUCCESS: {
-      const orderBook = action.payload.data && action.payload.data.length > 0 && action.payload.data[0]
+      const orderBook = action.payload.data
+                            && action.payload.data.length > 0
+                            && action.payload.data[0];
       return {
         ...state,
         activeCompany: {
@@ -133,10 +135,10 @@ function companyReducer(state = initialState, action) {
             error: null,
             identifier: orderBook.identifier || null,
             buy: orderBook.buyOrders || [],
-            sell: orderBook.sellOrders || []
-          }
-        }
-      }
+            sell: orderBook.sellOrders || [],
+          },
+        },
+      };
     }
     case FETCH_ORDERBOOKS_BY_COMPANYID_FAILURE:
       return {
@@ -148,10 +150,10 @@ function companyReducer(state = initialState, action) {
             error: action.payload.error,
             identifier: null,
             buy: [],
-            sell: []
-          }
-        }
-      }
+            sell: [],
+          },
+        },
+      };
     case SET_SSE_ORDERBOOK_DATA:
       return {
         ...state,
@@ -162,60 +164,60 @@ function companyReducer(state = initialState, action) {
             error: null,
             identifier: action.payload.data.identifier,
             buy: action.payload.data.buyOrders,
-            sell: action.payload.data.sellOrders
-          }
-        }
-      }
+            sell: action.payload.data.sellOrders,
+          },
+        },
+      };
     case PLACE_BUY_ORDER_REQUEST:
       return {
         ...state,
         buyOrder: {
           isFetching: true,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case PLACE_BUY_ORDER_SUCCESS:
       return {
         ...state,
         buyOrder: {
           isFetching: false,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case PLACE_BUY_ORDER_FAILURE:
       return {
         ...state,
         buyOrder: {
           isFetching: false,
-          error: action.payload.error
-        }
-      }
+          error: action.payload.error,
+        },
+      };
     case PLACE_SELL_ORDER_REQUEST:
       return {
         ...state,
         sellOrder: {
           isFetching: true,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case PLACE_SELL_ORDER_SUCCESS:
       return {
         ...state,
         sellOrder: {
           isFetching: false,
-          error: null
-        }
-      }
+          error: null,
+        },
+      };
     case PLACE_SELL_ORDER_FAILURE:
       return {
         ...state,
         sellOrder: {
           isFetching: false,
-          error: action.payload.error
-        }
-      }
+          error: action.payload.error,
+        },
+      };
     default:
-      return state
+      return state;
   }
 }
 

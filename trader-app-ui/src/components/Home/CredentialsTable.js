@@ -15,7 +15,7 @@ const CredentialsTable = ({ credentials, onSetImpersonatedUser }) =>
         <tbody>
           {credentials &&
             credentials.sort((a, b) => {
-              return a.userName > b.userName
+              return a.userName > b.userName;
             }).map(user => {
               return (
                 <tr key={user.userName}>
@@ -27,7 +27,7 @@ const CredentialsTable = ({ credentials, onSetImpersonatedUser }) =>
                       onClick={() => onSetImpersonatedUser(user)}>Impersonate User</button>
                   </td>
                 </tr>
-              )
+              );
             })
           }
         </tbody>

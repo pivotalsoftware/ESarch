@@ -11,25 +11,25 @@ describe('portfolio reducer', () => {
         transactions: {
           isFetching: false,
           error: null,
-          data: null
-        }
-      }
-    )
-  })
+          data: null,
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_PORTFOLIO_REQUEST', () => {
     expect(portfolioReducer({}, {
       type: actions.FETCH_PORTFOLIO_REQUEST,
       payload: {
-        isFetching: true
-      }
+        isFetching: true,
+      },
     })).toEqual(
       {
         isFetching: true,
         error: null,
-      }
-    )
-  })
+      },
+    );
+  });
 
   it('should handle FETCH_PORTFOLIO_SUCCESS', () => {
     expect(portfolioReducer({}, {
@@ -38,19 +38,19 @@ describe('portfolio reducer', () => {
         isFetching: false,
         data: {
           identifier: '2387sjh',
-          amountOfMoney: 10000
-        }
-      }
+          amountOfMoney: 10000,
+        },
+      },
     })).toEqual(
       {
         isFetching: false,
         data: {
           identifier: '2387sjh',
-          amountOfMoney: 10000
-        }
-      }
-    )
-  })
+          amountOfMoney: 10000,
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_PORTFOLIO_FAILURE', () => {
     expect(portfolioReducer({}, {
@@ -58,18 +58,18 @@ describe('portfolio reducer', () => {
       payload: {
         isFetching: false,
         error: {
-          message: 'Not Found'
-        }
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         isFetching: false,
         error: {
-          message: 'Not Found'
-        }
-      }
-    )
-  })
+          message: 'Not Found',
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_TRANSACTIONS_BY_PORTFOLIOID_REQUEST', () => {
     expect(portfolioReducer({}, {
@@ -79,54 +79,53 @@ describe('portfolio reducer', () => {
         transactions: {
           isFetching: true,
           error: null,
-          data: null
-        }
-      }
-    )
-  })
+          data: null,
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_TRANSACTIONS_BY_PORTFOLIOID_SUCCESS', () => {
     expect(portfolioReducer({}, {
       type: actions.FETCH_TRANSACTIONS_BY_PORTFOLIOID_SUCCESS,
       payload: {
         data: [
-          {identifier: '4987sdjhjds', companyName: 'Solstice'},
-          {identifier: '3259843hdfhds', companyName: 'Pivotal'}
-        ]
-      }
+          { identifier: '4987sdjhjds', companyName: 'Solstice' },
+          { identifier: '3259843hdfhds', companyName: 'Pivotal' },
+        ],
+      },
     })).toEqual(
       {
         transactions: {
           isFetching: false,
           error: null,
           data: [
-            {identifier: '4987sdjhjds', companyName: 'Solstice'},
-            {identifier: '3259843hdfhds', companyName: 'Pivotal'}
-          ]
-        }
-      }
-    )
-  })
+            { identifier: '4987sdjhjds', companyName: 'Solstice' },
+            { identifier: '3259843hdfhds', companyName: 'Pivotal' },
+          ],
+        },
+      },
+    );
+  });
 
   it('should handle FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE', () => {
     expect(portfolioReducer({}, {
       type: actions.FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE,
       payload: {
         error: {
-          message: 'Not Found'
-        } 
-      }
+          message: 'Not Found',
+        },
+      },
     })).toEqual(
       {
         transactions: {
           isFetching: false,
           error: {
-            message: 'Not Found'
+            message: 'Not Found',
           },
-          data: null
-        }
-      }
-    )
-  })
-
-})
+          data: null,
+        },
+      },
+    );
+  });
+});

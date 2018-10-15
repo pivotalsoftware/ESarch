@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom';
 import './styles.css';
 
 class LoginContainer extends Component {
-
   render() {
     const { impersonatedUser } = this.props;
 
-    if(impersonatedUser) {
-      return <Redirect to="/dashboard"/>
+    if (impersonatedUser) {
+      return <Redirect to="/dashboard" />;
     }
 
     return (
       <div className="container auth-error-container">
         <span className="align-middle auth-error-message">
-          Please <Link className="auth-error-message link" to="/#credentials">impersonate a user</Link> to access this page
+          Please
+          {' '}
+          <Link className="auth-error-message link" to="/#credentials">impersonate a user</Link>
+          {' '}
+to access this page
         </span>
       </div>
-    )
+    );
   }
 }
 

@@ -4,7 +4,7 @@ import {
   FETCH_PORTFOLIO_FAILURE,
   FETCH_TRANSACTIONS_BY_PORTFOLIOID_REQUEST,
   FETCH_TRANSACTIONS_BY_PORTFOLIOID_SUCCESS,
-  FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE
+  FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE,
 } from '../constants/portfolioActions';
 import { status, json } from '../utils/fetch';
 import { ApiConfig } from '../utils/config';
@@ -15,116 +15,107 @@ export const fetchPortfolioRequest = () => (
   {
     type: FETCH_PORTFOLIO_REQUEST,
     payload: {
-      isFetching: true
-    }
+      isFetching: true,
+    },
   }
-)
+);
 
-export const fetchPortfolioSuccess = (data) => (
+export const fetchPortfolioSuccess = data => (
   {
     type: FETCH_PORTFOLIO_SUCCESS,
     payload: {
       isFetching: false,
-      data
-    }
+      data,
+    },
   }
-)
+);
 
-export const fetchPortfolioFailure = (error) => (
+export const fetchPortfolioFailure = error => (
   {
     type: FETCH_PORTFOLIO_FAILURE,
     payload: {
       isFetching: false,
-      error
-    }
+      error,
+    },
   }
-)
+);
 
 const fetchTransactionsByPortfolioIdRequest = () => (
   {
-    type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_REQUEST
+    type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_REQUEST,
   }
-)
+);
 
-const fetchTransactionsByPortfolioIdSuccess = (data) => (
+const fetchTransactionsByPortfolioIdSuccess = data => (
   {
     type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_SUCCESS,
     payload: {
-      data
-    }
+      data,
+    },
   }
-)
+);
 
-const fetchTransactionsByPortfolioIdFailure = (error) => (
+const fetchTransactionsByPortfolioIdFailure = error => (
   {
     type: FETCH_TRANSACTIONS_BY_PORTFOLIOID_FAILURE,
     payload: {
-      error
-    }
+      error,
+    },
   }
-)
+);
 
-export const getPortfolioByUserId = (userId) =>
-  (dispatch) => {
+export const getPortfolioByUserId = userId => (dispatch) => {
+  dispatch(fetchPortfolioRequest());
 
-    dispatch(fetchPortfolioRequest());
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return fetch(`${API_ROOT}/query/portfolio/by-user/${userId}`, options)
-      .then(status)
-      .then(json)
-      .then((data) => {
-        // got a successfull response from the server
-        dispatch(fetchPortfolioSuccess(data));
-      })
-      .catch((error) => {
-        // bad response
-        console.log("Get Portfolio By User Id Error", error);
-        dispatch(fetchPortfolioFailure(error));
-      });
-  }
-
-
-export const getTransactionsByPortfolioId = (portfolioId) =>
-  (dispatch) => {
-
-    dispatch(fetchTransactionsByPortfolioIdRequest());
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return fetch(`${API_ROOT}/query/transaction/by-portfolio/${portfolioId}`, options)
-      .then(status)
-      .then(json)
-      .then((data) => {
-        // got a successfull response from the server
-        dispatch(fetchTransactionsByPortfolioIdSuccess(data));
-      })
-      .catch((error) => {
-        // bad response
-        console.log("Get transactions by portfolio id error", error);
-        dispatch(fetchTransactionsByPortfolioIdFailure(error));
-      });
-  }
-
-
-export const getPortfolioAndItsTransactions = (userId) => {
-  return (dispatch, getState) => {
-    return dispatch(getPortfolioByUserId(userId)).then(() => {
-      if (getState().portfolio.data) {
-        const fetchedPortfolioId = getState().portfolio.data.identifier;
-        return dispatch(getTransactionsByPortfolioId(fetchedPortfolioId))
-      }
+  return fetch(`${API_ROOT}/query/portfolio/by-user/${userId}`, options)
+    .then(status)
+    .then(json)
+    .then((data) => {
+      // got a successfull response from the server
+      dispatch(fetchPortfolioSuccess(data));
     })
-  }
-}
+    .catch((error) => {
+      // bad response
+      dispatch(fetchPortfolioFailure(error));
+    });
+};
+
+
+export const getTransactionsByPortfolioId = portfolioId => (dispatch) => {
+  dispatch(fetchTransactionsByPortfolioIdRequest());
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  return fetch(`${API_ROOT}/query/transaction/by-portfolio/${portfolioId}`, options)
+    .then(status)
+    .then(json)
+    .then((data) => {
+      // got a successfull response from the server
+      dispatch(fetchTransactionsByPortfolioIdSuccess(data));
+    })
+    .catch((error) => {
+      // bad response
+      dispatch(fetchTransactionsByPortfolioIdFailure(error));
+    });
+};
+
+
+export const getPortfolioAndItsTransactions = userId => (
+  (dispatch, getState) => dispatch(getPortfolioByUserId(userId)).then(() => {
+    if (getState().portfolio.data) {
+      const fetchedPortfolioId = getState().portfolio.data.identifier;
+      return dispatch(getTransactionsByPortfolioId(fetchedPortfolioId));
+    }
+  }));

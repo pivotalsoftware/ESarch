@@ -6,25 +6,24 @@ const data = [
     header: 'Check the stocks',
     description: 'If you have logged in, you can go to the companies',
     linkTo: '/orderbooks',
-    linkName: 'To the stocks'
-  }
-]
+    linkName: 'To the stocks',
+  },
+];
 
-const SideBar = () =>
+const SideBar = () => (
   <div>
     {
-      data.map(item => {
-        return(
-          <SideBarItem
-            key={item.header}
-            header={item.header}
-            description={item.description}
-            linkTo={item.linkTo}
-            linkName={item.linkName}
-          />
-        )
-      })
+      data.map(item => (
+        <SideBarItem
+          key={item.header}
+          header={item.header}
+          description={item.description}
+          linkTo={item.linkTo}
+          linkName={item.linkName}
+        />
+      ))
     }
   </div>
+);
 
 export default SideBar;

@@ -8,24 +8,24 @@ describe('home reducer', () => {
         isFetching: false,
         error: null,
         users: [],
-        impersonatedUser: null
-      }
-    )
-  })
+        impersonatedUser: null,
+      },
+    );
+  });
 
   it('should handle FETCH_USERS_REQUEST', () => {
     expect(homeReducer({}, {
       type: actions.FETCH_USERS_REQUEST,
       payload: {
-        isFetching: true
-      }
+        isFetching: true,
+      },
     })).toEqual(
       {
         isFetching: true,
         error: null,
-      }
-    )
-  })
+      },
+    );
+  });
 
   it('should handle FETCH_USERS_SUCCESS', () => {
     expect(homeReducer({}, {
@@ -33,20 +33,20 @@ describe('home reducer', () => {
       payload: {
         isFetching: true,
         data: [
-          {identifier: '9834kdjshg', name: 'Buyer One'},
-          {identifier: 'dfsdf34563', name: 'Buyer Two'}
-        ]
-      }
+          { identifier: '9834kdjshg', name: 'Buyer One' },
+          { identifier: 'dfsdf34563', name: 'Buyer Two' },
+        ],
+      },
     })).toEqual(
       {
         isFetching: true,
         users: [
-          {identifier: '9834kdjshg', name: 'Buyer One'},
-          {identifier: 'dfsdf34563', name: 'Buyer Two'}
+          { identifier: '9834kdjshg', name: 'Buyer One' },
+          { identifier: 'dfsdf34563', name: 'Buyer Two' },
         ],
-      }
-    )
-  })
+      },
+    );
+  });
 
   it('should handle FETCH_USERS_FAILURE', () => {
     expect(homeReducer({}, {
@@ -54,41 +54,40 @@ describe('home reducer', () => {
       payload: {
         isFetching: false,
         error: {
-          message: 'Not Found'
-        }
+          message: 'Not Found',
+        },
 
-      }
+      },
     })).toEqual(
       {
         isFetching: false,
         error: {
-          message: 'Not Found'
-        }
-      }
-    )
-  })
+          message: 'Not Found',
+        },
+      },
+    );
+  });
 
   it('should handle SET_IMPERSONATED_USER', () => {
     expect(homeReducer({}, {
       type: actions.SET_IMPERSONATED_USER,
       payload: {
-        impersonatedUser: {identifier: 'kdjs333', name: 'Buyer One'}
-      }
+        impersonatedUser: { identifier: 'kdjs333', name: 'Buyer One' },
+      },
     })).toEqual(
       {
-        impersonatedUser: {identifier: 'kdjs333', name: 'Buyer One'}
-      }
-    )
-  })
+        impersonatedUser: { identifier: 'kdjs333', name: 'Buyer One' },
+      },
+    );
+  });
 
   it('should handle LOGOUT_USER', () => {
     expect(homeReducer({}, {
       type: actions.LOGOUT_USER,
     })).toEqual(
       {
-        impersonatedUser: null
-      }
-    )
-  })
-
-})
+        impersonatedUser: null,
+      },
+    );
+  });
+});

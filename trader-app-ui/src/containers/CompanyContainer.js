@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Company from '../components/Company/Company';
-import * as companyActionCreators from '../actions/company'
+import * as companyActionCreators from '../actions/company';
 import { ApiConfig } from '../utils/config';
 
 const API_ROOT = ApiConfig();
@@ -12,8 +12,8 @@ class CompanyContainer extends Component {
     super(props);
 
     this.state = {
-      eventSource: null
-    }
+      eventSource: null,
+    };
 
     this.sellOrderHandler = this.sellOrderHandler.bind(this);
     this.buyOrderHandler = this.buyOrderHandler.bind(this);
@@ -34,25 +34,24 @@ class CompanyContainer extends Component {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if (oldProps.activeCompany.orderBook.isFetching && !this.props.activeCompany.orderBook.isFetching
-      && !this.props.activeCompany.orderBook.error) {
+    if (oldProps.activeCompany.orderBook.isFetching
+        && !this.props.activeCompany.orderBook.isFetching
+        && !this.props.activeCompany.orderBook.error) {
       const orderBookId = this.props.activeCompany.orderBook.identifier;
 
-      console.log("componentdidupdate");
 
       if (!this.state.eventSource) {
-        let eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
+        const eventSource = new EventSource(`${API_ROOT}/query/subscribe/order-book/${orderBookId}`);
         eventSource.onmessage = (event) => {
           if (event.data) {
-            let jsonData = JSON.parse(event.data);
-            console.log('Order book subscribe event json data: ', jsonData);
+            const jsonData = JSON.parse(event.data);
             this.props.companyActions.setSSEOrderBookData(jsonData);
           }
-        }
+        };
 
         this.setState({
-          eventSource: eventSource
-        })
+          eventSource,
+        });
       }
     }
   }
@@ -62,8 +61,8 @@ class CompanyContainer extends Component {
       this.props.orderBook.identifier,
       this.props.portfolio.data.identifier,
       price,
-      amount
-    )
+      amount,
+    );
   }
 
   buyOrderHandler(price, amount) {
@@ -71,8 +70,8 @@ class CompanyContainer extends Component {
       this.props.orderBook.identifier,
       this.props.portfolio.data.identifier,
       price,
-      amount
-    )
+      amount,
+    );
   }
 
   render() {
@@ -98,20 +97,16 @@ class CompanyContainer extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    companyActions: bindActionCreators(companyActionCreators, dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  companyActions: bindActionCreators(companyActionCreators, dispatch),
+});
 
-const mapStateToProps = state => {
-  return {
-    activeCompany: state.companies.activeCompany,
-    portfolio: state.portfolio,
-    orderBook: state.companies.activeCompany.orderBook,
-    sellOrder: state.companies.sellOrder,
-    buyOrder: state.companies.buyOrder
-  }
-}
+const mapStateToProps = state => ({
+  activeCompany: state.companies.activeCompany,
+  portfolio: state.portfolio,
+  orderBook: state.companies.activeCompany.orderBook,
+  sellOrder: state.companies.sellOrder,
+  buyOrder: state.companies.buyOrder,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyContainer);

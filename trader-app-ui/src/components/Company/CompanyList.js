@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader';
-import "./styles.css";
+import './styles.css';
 
 class CompanyList extends Component {
   constructor(props) {
@@ -10,16 +10,22 @@ class CompanyList extends Component {
     this.sortItems = this.sortItems.bind(this);
     this.state = {
       sortedBy: 'name',
-      sortOrderAsc: true
-    }
+      sortOrderAsc: true,
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      items: props.companies.items,
+    };
   }
 
   sortItems(items, column, asc) {
     if (column === 'name') {
       if (asc) {
         return items.sort((a, b) => {
-          var nameA = a.name.toUpperCase();
-          var nameB = b.name.toUpperCase();
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
           if (nameA < nameB) {
             return -1;
           }
@@ -28,41 +34,30 @@ class CompanyList extends Component {
           }
           return 0;
         });
-      } else {
-        return items.sort((a, b) => {
-          var nameA = a.name.toUpperCase();
-          var nameB = b.name.toUpperCase();
-          if (nameA < nameB) {
-            return 1;
-          }
-          if (nameA > nameB) {
-            return -1;
-          }
-          return 0;
-        });
       }
+      return items.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    else if (column === 'value') {
+    if (column === 'value') {
       if (asc) {
-        return items.sort(function (a, b) {
-          return a.value - b.value;
-        });
-      } else {
-        return items.sort(function (a, b) {
-          return b.value - a.value;
-        });
+        return items.sort((a, b) => a.value - b.value);
       }
+      return items.sort((a, b) => b.value - a.value);
     }
-    else if (column === 'shares') {
+    if (column === 'shares') {
       if (asc) {
-        return items.sort(function (a, b) {
-          return a.amountOfShares - b.amountOfShares;
-        });
-      } else {
-        return items.sort(function (a, b) {
-          return b.amountOfShares - a.amountOfShares;
-        });
+        return items.sort((a, b) => a.amountOfShares - b.amountOfShares);
       }
+      return items.sort((a, b) => b.amountOfShares - a.amountOfShares);
     }
   }
 
@@ -70,35 +65,34 @@ class CompanyList extends Component {
     const { sortedBy } = this.state;
 
     this.setState((prevState) => {
-      const asc = sortedBy === sortColumn ? !prevState.sortOrderAsc : true
+      const asc = sortedBy === sortColumn ? !prevState.sortOrderAsc : true;
       return {
         sortedBy: sortColumn,
         sortOrderAsc: asc,
-        items: this.sortItems(prevState.items, sortColumn, asc)
-      }
+        items: this.sortItems(prevState.items, sortColumn, asc),
+      };
     });
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      items: props.companies.items
-    }
-  }
-
   render() {
-
-    const { isFetching, error } = this.props.companies;
-    const { items } = this.state;
+    const { isFetching, error, } = this.props.companies;
+    const { items, sortOrderAsc, sortedBy } = this.state;
 
     if (error) {
-      return <h1 className="axon-error">Error loading page! {error.message}</h1>;
+      return (
+        <h1 className="axon-error">
+Error loading page!
+          {' '}
+          {error.message}
+        </h1>
+      );
     }
 
     if (isFetching) {
       return <Loader className="centered-loader" />;
     }
 
-    const sortArrowClassName = this.state.sortOrderAsc ? "sort-indicator-ascending" : "sort-indicator-descending"
+    const sortArrowClassName = sortOrderAsc ? 'sort-indicator-ascending' : 'sort-indicator-descending';
 
     return (
       <div className="table-responsive">
@@ -107,15 +101,15 @@ class CompanyList extends Component {
             <tr className="list-row-gray">
               <th className="company-list-header" onClick={() => this.sortClickHandler('name')}>
                 <span className="company-list-cell-text company-list-cell-text-semibold">Name</span>
-                {this.state.sortedBy === 'name' && <div className={sortArrowClassName} />}
+                {sortedBy === 'name' && <div className={sortArrowClassName} />}
               </th>
               <th className="company-list-header" onClick={() => this.sortClickHandler('value')}>
                 <span className="company-list-cell-text company-list-cell-text-semibold">Value</span>
-                {this.state.sortedBy === 'value' && <div className={sortArrowClassName} />}
+                {sortedBy === 'value' && <div className={sortArrowClassName} />}
               </th>
               <th className="company-list-header" onClick={() => this.sortClickHandler('shares')}>
                 <span className="company-list-cell-text company-list-cell-text-semibold"># Shares</span>
-                {this.state.sortedBy === 'shares' && <div className={sortArrowClassName} />}
+                {sortedBy === 'shares' && <div className={sortArrowClassName} />}
               </th>
               <th>&nbsp;</th>
             </tr>
@@ -123,7 +117,7 @@ class CompanyList extends Component {
           <tbody>
             {
               items.map((company, index) => {
-                const className = index % 2 === 0 ? "list-row-white" : "list-row-gray"
+                const className = index % 2 === 0 ? 'list-row-white' : 'list-row-gray';
 
                 return (
                   <tr key={company.identifier} className={className}>
@@ -134,13 +128,13 @@ class CompanyList extends Component {
                       <Link className="company-list-details-link" to={`/orderbooks/${company.identifier}`}>Details</Link>
                     </td>
                   </tr>
-                )
+                );
               })
             }
           </tbody>
         </table>
       </div>
-    )
+    );
   }
 }
 
