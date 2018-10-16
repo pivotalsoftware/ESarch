@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 # Use this script to package up your code
 
-set -eux
-
+set -eu
 
 pushd () {
     command pushd "$@" > /dev/null
