@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
  Use this script to unpave your PWS space
 
-set -eux
+set -eu
 
 if [ -z ${1+x} ] && [ -z ${2+x} ] && [ -z ${3+x} ] && [ -z ${4+x} ]; then
     echo "Usage: USERNAME PASSWORD ORG SPACE"
