@@ -6,21 +6,107 @@
 	},
 	"item": [
 		{
+			"name": "TraderAppHealth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41912760-cddf-4709-a647-94250b1b8acc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"UP\");",
+							"});",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{appURL}}/actuator/health",
+					"protocol": "http",
+					"host": [
+						"{{appURL}}"
+					],
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TraderEngineHealth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41912760-cddf-4709-a647-94250b1b8acc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"UP\");",
+							"});",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{engineURL}}/actuator/health",
+					"protocol": "http",
+					"host": [
+						"{{engineURL}}"
+					],
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Init Data",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "07450f7d-231b-4200-906d-230cc7bdae0e",
-						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"AxonIQ\");",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
 							"});",
-							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Pivotal\");",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.body(\"true\");",
 							"});"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
