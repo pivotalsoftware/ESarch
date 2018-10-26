@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Use this script to pave your PWS instance with the correct services
+# Use this script to repave your PWS instance with the Trial Pivotal Cloud Services
 
 set -eu
 
@@ -80,7 +80,6 @@ echo $'\nNow we need to wait a few minutes until all the services show \"create 
 echo "This may take while, so I'll start a watch. Press CTRL+C any time to quit (the services will still be created)."
 read -p "Press [Enter] to start watching..."
 watch -n 1 "cf services"
-echo $'\nWe\'re done. You can now use the push.sh script provided to push your apps.'
 
 cf bind-service esrefarch-demo-trader-app config
 cf bind-service esrefarch-demo-trader-app registry
