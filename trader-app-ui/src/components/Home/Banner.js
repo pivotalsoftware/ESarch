@@ -8,7 +8,7 @@ const Banner = () => (
         Welcome to the Axon Trader application.
         Axon is the leading open source CQRS and Event Sourcing framework for
         &nbsp;
-      <a href="http://projects.spring.io/spring-boot" className="homepage-link" target="_blank" rel="noopener noreferrer">Spring Boot</a>
+      <a href="https://projects.spring.io/spring-boot" className="homepage-link" target="_blank" rel="noopener noreferrer">Spring Boot</a>
 .
         &nbsp;Axon Trader showcases various
       {' '}

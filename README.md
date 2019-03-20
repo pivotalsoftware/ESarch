@@ -140,9 +140,9 @@ Here is an example of `ci/private.yml` so you can recreate it...
 
 ````yaml
 ---
-cf-trading-engine-url: http://your-trading-engine.cfapps.io
-cf-trader-app-url: http://your-trader-app.cfapps.io
-cf-trader-ui-url: http://your-trader-ui.cfapps.io
+cf-trading-engine-url: https://your-trading-engine.cfapps.io
+cf-trader-app-url: https://your-trader-app.cfapps.io
+cf-trader-ui-url: https://your-trader-ui.cfapps.io
 cf-endpoint: api.run.pivotal.io
 cf-user: me@pivotal.io
 cf-password: ************
@@ -160,7 +160,7 @@ git-private-key: |
 To install and run the pipeline on Concourse, `login` using [fly][15] then run `set-pipeline` using the `pipeline.yml` and the `private.yml` as shown below. Finally `unpause-pipeline` so make it capable of being run. The commands for this are illustrated below...
 
 ````bash
-fly -t wings login -c http://your-concourse-url
+fly -t wings login -c https://your-concourse-url
 fly -t wings set-pipeline -p bw-esrefarch-demo -c ci/pipeline.yml -l ci/private.yml
 fly -t wings unpause-pipeline -p bw-esrefarch-demo
 ````
@@ -236,7 +236,7 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [6]: https://run.pivotal.io/
 [7]: https://pivotal.io/pcf-dev
 [8]: https://docs.cloudfoundry.org/cf-cli/install-go-cli.html
-[9]: http://projects.spring.io/spring-boot/
+[9]: https://projects.spring.io/spring-boot/
 [10]: https://axoniq.io/
 [11]: https://pivotal.io/platform/pivotal-application-service
 [12]: /images/AxonTrader-UI-001.png
