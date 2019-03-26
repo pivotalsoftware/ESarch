@@ -1,6 +1,6 @@
 # CQRS and Event Sourcing on Cloud Foundry
 
-This project demonstrates the the use of CQRS and Event Sourcing with Cloud Foundry. It contains two [Spring Boot](http://projects.spring.io/spring-boot/) microservices, both built using components provided by the [Axon Framework](http://www.axonframework.org/). You can read the [blog post that accompanies this project over on Wordpress](https://benwilcock.wordpress.com/2017/07/11/cqrs-and-event-sourcing-microservices-on-cloudfoundry/).
+This project demonstrates the the use of CQRS and Event Sourcing with Cloud Foundry. It contains two [Spring Boot](https://projects.spring.io/spring-boot/) microservices, both built using components provided by the [Axon Framework](https://axoniq.io). You can read the [blog post that accompanies this project over on Wordpress](https://benwilcock.wordpress.com/2017/07/11/cqrs-and-event-sourcing-microservices-on-cloudfoundry/).
 
 > **This CQRS application is designed to run exclusively on Cloud Foundry.**
 
