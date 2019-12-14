@@ -250,3 +250,10 @@ For more information on Axon Trader [visit the Axon Trader wiki][20].
 [20]: https://github.com/pivotalsoftware/ESarch/wiki/Axon-Trader-Reference-Documentation
 [21]: https://github.com/pivotalsoftware/ESarch-conf
 [22]: https://reactjs.org/
+
+## A note regarding security
+The purpose of this application is to showcase a reference architecture for event sourcing and CQRS on Pivotal Cloud Foundry. In order to make the application as easy to deploy as possible, we simplified the security model to enable easy deployment and onboarding on PWS. It should be noted however, that in a true production environment the security model could be hardened. Beyond the obvious simplification offered by the "Impersonate User" functionality, the following items should be noted:
+
+- Cross-site request forgery (also known as CSRF or XSRF) is disabled. For more information on CSRF please review the [wikipedia page](https://en.wikipedia.org/wiki/Cross-site_request_forgery) and the [Spring documentation](https://docs.spring.io/spring-security/site/docs/current/reference/html5/#csrf).
+- Since trader-ui and trader-app use a random route to simplify route creation on PWS, the apps will have different fully qualified domain names. By default, such interaction would be blocked by the Same-Origin Policy implemented in browsers. Therefore, the interaction between trader-ui and trader-app is enabled by using [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing). Since we don't know in advance the random domain origin, we're using [@CrossOrigin("*")](https://spring.io/guides/gs/rest-service-cors/). If you have full control of the domain name, it is prefferable to do set the source domain specifically. Alternatively, you can have both applications share a base domain and use a different PCF route path for each app, thus eliminating the need for CORS.
+
